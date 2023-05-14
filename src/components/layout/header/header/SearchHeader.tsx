@@ -2,7 +2,7 @@ import { Box, Container, Input } from "@mui/material";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Logo from "../../../../public/img/png/logo.png";
-import ListSocial from "../common/ListSocial";
+import ListSocial from "../../../layout/common/ListSocial";
 
 const SearchHeader = () => (
   <Box py={2} bgcolor={"white"}>
