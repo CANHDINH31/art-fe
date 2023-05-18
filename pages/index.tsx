@@ -9,6 +9,7 @@ import HomeIntroduce from "@/src/components/sections/home/home-introduce";
 import HomeNews from "@/src/components/sections/home/HomeNews";
 import HomeProduct from "@/src/components/sections/home/HomeProduct";
 import HomeCustomer from "@/src/components/sections/home/HomeCustomer";
+import HomeContact from "@/src/components/sections/home/HomeContact";
 
 export default function Home() {
   return (
@@ -28,6 +29,7 @@ export default function Home() {
       <HomeNews />
       <Box mt={16} /> {/* margin-top:80px || spacing component */}
       <HomeCustomer />
+      <HomeContact />
     </Box>
   );
 }
