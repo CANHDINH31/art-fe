@@ -4,6 +4,7 @@ import Head from "next/head";
 import Header from "./header";
 import ListContact from "./common/ListContact";
 import ScrollToTop from "./ScrollToTop";
+import { Box } from "@mui/material";
 
 type Props = {
   children: JSX.Element;
@@ -20,10 +21,12 @@ const MainLayout = ({ children, title }: Props) => {
         <link rel="icon" href="/img/png/logo.png" />
       </Head>
       <Header />
-      {children}
-      <ListContact />
-      <ScrollToTop />
-      <Footer />
+      <Box width={"100vw"} overflow={"hidden"}>
+        {children}
+        <ListContact />
+        <ScrollToTop />
+        <Footer />
+      </Box>
     </>
   );
 };

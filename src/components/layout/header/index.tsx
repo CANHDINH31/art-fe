@@ -3,6 +3,7 @@ import TopHeader from "./TopHeader";
 import SearchHeader from "./SearchHeader";
 import MainMenu from "./MainMenu";
 import { Box, keyframes, styled } from "@mui/material";
+import ResponsiveHeader from "./ResponsiveHeader";
 
 const slideDown = keyframes`
   from {
@@ -22,6 +23,7 @@ const AnimationHeader = styled(Box)(({ theme }) => ({
     top: 0,
     animation: `${slideDown} 1s ease-out`,
     zIndex: 100,
+    opacity: 0.95,
   },
 }));
 
@@ -47,6 +49,7 @@ const Header = () => {
       <AnimationHeader className={isSticky ? "sticky" : ""}>
         <SearchHeader />
         <MainMenu />
+        <ResponsiveHeader />
       </AnimationHeader>
     </>
   );

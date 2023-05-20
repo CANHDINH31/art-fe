@@ -5,7 +5,7 @@ import Logo from "../../../../public/img/png/logo.png";
 import ListSocial from "../common/ListSocial";
 
 const SearchHeader = () => (
-  <Box py={2} bgcolor={"white"}>
+  <Box py={2} bgcolor={"white"} sx={{ display: { xs: "none", lg: "flex" } }}>
     <Container>
       <Box
         display={"flex"}

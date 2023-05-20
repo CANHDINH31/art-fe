@@ -26,8 +26,8 @@ const TopHeader = () => {
       <Container>
         <Box
           display={"flex"}
-          justifyContent={"space-between"}
-          alignItems={"center"}
+          justifyContent={""}
+          sx={{ justifyContent: { xs: "center", md: "space-between" } }}
           py={2}
         >
           <Box display={"flex"} alignItems={"center"} gap={4}>
@@ -44,7 +44,11 @@ const TopHeader = () => {
               <Typography>0975.146.588</Typography>
             </HeaderItem>
           </Box>
-          <Box display={"flex"} alignItems={"center"} gap={4}>
+          <Box
+            sx={{ display: { xs: "none", md: "flex" } }}
+            alignItems={"center"}
+            gap={4}
+          >
             <HeaderItem>
               <Typography>Tranh tường 3D</Typography>
             </HeaderItem>

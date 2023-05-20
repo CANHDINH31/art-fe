@@ -106,7 +106,11 @@ const SubMenuItem = styled(Box)(({ theme }) => ({
 const MainMenu = () => {
   const router = useRouter();
   return (
-    <Box bgcolor={"header.light"} py={2}>
+    <Box
+      bgcolor={"header.light"}
+      py={2}
+      sx={{ display: { xs: "none", lg: "flex" } }}
+    >
       <Container>
         <Box display={"flex"} justifyContent={"space-between"}>
           <ListMenu>
