@@ -9,13 +9,24 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { listHomeBanner } from "./data";
 
-const CustomSwipper = styled(Swiper)(({}) => ({
+const CustomSwipper = styled(Swiper)(({ theme }) => ({
   "& .swiper-slide img": {
     display: "block",
     width: "100%",
-    height: "90vh",
     objectFit: "cover",
     objectPosition: "center",
+    [theme.breakpoints.up("lg")]: {
+      height: "90vh",
+    },
+    [theme.breakpoints.down("lg")]: {
+      height: "66vh",
+    },
+    [theme.breakpoints.down("md")]: {
+      height: "56vh",
+    },
+    [theme.breakpoints.down("sm")]: {
+      height: "36vh",
+    },
   },
 }));
 
@@ -42,7 +53,7 @@ const HomeBanner = () => {
       </CustomSwipper>
       <Box mt={2}>
         <Container>
-          <Box display={"flex"} justifyContent={"center"}>
+          <Box display={"flex"} justifyContent={"center"} textAlign={"center"}>
             <Typography variant="h5" color="primary.main">
               Tranh tường Hà Nội – Họa sỹ chuyên vẽ tranh tường 3D, tranh sơn
               thủy, phong cảnh, trang trí quá cafe, nhà hàng, tranh mầm non … rẻ

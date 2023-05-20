@@ -13,7 +13,7 @@ const DrawerCustom = styled(Drawer)(({ theme }) => ({
 }));
 
 const ResponsiveHeader = () => {
-  const [isOpenDrawer, setIsOpenDrawer] = useState<boolean>(true);
+  const [isOpenDrawer, setIsOpenDrawer] = useState<boolean>(false);
 
   return (
     <Paper elevation={3} sx={{ display: { xs: "block", lg: "none" } }}>
