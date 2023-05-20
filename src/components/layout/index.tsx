@@ -3,6 +3,7 @@ import Footer from "./Footer";
 import Head from "next/head";
 import Header from "./header";
 import ListContact from "./common/ListContact";
+import ScrollToTop from "./ScrollToTop";
 
 type Props = {
   children: JSX.Element;
@@ -21,6 +22,7 @@ const MainLayout = ({ children, title }: Props) => {
       <Header />
       {children}
       <ListContact />
+      <ScrollToTop />
       <Footer />
     </>
   );
