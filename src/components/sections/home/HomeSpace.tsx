@@ -20,6 +20,21 @@ const CustomSwipper = styled(Swiper)(({ theme }) => ({
     border: `2px solid ${theme.palette.primary.main}`,
     boxShadow: "1px  1px 4px rgba(0, 0, 0, 0.5)",
   },
+  [theme.breakpoints.up("lg")]: {
+    "& .swiper-slide img": {},
+  },
+  [theme.breakpoints.down("lg")]: {
+    "& .swiper-slide img": {},
+  },
+  [theme.breakpoints.down("md")]: {
+    "& .swiper-slide img": {},
+  },
+  [theme.breakpoints.down("sm")]: {
+    "& .swiper-slide img": {
+      width: 168,
+      height: 168,
+    },
+  },
 }));
 
 const SwipperText = styled(Box)(({ theme }) => ({
@@ -27,12 +42,17 @@ const SwipperText = styled(Box)(({ theme }) => ({
   bottom: 0,
   left: "50%",
   transform: "translateX(-50%)",
-  padding: theme.spacing(1, 0),
-  width: "60%",
+  padding: theme.spacing(1, 5),
   background: theme.palette.primary.main,
   borderRadius: theme.spacing(1),
   textAlign: "center",
   color: "white",
+  whiteSpace: "nowrap",
+  [theme.breakpoints.down("sm")]: {
+    "& h5": {
+      fontSize: 12,
+    },
+  },
 }));
 
 const HomeSpace = () => {
@@ -41,7 +61,21 @@ const HomeSpace = () => {
       <Container>
         <HomeTitle title="KHÔNG GIAN TUYỆT VỚI HƠN KHI SỬ DỤNG VẼ TRANH TƯỜNG" />
         <Box mt={8}>
-          <CustomSwipper slidesPerView={4} loop={true}>
+          <CustomSwipper
+            loop={true}
+            slidesPerView={2}
+            breakpoints={{
+              600: {
+                slidesPerView: 2,
+              },
+              800: {
+                slidesPerView: 3,
+              },
+              1200: {
+                slidesPerView: 4,
+              },
+            }}
+          >
             {listHomeSpace.map((homeSpace, index) => (
               <SwiperSlide key={index}>
                 <Box
