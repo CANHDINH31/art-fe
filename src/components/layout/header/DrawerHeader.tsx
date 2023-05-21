@@ -26,7 +26,7 @@ const DrawerHeader = () => {
   };
   return (
     <Box width={250} py={8} px={2}>
-      <Box display={"flex"}>
+      <Box display={"flex"} width={"100%"}>
         <Input placeholder="Tìm kiếm ..." size="small" />
         <Box
           bgcolor={"primary.main"}

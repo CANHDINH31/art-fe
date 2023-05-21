@@ -30,7 +30,11 @@ const TopHeader = () => {
           sx={{ justifyContent: { xs: "center", md: "space-between" } }}
           py={2}
         >
-          <Box display={"flex"} alignItems={"center"} gap={4}>
+          <Box
+            display={"flex"}
+            alignItems={"center"}
+            gap={{ xs: 1, sm: 2, md: 3, lg: 4 }}
+          >
             <HeaderItem>
               <EnvelopeIcon />
               <Typography>Contacts</Typography>

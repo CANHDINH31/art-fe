@@ -14,10 +14,15 @@ const HomeTitle = ({ title, color = theme.palette.primary.main }: Props) => {
       justifyContent={"center"}
       alignItems={"center"}
       gap={4}
+      textAlign={"center"}
     >
       <Box flex={1} borderBottom={`2px solid ${theme.palette.border.main}`} />
       <Box>
-        <Typography variant="h3" fontWeight={600} color={color}>
+        <Typography
+          fontWeight={600}
+          color={color}
+          sx={{ fontSize: { xs: 16, lg: 20 } }}
+        >
           {title}
         </Typography>
       </Box>
