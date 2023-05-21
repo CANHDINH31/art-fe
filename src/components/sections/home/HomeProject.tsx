@@ -29,6 +29,40 @@ const CustomSwipper = styled(Swiper)(({}) => ({
   "& .swiper-pagination": {
     marginTop: 200,
   },
+
+  [theme.breakpoints.down("lg")]: {
+    "& .swiper-slide": {
+      width: "70vw",
+      height: "60vh",
+    },
+
+    "& .swiper-slide img": {
+      width: "70vw",
+      height: "60vh",
+    },
+  },
+  [theme.breakpoints.down("md")]: {
+    "& .swiper-slide": {
+      width: "90vw",
+      height: "50vh",
+    },
+
+    "& .swiper-slide img": {
+      width: "90vw",
+      height: "50vh",
+    },
+  },
+  [theme.breakpoints.down("sm")]: {
+    "& .swiper-slide": {
+      width: "90vw",
+      height: "40vh",
+    },
+
+    "& .swiper-slide img": {
+      width: "90vw",
+      height: "40vh",
+    },
+  },
 }));
 
 const NameProject = styled(Box)(({}) => ({
@@ -40,6 +74,7 @@ const NameProject = styled(Box)(({}) => ({
   background: theme.palette.primary.main,
   borderRadius: theme.spacing(1),
   padding: theme.spacing(1, 4),
+  whiteSpace: "nowrap",
 }));
 
 const HomeProject = () => {

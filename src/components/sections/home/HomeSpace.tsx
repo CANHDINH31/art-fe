@@ -20,15 +20,7 @@ const CustomSwipper = styled(Swiper)(({ theme }) => ({
     border: `2px solid ${theme.palette.primary.main}`,
     boxShadow: "1px  1px 4px rgba(0, 0, 0, 0.5)",
   },
-  [theme.breakpoints.up("lg")]: {
-    "& .swiper-slide img": {},
-  },
-  [theme.breakpoints.down("lg")]: {
-    "& .swiper-slide img": {},
-  },
-  [theme.breakpoints.down("md")]: {
-    "& .swiper-slide img": {},
-  },
+
   [theme.breakpoints.down("sm")]: {
     "& .swiper-slide img": {
       width: 168,
