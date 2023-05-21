@@ -13,6 +13,25 @@ const Text = styled(Typography)(({ theme }) => ({
     fontStyle: "italic",
     textShadow: "1px 1px 1px rgba(0,0,0,0.5)",
   },
+
+  [theme.breakpoints.down("lg")]: {
+    fontSize: 14,
+    span: {
+      fontSize: 16,
+    },
+  },
+  [theme.breakpoints.down("md")]: {
+    fontSize: 12,
+    span: {
+      fontSize: 16,
+    },
+  },
+  [theme.breakpoints.down("sm")]: {
+    fontSize: 12,
+    span: {
+      fontSize: 14,
+    },
+  },
 }));
 const HomeAdvise = () => {
   return (
