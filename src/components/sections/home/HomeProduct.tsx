@@ -57,7 +57,7 @@ const HomeProduct = () => {
         <Box mt={8}>
           <Grid container spacing={4}>
             {listHomeProduct.map((homeProduct, index) => (
-              <Grid item xs={3} key={index}>
+              <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
                 <WrapImage>
                   <Image src={homeProduct.src} alt="home-product" />
                   <WrapText>
