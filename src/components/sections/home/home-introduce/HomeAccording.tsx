@@ -59,7 +59,11 @@ export default function HomeAccording() {
         py={2}
         borderBottom={`1px solid ${theme.palette.primary.main}`}
       >
-        <Typography color={"primary"} fontWeight={"bold"} variant="h3">
+        <Typography
+          color={"primary"}
+          fontWeight={"bold"}
+          sx={{ fontSize: { xs: 16, md: 20 } }}
+        >
           VỀ CHÚNG TÔI - MỸ THUẬT ĐÔNG ANH
         </Typography>
       </Stack>
