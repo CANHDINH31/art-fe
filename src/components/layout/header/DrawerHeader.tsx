@@ -26,13 +26,13 @@ const DrawerHeader = () => {
   };
   return (
     <Box width={250} py={8} px={2}>
-      <Box display={"flex"} width={"100%"}>
-        <Input placeholder="Tìm kiếm ..." size="small" />
+      <Box display={"flex"} width={"100%"} alignItems={"stretch"}>
+        <Input placeholder="Tìm kiếm ..." size="small" sx={{ width: "100%" }} />
         <Box
           bgcolor={"primary.main"}
           display={"flex"}
           alignItems={"center"}
-          padding={2}
+          px={1}
         >
           <MagnifyingGlassIcon width={18} color="white" />
         </Box>

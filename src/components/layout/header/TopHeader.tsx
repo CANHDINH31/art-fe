@@ -4,12 +4,14 @@ import { ClockIcon, PhoneIcon, EnvelopeIcon } from "@heroicons/react/24/solid";
 const HeaderItem = styled(Box)(({ theme }) => ({
   color: "rgba(255,255,255,0.8)",
   display: "flex",
+  alignItems: "center",
   gap: 8,
   paddingRight: 10,
   borderRight: "1px solid rgba(255,255,255,0.6)",
   transition: "ease-in .3",
   "&>svg": {
     width: 14,
+    height: 14,
   },
   "&>p": {
     fontSize: 14,
@@ -26,7 +28,6 @@ const TopHeader = () => {
       <Container>
         <Box
           display={"flex"}
-          justifyContent={""}
           sx={{ justifyContent: { xs: "center", md: "space-between" } }}
           py={2}
         >
