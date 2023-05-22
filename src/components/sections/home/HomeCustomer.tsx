@@ -47,6 +47,31 @@ const ContentCustomer = styled(Box)(({ theme }) => ({
       objectFit: "contain",
     },
   },
+
+  [theme.breakpoints.down("lg")]: {
+    "& .wrap_text": {
+      borderLeft: "none",
+      "& img": {
+        height: 22,
+      },
+    },
+  },
+  [theme.breakpoints.down("md")]: {
+    "& .wrap_text": {
+      borderLeft: "none",
+      "& img": {
+        height: 20,
+      },
+    },
+  },
+  [theme.breakpoints.down("sm")]: {
+    "& .wrap_text": {
+      borderLeft: "none",
+      "& img": {
+        height: 18,
+      },
+    },
+  },
 }));
 
 export default function HomeCustomer() {
@@ -74,7 +99,11 @@ export default function HomeCustomer() {
           {listHomeCustomer.map((homeCustomer, index) => (
             <SwiperSlide key={index}>
               <ContentCustomer>
-                <Box flex={1} data-swiper-parallax="-300">
+                <Box
+                  flex={1}
+                  data-swiper-parallax="-300"
+                  sx={{ display: { xs: "none", lg: "block" } }}
+                >
                   <Image src={homeCustomer.img} alt="home-customer" />
                 </Box>
                 <Box className="wrap_text" flex={2}>
@@ -82,7 +111,7 @@ export default function HomeCustomer() {
                   <Typography
                     color={"white"}
                     data-swiper-parallax="-200"
-                    variant="h3"
+                    sx={{ fontSize: { xs: 14, sm: 16, md: 18, lg: 20 } }}
                     fontWeight={"bold"}
                     mt={2}
                   >
@@ -92,6 +121,7 @@ export default function HomeCustomer() {
                     color={"white"}
                     data-swiper-parallax="-100"
                     mt={4}
+                    sx={{ fontSize: { xs: 12, sm: 14, md: 16 } }}
                   >
                     {homeCustomer.content}
                   </Typography>
