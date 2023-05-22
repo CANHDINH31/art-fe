@@ -10,7 +10,8 @@ const HomeContactWrap = styled(Box)(({ theme }) => ({
     "& img": {
       display: "block",
       width: "100%",
-      height: "100%",
+      height: "70vh",
+      objectFit: "cover",
     },
   },
   "& .home-contact-overlay": {
@@ -22,6 +23,27 @@ const HomeContactWrap = styled(Box)(({ theme }) => ({
     background: "rgba(0,0,0,.541)",
     padding: theme.spacing(12.5),
     borderRadius: theme.spacing(2),
+  },
+  [theme.breakpoints.down("lg")]: {
+    "& .home-contact-overlay": {
+      width: "50%",
+      transform: "translate(-50%,-50%)",
+      padding: theme.spacing(4),
+    },
+  },
+  [theme.breakpoints.down("md")]: {
+    "& .home-contact-overlay": {
+      width: "60%",
+      transform: "translate(-50%,-50%)",
+      padding: theme.spacing(4),
+    },
+  },
+  [theme.breakpoints.down("sm")]: {
+    "& .home-contact-overlay": {
+      width: "80%",
+      transform: "translate(-50%,-50%)",
+      padding: theme.spacing(4),
+    },
   },
 }));
 
