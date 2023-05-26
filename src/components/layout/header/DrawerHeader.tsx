@@ -39,7 +39,7 @@ const DrawerHeader = () => {
       </Box>
       <Box mt={8}>
         <List component="nav" aria-labelledby="nested-list-subheader">
-          {listMenu?.map((menu, index) => (
+          {/* {listMenu?.map((menu, index) => (
             <Box key={index}>
               <Divider />
               <ListItemButton onClick={() => toggleColappseActive(menu.title)}>
@@ -69,7 +69,7 @@ const DrawerHeader = () => {
 
               <Divider />
             </Box>
-          ))}
+          ))} */}
         </List>
       </Box>
     </Box>
