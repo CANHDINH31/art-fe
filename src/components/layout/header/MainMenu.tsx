@@ -126,7 +126,7 @@ const MainMenu = () => {
                     </Typography>
                   </CustomListItemButton>
                 </Link>
-                {menu.sub && (
+                {/* {menu.sub && (
                   <>
                     <ChevronDownIcon />
                     <ListSubMenu elevation={3}>
@@ -141,7 +141,7 @@ const MainMenu = () => {
                       ))}
                     </ListSubMenu>
                   </>
-                )}
+                )} */}
               </ItemMenu>
             ))}
           </ListMenu>
