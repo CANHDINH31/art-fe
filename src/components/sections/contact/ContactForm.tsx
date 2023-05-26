@@ -29,6 +29,14 @@ const ContactOverlay = styled(Box)(({ theme }) => ({
   backgroundColor: "rgba(255, 255, 255, 0.9)",
   padding: theme.spacing(12.5),
   borderRadius: theme.spacing(2),
+  [theme.breakpoints.down("md")]: {
+    width: "80%",
+    padding: theme.spacing(6),
+  },
+  [theme.breakpoints.down("sm")]: {
+    width: "90%",
+    padding: theme.spacing(4),
+  },
 }));
 
 const WrapTextArea = styled(Box)(({ theme }) => ({
@@ -55,8 +63,8 @@ const ContactForm = () => {
     <ContactFormWrap>
       <ContactOverlay>
         <Grid container spacing={8}>
-          <Grid item xs={6}>
-            <Box>
+          <Grid item lg={6}>
+            <Box sx={{ display: { xs: "none", lg: "block" } }}>
               <Typography color="primary.main" variant="h2" fontWeight={"bold"}>
                 LIÊN HỆ VỚI CHÚNG TÔI
               </Typography>
@@ -78,13 +86,12 @@ const ContactForm = () => {
               </Box>
             </Box>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} lg={6}>
             <Box
               bgcolor={"white"}
               height={"100%"}
               borderRadius={4}
-              py={4}
-              px={8}
+              sx={{ paddingX: { xs: 4, md: 6 }, paddingY: { xs: 4, md: 6 } }}
             >
               <Box textAlign={"center"}>
                 <Typography
