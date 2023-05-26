@@ -1,9 +1,7 @@
-import "@fontsource/public-sans";
 import {
   Box,
   Button,
   Divider,
-  FormLabel,
   Grid,
   TextField,
   Typography,
