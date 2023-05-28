@@ -5,7 +5,7 @@ import { Box, Container, Typography, styled } from "@mui/material";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import HomeTitle from "./common/HomeTitle";
+import HomeTitle from "../common/Title";
 import { listHomeSpace } from "./data";
 
 const CustomSwipper = styled(Swiper)(({ theme }) => ({

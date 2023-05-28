@@ -7,7 +7,7 @@ type Props = {
   color?: string;
 };
 
-const HomeTitle = ({ title, color = theme.palette.primary.main }: Props) => {
+const Title = ({ title, color = theme.palette.primary.main }: Props) => {
   return (
     <Box
       display={"flex"}
@@ -31,4 +31,4 @@ const HomeTitle = ({ title, color = theme.palette.primary.main }: Props) => {
   );
 };
 
-export default HomeTitle;
+export default Title;

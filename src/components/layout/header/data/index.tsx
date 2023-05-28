@@ -1,15 +1,15 @@
 export const listMenu = [
   { title: "Trang chủ", href: "/" },
-  // {
-  //   title: "Tranh vẽ tường",
-  //   href: "/test-1",
-  //   sub: [
-  //     { title: "Tranh tường văn phòng", href: "/" },
-  //     { title: "Tranh tường mầm non", href: "/" },
-  //     { title: "Tranh tường cà phê", href: "/" },
-  //     { title: "Tranh tường nhà hàng", href: "/" },
-  //   ],
-  // },
+  {
+    title: "Tranh vẽ tường",
+    href: "/wall-painting",
+    sub: [
+      { title: "Tranh tường văn phòng", href: "/" },
+      { title: "Tranh tường mầm non", href: "/" },
+      { title: "Tranh tường cà phê", href: "/" },
+      { title: "Tranh tường nhà hàng", href: "/" },
+    ],
+  },
   // { title: "Tranh sơn dầu", href: "/" },
   // {
   //   title: "Dịch vụ",

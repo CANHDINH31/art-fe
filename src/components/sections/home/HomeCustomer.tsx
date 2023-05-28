@@ -5,7 +5,7 @@ import { Box, Container, Typography, styled } from "@mui/material";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import HomeTitle from "./common/HomeTitle";
+import HomeTitle from "../common/Title";
 import Image from "next/image";
 import Stars from "../../../../public/img/svg/Stars.svg";
 import { listHomeCustomer } from "./data";

@@ -36,6 +36,18 @@ const MainLayout = ({ children, title }: Props) => {
         />
         <meta name="robots" content="index, follow" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta content="search engine optimization" name="RATING" />
+        <meta
+          content="www.altaVista.com, www.aol.com, www.infoseek.com, www.excite.com, www.hotbot.com, 
+		 		www.lycos.com, www.magellan.com, www.looksmart.com, www.cnet.com, www.voila.com, 
+		 		www.google.fr, www.google.com, www.google.com.vn, www.yahoo.fr, www.yahoo.com, 
+		 		www.alltheweb.com, www.msn.com, www.netscape.com, www.nomade.com"
+          name="Search Engines"
+        />
+        <meta
+          property="og:site_name"
+          content="Địa chỉ tranh tường chất lượng uy tín - Tranh tường miến Bắc"
+        ></meta>
         <link rel="icon" href="/img/png/logo.png" />
       </Head>
       <Header />

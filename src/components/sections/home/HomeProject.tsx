@@ -1,5 +1,5 @@
 import { Box, Container, Typography, styled } from "@mui/material";
-import HomeTitle from "./common/HomeTitle";
+import HomeTitle from "../common/Title";
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";

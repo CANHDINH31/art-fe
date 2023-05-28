@@ -1,6 +1,6 @@
 import { Box, Container, Stack, Typography, styled } from "@mui/material";
 import React from "react";
-import HomeTitle from "./common/HomeTitle";
+import HomeTitle from "../common/Title";
 const Text = styled(Typography)(({ theme }) => ({
   textAlign: "justify",
   color: "white",

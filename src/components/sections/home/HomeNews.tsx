@@ -1,5 +1,5 @@
 import React from "react";
-import HomeTitle from "./common/HomeTitle";
+import HomeTitle from "../common/Title";
 import { Box, Container, Grid } from "@mui/material";
 import Image from "next/image";
 import { listHomeNews } from "./data";
