@@ -46,7 +46,7 @@ const WrapImage = styled(Box)(({}) => ({
 
 const CardItem = ({ url, title }: Props) => {
   return (
-    <Box>
+    <Box sx={{ cursor: "pointer" }}>
       <WrapImage>
         <Image src={url} alt="home-product" />
         <WrapText>

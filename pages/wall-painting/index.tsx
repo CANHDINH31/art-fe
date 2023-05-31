@@ -11,9 +11,11 @@ import {
   Pagination,
   Typography,
 } from "@mui/material";
+import { useRouter } from "next/router";
 import React, { ReactElement } from "react";
 
 const WallPainting = () => {
+  const router = useRouter();
   return (
     <Box py={4}>
       <Container>
@@ -68,104 +70,6 @@ const WallPainting = () => {
                 </Typography>
               </Box>
               <Divider />
-              <Typography
-                variant="h3"
-                color={"primary.main"}
-                fontWeight={"bold"}
-                mt={4}
-              >
-                Màu sắc
-              </Typography>
-              <Box p={2}>
-                <Typography
-                  color={"primary.main"}
-                  variant="h4"
-                  fontWeight={500}
-                >
-                  Cam
-                </Typography>
-              </Box>
-              <Divider />
-              <Box p={2}>
-                <Typography
-                  color={"primary.main"}
-                  variant="h4"
-                  fontWeight={500}
-                >
-                  Đen
-                </Typography>
-              </Box>
-              <Divider />
-              <Box p={2}>
-                <Typography
-                  color={"primary.main"}
-                  variant="h4"
-                  fontWeight={500}
-                >
-                  Đen đỏ
-                </Typography>
-              </Box>
-              <Divider />
-              <Box p={2}>
-                <Typography
-                  color={"primary.main"}
-                  variant="h4"
-                  fontWeight={500}
-                >
-                  Đen trắng
-                </Typography>
-              </Box>
-              <Divider />
-              <Box p={2}>
-                <Typography
-                  color={"primary.main"}
-                  variant="h4"
-                  fontWeight={500}
-                >
-                  Đỏ
-                </Typography>
-              </Box>
-              <Divider />
-              <Box p={2}>
-                <Typography
-                  color={"primary.main"}
-                  variant="h4"
-                  fontWeight={500}
-                >
-                  Đỏ cam
-                </Typography>
-              </Box>
-              <Divider />
-              <Box p={2}>
-                <Typography
-                  color={"primary.main"}
-                  variant="h4"
-                  fontWeight={500}
-                >
-                  Hồng
-                </Typography>
-              </Box>
-              <Divider />
-              <Box p={2}>
-                <Typography
-                  color={"primary.main"}
-                  variant="h4"
-                  fontWeight={500}
-                >
-                  Nâu
-                </Typography>
-              </Box>
-              <Divider />
-              <Box p={2}>
-                <Typography
-                  color={"primary.main"}
-                  variant="h4"
-                  fontWeight={500}
-                >
-                  Tím
-                </Typography>
-              </Box>
-              <Divider />
             </Grid>
             <Grid item xs={9}>
               <Typography
@@ -202,7 +106,12 @@ const WallPainting = () => {
               <Box mt={12}>
                 <Grid container spacing={4}>
                   {listHomeProduct.map((homeProduct, index) => (
-                    <Grid item xs={4} key={index}>
+                    <Grid
+                      item
+                      xs={4}
+                      key={index}
+                      onClick={() => router.push(`/detail-painting/${index}`)}
+                    >
                       <CardItem
                         url={homeProduct.src}
                         title={homeProduct.title}

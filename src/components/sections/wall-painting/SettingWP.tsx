@@ -1,11 +1,9 @@
 import React from "react";
 import {
   Box,
-  Breadcrumbs,
   FormControl,
   Grid,
   InputLabel,
-  Link,
   MenuItem,
   Rating,
   Select,
@@ -13,6 +11,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import BreadcrumbsCustom from "../common/BreadcrumbsCustom";
 
 const SettingWP = () => {
   const [filter, setFilter] = React.useState("1");
@@ -28,16 +27,7 @@ const SettingWP = () => {
       alignItems={"center"}
     >
       <Box>
-        <Breadcrumbs aria-label="breadcrumb">
-          <Link color="inherit" href="/">
-            <Typography color="primary.main" fontWeight={500} variant="h3">
-              TRANG CHỦ
-            </Typography>
-          </Link>
-          <Typography color="primary.main" fontWeight={"bold"} variant="h4">
-            Tranh vẽ tường
-          </Typography>
-        </Breadcrumbs>
+        <BreadcrumbsCustom />
       </Box>
       <Stack spacing={2}>
         <Box display={"flex"} gap={2} alignItems={"center"}>
