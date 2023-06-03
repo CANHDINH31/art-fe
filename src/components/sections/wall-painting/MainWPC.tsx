@@ -1,9 +1,11 @@
-import { Box, Grid, Typography } from "@mui/material";
-import React from "react";
-import Title from "../common/Title";
-import CategoryItem from "../common/CategoryItem";
+import { Box, Grid, Pagination, Typography } from "@mui/material";
+import CardItem from "@/src/components/sections/common/CardItem";
+import Title from "@/src/components/sections/common/Title";
+import { listHomeProduct } from "@/src/components/sections/home/data";
+import { useRouter } from "next/router";
 
-const MainWP = () => {
+const MainWPC = () => {
+  const router = useRouter();
   return (
     <Box>
       <Typography
@@ -32,19 +34,26 @@ const MainWP = () => {
       </Box>
       <Box mt={12}>
         <Grid container spacing={4}>
-          <Grid xs={12} sm={6} md={6} lg={4} item>
-            <CategoryItem />
-          </Grid>
-          <Grid xs={12} sm={6} md={6} lg={4} item>
-            <CategoryItem />
-          </Grid>
-          <Grid xs={12} sm={6} md={6} lg={4} item>
-            <CategoryItem />
-          </Grid>
+          {listHomeProduct.map((homeProduct, index) => (
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={6}
+              lg={4}
+              key={index}
+              onClick={() => router.push(`/detail-painting/${index}`)}
+            >
+              <CardItem url={homeProduct.src} title={homeProduct.title} />
+            </Grid>
+          ))}
         </Grid>
+      </Box>
+      <Box mt={8} display={"flex"} justifyContent={"center"}>
+        <Pagination count={10} color="primary" />
       </Box>
     </Box>
   );
 };
 
-export default MainWP;
+export default MainWPC;

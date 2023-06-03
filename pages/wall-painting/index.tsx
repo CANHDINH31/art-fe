@@ -5,7 +5,7 @@ import SidebarWP from "@/src/components/sections/wall-painting/SidebarWP";
 import { Box, Container, Grid } from "@mui/material";
 import React, { ReactElement } from "react";
 
-const WallPainting = () => {
+const WallPaiting = () => {
   return (
     <Box py={4}>
       <Container>
@@ -25,8 +25,8 @@ const WallPainting = () => {
   );
 };
 
-export default WallPainting;
+export default WallPaiting;
 
-WallPainting.getLayout = function getLayout(page: ReactElement) {
+WallPaiting.getLayout = function getLayout(page: ReactElement) {
   return <MainLayout title="Tranh vẽ tường">{page}</MainLayout>;
 };

@@ -74,12 +74,12 @@ export default function HomeAccording() {
           onChange={handleChange(homeIntroduce.key)}
         >
           <AccordionSummary>
-            <Typography color={"primary.main"} variant="h4" fontWeight={"bold"}>
+            <Typography color={"primary.main"} variant="h4" fontWeight={600}>
               {homeIntroduce.title}
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography color={"primary.main"} variant="h4">
+            <Typography color={"primary.main"} variant="h5">
               {homeIntroduce.content}
             </Typography>
           </AccordionDetails>

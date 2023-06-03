@@ -28,7 +28,6 @@ const theme = createTheme({
   },
 
   typography: {
-    fontFamily: ['"Crimson Text"'].join(", "),
     h1: {
       fontSize: "30px",
       lineHeight: "160%",

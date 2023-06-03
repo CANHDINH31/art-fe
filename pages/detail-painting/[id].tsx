@@ -30,14 +30,14 @@ const DetailPainting = () => {
         <BreadcrumbsCustom />
         <Box mt={4}>
           <Grid container spacing={8}>
-            <Grid item xs={8}>
+            <Grid item xs={12} md={8}>
               <ImagePainting
                 src={
                   "https://tranhtuongmienbac.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FHomeProduct2.5724f7a4.jpg&w=1920&q=75"
                 }
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12} md={4}>
               <Typography
                 variant="h2"
                 fontWeight={"bold"}

@@ -8,7 +8,7 @@ const Text = styled(Typography)(({ theme }) => ({
   letterSpacing: 0.4,
   wordSpacing: 1.6,
   span: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "bold",
     fontStyle: "italic",
     textShadow: "1px 1px 1px rgba(0,0,0,0.5)",
