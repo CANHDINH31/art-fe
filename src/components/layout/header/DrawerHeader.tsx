@@ -66,8 +66,6 @@ const DrawerHeader = () => {
                   ))}
                 </Collapse>
               )}
-
-              <Divider />
             </Box>
           ))}
         </List>
