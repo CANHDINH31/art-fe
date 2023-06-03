@@ -84,7 +84,7 @@ export const listHomeSpace = [
 export const listHomeIntroduce = [
   {
     key: "1",
-    title: "Vẽ tranh tường nghệ thuật chuyên nghiệp",
+    title: "Vẽ tranh tường nghệ thuật",
     content:
       " Dịch vụ vẽ tranh tường nghệ thuật chuyên nghiệp của chúng tôi cung cấp các giải pháp trang trí tường độc đáo, sang trọng và đẳng cấp. Đội ngũ họa sĩ tay nghề cao của chúng tôi sử dụng các kỹ thuật vẽ tranh mới nhất để tạo ra các tác phẩm nghệ thuật độc đáo, phù hợp với phong cách và sở thích của khách hàng. Chúng tôi cam kết sử dụng các loại vật liệu và công nghệ vẽ tranh tiên tiến nhất để đảm bảo sản phẩm đạt chuẩn cao nhất. Ngoài ra, chúng tôi cũng đảm bảo tính thẩm mỹ và độ bền của tranh tường, để giúp không gian sống và làm việc của khách hàng trở nên đẹp hơn và ấn tượng hơn.",
   },

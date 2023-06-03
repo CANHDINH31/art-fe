@@ -40,7 +40,7 @@ const HomeContactWrap = styled(Box)(({ theme }) => ({
   },
   [theme.breakpoints.down("sm")]: {
     "& .home-contact-overlay": {
-      width: "80%",
+      width: "94%",
       transform: "translate(-50%,-50%)",
       padding: theme.spacing(4),
     },
@@ -63,7 +63,7 @@ const HomeContact = () => {
           GHÉ THĂM MỸ THUẬT ĐÔNG ANH
         </Typography>
         <Typography color="white" mt={4}>
-          Phòng Tranh Tranh Tường Nghệ Thuật & Đặc Sắc
+          Phòng Tranh Tranh Tường Nghệ Thuật
         </Typography>
         <Typography color="white" mt={4}>
           Mở cửa hằng ngày từ 8h30 đến 18h30
