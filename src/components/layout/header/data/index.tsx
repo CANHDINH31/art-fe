@@ -1,43 +1,31 @@
 export const listMenu = [
-  { title: "Trang chủ", href: "/" },
   {
-    title: "Tranh vẽ tường",
+    title: "Giới thiệu danh mục",
     href: "/wall-painting",
+  },
+  {
+    title: "Tranh tường đồng quê",
+    href: "/wall-painting/1",
+  },
+  {
+    title: "Tranh tường sơn thủy",
+    href: "/wall-painting/2",
+  },
+
+  {
+    title: "Tranh tường nhà hàng",
+    href: "/wall-painting/3",
+  },
+  {
+    title: "Khác",
     sub: [
-      { title: "Tranh tường văn phòng", href: "/" },
-      { title: "Tranh tường mầm non", href: "/" },
-      { title: "Tranh tường cà phê", href: "/" },
-      { title: "Tranh tường nhà hàng", href: "/" },
+      { title: "Tranh tường gỗ đá", href: "/wall-painting/4" },
+      { title: "Tranh tường dát vàng", href: "/wall-painting/5" },
+      { title: "Tranh tường chân dung", href: "/wall-painting/6" },
+      {
+        title: "Tranh tường trần mây",
+        href: "/wall-painting/7",
+      },
     ],
   },
-  // { title: "Tranh sơn dầu", href: "/" },
-  // {
-  //   title: "Dịch vụ",
-  //   href: "/",
-  //   sub: [
-  //     { title: "Dịch vụ vẽ Tranh tường", href: "/" },
-  //     { title: "Dịch vụ Tranh dán tường", href: "/" },
-  //     { title: "Tranh tường cảnh quan", href: "/" },
-  //   ],
-  // },
-  // {
-  //   title: "Tư vấn",
-  //   href: "/",
-  //   sub: [
-  //     { title: "Quy trình thực hiện", href: "/" },
-  //     { title: "Báo giá", href: "/" },
-  //     { title: "Yêu cầu tư vấn", href: "/" },
-  //   ],
-  // },
-  // {
-  //   title: "Tin tức",
-  //   href: "/",
-  //   sub: [
-  //     { title: "Tranh phong thủy", href: "/" },
-  //     { title: "Tranh vẽ tường", href: "/" },
-  //     { title: "Tranh phong cảnh", href: "/" },
-  //     { title: "Góc chuyên gia", href: "/" },
-  //   ],
-  // },
-  { title: "Liên hệ", href: "/contact" },
 ];

@@ -1,5 +1,7 @@
 import { Box, Container, Typography, styled } from "@mui/material";
 import { ClockIcon, PhoneIcon, EnvelopeIcon } from "@heroicons/react/24/solid";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 const HeaderItem = styled(Box)(({ theme }) => ({
   color: "rgba(255,255,255,0.8)",
@@ -23,6 +25,7 @@ const HeaderItem = styled(Box)(({ theme }) => ({
 }));
 
 const TopHeader = () => {
+  const router = useRouter();
   return (
     <Box bgcolor={"primary.main"} sx={{ cursor: "pointer" }}>
       <Container>
@@ -36,35 +39,39 @@ const TopHeader = () => {
             alignItems={"center"}
             gap={{ xs: 1, sm: 2, md: 3, lg: 4 }}
           >
-            <HeaderItem>
-              <EnvelopeIcon />
-              <Typography>Contacts</Typography>
-            </HeaderItem>
+            <Link href={"mailto:mythuatdonganh@gmail.com"}>
+              <HeaderItem>
+                <EnvelopeIcon />
+                <Typography>Contacts</Typography>
+              </HeaderItem>
+            </Link>
             <HeaderItem>
               <ClockIcon />
               <Typography>8:00 - 17:00</Typography>
             </HeaderItem>
-            <HeaderItem>
-              <PhoneIcon />
-              <Typography>0975.146.588</Typography>
-            </HeaderItem>
+            <Link href={"tel:0975146588"}>
+              <HeaderItem>
+                <PhoneIcon />
+                <Typography>0975.146.588</Typography>
+              </HeaderItem>
+            </Link>
           </Box>
           <Box
             sx={{ display: { xs: "none", md: "flex" } }}
             alignItems={"center"}
             gap={4}
           >
-            <HeaderItem>
-              <Typography>Tranh tường 3D</Typography>
+            <HeaderItem onClick={() => router.push("/")}>
+              <Typography>Trang chủ</Typography>
             </HeaderItem>
-            <HeaderItem>
-              <Typography>Tranh tường mầm non</Typography>
+            <HeaderItem onClick={() => router.push("/introduce")}>
+              <Typography>Giới thiệu</Typography>
             </HeaderItem>
-            <HeaderItem>
-              <Typography>Tranh tường nhà hàng</Typography>
+            <HeaderItem onClick={() => router.push("/contact")}>
+              <Typography>Liên hệ</Typography>
             </HeaderItem>
-            <HeaderItem>
-              <Typography>Tranh tường văn phòng</Typography>
+            <HeaderItem onClick={() => router.push("/")}>
+              <Typography>Tuyển dụng</Typography>
             </HeaderItem>
           </Box>
         </Box>

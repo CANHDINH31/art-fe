@@ -90,10 +90,10 @@ const ListSubMenu = styled(Paper)(({ theme }) => ({
 }));
 
 const SubMenuItem = styled(Box)(({ theme }) => ({
-  color: "rgba(17, 17, 17, 0.95)",
   padding: theme.spacing(2.5, 2.5),
   borderBottom: `1px solid ${theme.palette.border.main}`,
   transition: "ease-in .2s",
+  color: theme.palette.primary.main,
   "&:last-child": {
     borderBottom: "none",
   },
@@ -121,7 +121,11 @@ const MainMenu = () => {
                     selected={router.pathname === menu.href}
                     sx={{ backgroundColor: "white" }}
                   >
-                    <Typography variant="h5" fontWeight={600}>
+                    <Typography
+                      variant="h5"
+                      fontWeight={600}
+                      color={"primary.main"}
+                    >
                       {menu.title.toUpperCase()}
                     </Typography>
                   </CustomListItemButton>
@@ -145,11 +149,6 @@ const MainMenu = () => {
               </ItemMenu>
             ))}
           </ListMenu>
-          {/* Authentication AND Card */}
-          {/* <Box>
-            <Typography>Authentication</Typography>
-            <Typography>Card</Typography>
-          </Box> */}
         </Box>
       </Container>
     </Box>
