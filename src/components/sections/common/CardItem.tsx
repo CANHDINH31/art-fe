@@ -51,7 +51,7 @@ const CardItem = ({ url, title }: Props) => {
         <Image src={url} alt="home-product" />
         <WrapText>
           <Typography color="white" variant="h6" fontWeight={"bold"}>
-            QUICK VIEW
+            XEM CHI TIẾT
           </Typography>
         </WrapText>
       </WrapImage>
