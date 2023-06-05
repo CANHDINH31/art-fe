@@ -1,4 +1,4 @@
-import MainLayout from "@/src/components/layout";
+import MainLayout from "@/src/components/layout/user";
 import { Box } from "@mui/material";
 import { ReactElement } from "react";
 import HomeAdvise from "@/src/components/sections/home/HomeAdvise";

@@ -23,7 +23,6 @@ export default function Document() {
           content="Vẽ tranh tường,Tranh tường độc đáo,Thiết kế tranh tường,Tác phẩm tranh tường,Họa sĩ tranh tường,Tranh tường nghệ thuật,Tường trang trí,Trang trí nội thất,Mural art,Công ty vẽ tranh tường,Tranh tường tùy chỉnh,Tranh tường phong cảnh,Tranh tường trẻ emTranh tường văn phòng,Tranh tường nhà hàng,Tranh tường quán cà phê,Tranh tường cửa hàng,Tranh tường không gian công cộng,Tranh tường sân chơi,Tranh tường 3D"
         />
         <meta name="robots" content="index, follow" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta content="search engine optimization" name="RATING" />
         <meta
           content="www.altaVista.com, www.aol.com, www.infoseek.com, www.excite.com, www.hotbot.com, 

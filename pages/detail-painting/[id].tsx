@@ -1,4 +1,4 @@
-import MainLayout from "@/src/components/layout";
+import MainLayout from "@/src/components/layout/user";
 import BreadcrumbsCustom from "@/src/components/sections/common/BreadcrumbsCustom";
 import {
   Box,

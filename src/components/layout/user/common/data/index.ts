@@ -1,8 +1,8 @@
-import FacebookIcon from "../../../../../public/img/svg/Facebook.svg";
-import MessengerIcon from "../../../../../public/img/svg/Messenger.svg";
-import TikTokIcon from "../../../../../public/img/svg/TikTok.svg";
-import YouTubeIcon from "../../../../../public/img/svg/YouTube.svg";
-import ZaloIcon from "../../../../../public/img/svg/Zalo.svg";
+import FacebookIcon from "../../../../../../public/img/svg/Facebook.svg";
+import MessengerIcon from "../../../../../../public/img/svg/Messenger.svg";
+import TikTokIcon from "../../../../../../public/img/svg/TikTok.svg";
+import YouTubeIcon from "../../../../../../public/img/svg/YouTube.svg";
+import ZaloIcon from "../../../../../../public/img/svg/Zalo.svg";
 
 export const listSocialIcon = [
   {

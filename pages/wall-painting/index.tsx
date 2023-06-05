@@ -1,4 +1,4 @@
-import MainLayout from "@/src/components/layout";
+import MainLayout from "@/src/components/layout/user";
 import MainWP from "@/src/components/sections/wall-painting/MainWP";
 import SettingWP from "@/src/components/sections/wall-painting/SettingWP";
 import SidebarWP from "@/src/components/sections/wall-painting/SidebarWP";

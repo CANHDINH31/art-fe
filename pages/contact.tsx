@@ -1,4 +1,4 @@
-import MainLayout from "@/src/components/layout";
+import MainLayout from "@/src/components/layout/user";
 import ContactForm from "@/src/components/sections/contact/ContactForm";
 import { Box, Container, Typography, styled } from "@mui/material";
 import React, { ReactElement } from "react";

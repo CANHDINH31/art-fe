@@ -1,6 +1,6 @@
 import { Box, Drawer, Fab, Paper, styled } from "@mui/material";
 import Image from "next/image";
-import Logo from "../../../../public/img/png/logo.png";
+import Logo from "../../../../../public/img/png/logo.png";
 import ListSocial from "../common/ListSocial";
 import { ListBulletIcon } from "@heroicons/react/24/outline";
 import React, { useState } from "react";

@@ -1,4 +1,4 @@
-import MainLayout from "@/src/components/layout";
+import MainLayout from "@/src/components/layout/user";
 import { Box, Container, Typography } from "@mui/material";
 import React, { ReactElement } from "react";
 
