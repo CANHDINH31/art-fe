@@ -29,7 +29,7 @@ const AdminLayout = ({ children, title, page }: Props) => {
                 {page?.toUpperCase()}
               </Typography>
               <Box mt={2} flex={1} height={"100%"}>
-                <Paper sx={{ height: "100%" }}>{children}</Paper>
+                <Paper sx={{ height: "100%", px: 4, py: 4 }}>{children}</Paper>
               </Box>
             </Stack>
           </Box>

@@ -14,12 +14,12 @@ export const listMenuSidebar = [
   },
   {
     icon: <PhotoIcon />,
-    name: "Thư viện tranh",
-    path: "/admin/paintings",
+    name: "Thư viện",
+    path: "/admin/libraries",
   },
   {
     icon: <UsersIcon />,
-    name: "Quản lý người dùng",
+    name: "Người dùng",
     path: "/admin/users",
   },
   {
@@ -29,7 +29,7 @@ export const listMenuSidebar = [
   },
   {
     icon: <WrenchIcon />,
-    name: "Tool hỗ trợ",
+    name: "Tool",
     path: "/",
   },
 ];
