@@ -2,15 +2,15 @@ import AdminLayout from "@/src/components/layout/admin";
 import { Box, Paper, Stack, Typography } from "@mui/material";
 import React, { ReactElement } from "react";
 
-const Statistical = () => {
-  return <Box>Thong ke</Box>;
+const Users = () => {
+  return <Box>THONG KE</Box>;
 };
 
-export default Statistical;
+export default Users;
 
-Statistical.getLayout = function getLayout(page: ReactElement) {
+Users.getLayout = function getLayout(page: ReactElement) {
   return (
-    <AdminLayout title="Quản trị viên" page="Thống kê">
+    <AdminLayout title="Quản trị viên" page="Quản lý người dùng">
       {page}
     </AdminLayout>
   );
