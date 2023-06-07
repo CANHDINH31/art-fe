@@ -3,7 +3,6 @@ import {
   Box,
   Container,
   Divider,
-  Input,
   Typography,
   styled,
 } from "@mui/material";
@@ -69,7 +68,12 @@ const SearchHeader = () => {
               </Typography>
             </Box>
             <Divider orientation="vertical" flexItem />
-            <Box display={"flex"} alignItems={"center"} gap={2}>
+            <Box
+              display={"flex"}
+              alignItems={"center"}
+              gap={2}
+              onClick={() => router.push("/auth/login")}
+            >
               <UserIcon height={30} color="#446084" />
               <Typography variant="h5" whiteSpace={"nowrap"} fontWeight={550}>
                 ĐĂNG NHẬP

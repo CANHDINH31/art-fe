@@ -1,5 +1,5 @@
 import AuthLayout from "@/src/components/layout/auth";
-import { EnvelopeIcon, KeyIcon } from "@heroicons/react/24/solid";
+import { EnvelopeIcon, KeyIcon, UserIcon } from "@heroicons/react/24/solid";
 import { Box, Button, Divider, Typography, styled } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { ReactElement } from "react";
@@ -35,15 +35,19 @@ const InputCustom = styled("input")(({ theme }) => ({
   },
 }));
 
-const Login = () => {
+const Register = () => {
   const router = useRouter();
   return (
     <Box>
       <Typography variant="h2" textAlign={"center"}>
-        Đăng nhập tài khoản
+        Đăng kí tài khoản
       </Typography>
       <Box mt={4}>
         <WrapInput>
+          <UserIcon />
+          <InputCustom placeholder="Nhập họ tên " />
+        </WrapInput>
+        <WrapInput mt={5}>
           <EnvelopeIcon />
           <InputCustom placeholder="Nhập email " />
         </WrapInput>
@@ -51,22 +55,15 @@ const Login = () => {
           <KeyIcon />
           <InputCustom placeholder="Nhập mật khẩu " type="password" />
         </WrapInput>
+        <WrapInput mt={5}>
+          <KeyIcon />
+          <InputCustom placeholder="Nhập lại mật khẩu " type="password" />
+        </WrapInput>
         <Box mt={5}>
           <Button fullWidth variant="contained" size="medium" color="secondary">
-            Đăng nhập
+            Đăng kí
           </Button>
         </Box>
-      </Box>
-      <Typography textAlign={"center"} mt={8}>
-        Hoặc đăng nhập
-      </Typography>
-      <Box display={"flex"} gap={4} mt={5}>
-        <Button fullWidth variant="contained">
-          Facebook
-        </Button>
-        <Button fullWidth variant="contained" color="error">
-          Google
-        </Button>
       </Box>
       <Box mt={8}>
         <Divider />
@@ -88,18 +85,18 @@ const Login = () => {
           gap={2}
           sx={{ cursor: "pointer" }}
           mt={1}
-          onClick={() => router.push("/auth/register")}
+          onClick={() => router.push("/auth/login")}
         >
-          <Typography>Bạn chưa có tài khoản ?</Typography>
-          <Typography fontWeight={600}>Đăng kí</Typography>
+          <Typography>Bạn đã có tài khoản ?</Typography>
+          <Typography fontWeight={600}>Đăng nhập</Typography>
         </Box>
       </Box>
     </Box>
   );
 };
 
-export default Login;
+export default Register;
 
-Login.getLayout = function getLayout(page: ReactElement) {
-  return <AuthLayout title="Đăng nhập">{page}</AuthLayout>;
+Register.getLayout = function getLayout(page: ReactElement) {
+  return <AuthLayout title="Đăng kí">{page}</AuthLayout>;
 };
