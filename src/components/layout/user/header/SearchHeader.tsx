@@ -64,24 +64,14 @@ const SearchHeader = () => {
                 <HeartIcon height={30} color="#446084" />
               </Badge>
 
-              <Typography
-                variant="h5"
-                color="primary.main"
-                whiteSpace={"nowrap"}
-                fontWeight={550}
-              >
+              <Typography variant="h5" whiteSpace={"nowrap"} fontWeight={550}>
                 YÊU THÍCH
               </Typography>
             </Box>
             <Divider orientation="vertical" flexItem />
             <Box display={"flex"} alignItems={"center"} gap={2}>
               <UserIcon height={30} color="#446084" />
-              <Typography
-                variant="h5"
-                color="primary.main"
-                whiteSpace={"nowrap"}
-                fontWeight={550}
-              >
+              <Typography variant="h5" whiteSpace={"nowrap"} fontWeight={550}>
                 ĐĂNG NHẬP
               </Typography>
             </Box>

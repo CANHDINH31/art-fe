@@ -60,7 +60,7 @@ const SettingWPC = () => {
           mt={4}
         >
           <Rating value={5} readOnly size="medium" />
-          <Typography variant="h4" color={"primary.main"}>
+          <Typography variant="h4">
             Xếp hạng 4.76 / 5 (144 phiếu bầu) trong 1429 sản phẩm
           </Typography>
         </Box>
@@ -71,7 +71,7 @@ const SettingWPC = () => {
               height={"100%"}
               textAlign={"center"}
             >
-              <Typography variant="h4" color={"primary.main"} fontWeight={550}>
+              <Typography variant="h4" fontWeight={550}>
                 Hiển thị 55–108 của 1372 kết quả
               </Typography>
             </Stack>

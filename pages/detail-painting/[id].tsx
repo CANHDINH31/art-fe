@@ -38,24 +38,16 @@ const DetailPainting = () => {
               />
             </Grid>
             <Grid item xs={12} md={4}>
-              <Typography
-                variant="h2"
-                fontWeight={"bold"}
-                color={"primary.main"}
-              >
+              <Typography variant="h2" fontWeight={"bold"}>
                 Tranh Đồng Quê
               </Typography>
               <Box mt={4}>
                 <Divider />
-                <Typography color="primary.main" py={2}>
-                  Mã: 31012001
-                </Typography>
+                <Typography py={2}>Mã: 31012001</Typography>
                 <Divider />
-                <Typography color="primary.main" py={2}>
-                  Số lượt xem: 40096
-                </Typography>
+                <Typography py={2}>Số lượt xem: 40096</Typography>
                 <Divider />
-                <Typography color="primary.main" py={2}>
+                <Typography py={2}>
                   Danh mục: Tranh vẽ tường, tranh đồng quê
                 </Typography>
                 <Divider />

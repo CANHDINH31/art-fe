@@ -121,11 +121,7 @@ const MainMenu = () => {
                     selected={router.pathname === menu.href}
                     sx={{ backgroundColor: "white" }}
                   >
-                    <Typography
-                      variant="h5"
-                      fontWeight={600}
-                      color={"primary.main"}
-                    >
+                    <Typography variant="h5" fontWeight={600}>
                       {menu.title.toUpperCase()}
                     </Typography>
                   </CustomListItemButton>

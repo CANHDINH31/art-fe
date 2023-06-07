@@ -59,11 +59,7 @@ export default function HomeAccording() {
         py={2}
         borderBottom={`1px solid ${theme.palette.primary.main}`}
       >
-        <Typography
-          color={"primary"}
-          fontWeight={"bold"}
-          sx={{ fontSize: { xs: 16, md: 20 } }}
-        >
+        <Typography fontWeight={"bold"} sx={{ fontSize: { xs: 16, md: 20 } }}>
           VỀ CHÚNG TÔI - MỸ THUẬT ĐÔNG ANH
         </Typography>
       </Stack>
@@ -74,14 +70,12 @@ export default function HomeAccording() {
           onChange={handleChange(homeIntroduce.key)}
         >
           <AccordionSummary>
-            <Typography color={"primary.main"} variant="h4" fontWeight={600}>
+            <Typography variant="h4" fontWeight={600}>
               {homeIntroduce.title}
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography color={"primary.main"} variant="h5">
-              {homeIntroduce.content}
-            </Typography>
+            <Typography variant="h5">{homeIntroduce.content}</Typography>
           </AccordionDetails>
         </Accordion>
       ))}

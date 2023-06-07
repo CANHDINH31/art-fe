@@ -63,9 +63,7 @@ const SideBar = () => {
               alt="Remy Sharp"
               src="https://mui.com/static/images/avatar/1.jpg"
             />
-            <Typography color="primary.main" fontWeight={600}>
-              @Mỹ thuật Đông Anh
-            </Typography>
+            <Typography fontWeight={600}>@Mỹ thuật Đông Anh</Typography>
           </Box>
         </Box>
 

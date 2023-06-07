@@ -29,9 +29,7 @@ const CategoryItem = () => {
         }
       />
       <Box textAlign={"center"} py={4}>
-        <Typography fontWeight={"bold"} color="primary.main">
-          Tranh Đồng Quê
-        </Typography>
+        <Typography fontWeight={"bold"}>Tranh Đồng Quê</Typography>
         <Typography variant="h6" mt={1}>
           20 TÁC PHẨM
         </Typography>

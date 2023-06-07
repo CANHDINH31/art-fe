@@ -54,7 +54,7 @@ const HomeBanner = () => {
       <Box mt={2}>
         <Container>
           <Box display={"flex"} justifyContent={"center"} textAlign={"center"}>
-            <Typography variant="h5" color="primary.main">
+            <Typography variant="h5">
               Tranh tường Hà Nội – Họa sỹ chuyên vẽ tranh tường 3D, tranh sơn
               thủy, phong cảnh, trang trí quá cafe, nhà hàng, tranh mầm non … rẻ
               đẹp nhất miền Bắc

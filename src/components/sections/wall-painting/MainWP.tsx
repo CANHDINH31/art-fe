@@ -6,15 +6,10 @@ import CategoryItem from "../common/CategoryItem";
 const MainWP = () => {
   return (
     <Box>
-      <Typography
-        color={"primary.main"}
-        variant="h2"
-        fontWeight={600}
-        textAlign={"center"}
-      >
+      <Typography variant="h2" fontWeight={600} textAlign={"center"}>
         Tranh Vẽ Tường Họa Sĩ Sáng Tác, Độc Bản, Đẹp và Ấn Tượng
       </Typography>
-      <Typography mt={4} color="primary.main" variant="h4">
+      <Typography mt={4} variant="h4">
         Tranh vẽ tường đã trở thành một xu hướng nghệ thuật độc đáo và tinh tế
         trên website. Với sự sáng tạo và kỹ thuật tuyệt vời, các nghệ sĩ đã tạo
         ra những tác phẩm đầy màu sắc và ấn tượng để trang trí các không gian

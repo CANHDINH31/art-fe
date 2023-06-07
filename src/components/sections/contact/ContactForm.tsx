@@ -65,11 +65,11 @@ const ContactForm = () => {
         <Grid container spacing={8}>
           <Grid item lg={6}>
             <Box sx={{ display: { xs: "none", lg: "block" } }}>
-              <Typography color="primary.main" variant="h2" fontWeight={"bold"}>
+              <Typography variant="h2" fontWeight={"bold"}>
                 LIÊN HỆ VỚI CHÚNG TÔI
               </Typography>
               <Divider />
-              <Typography color="primary.main" variant="h4" mt={4}>
+              <Typography variant="h4" mt={4}>
                 Hãy liên lạc với chúng tôi. Chỉ cần điền thông tin chi tiết của
                 bạn và gửi cùng với yêu cầu của bạn.
               </Typography>
@@ -94,11 +94,7 @@ const ContactForm = () => {
               sx={{ paddingX: { xs: 4, md: 6 }, paddingY: { xs: 4, md: 6 } }}
             >
               <Box textAlign={"center"}>
-                <Typography
-                  color="primary.main"
-                  fontWeight={"bold"}
-                  variant="h3"
-                >
+                <Typography fontWeight={"bold"} variant="h3">
                   Mỹ thuật Đông Anh
                 </Typography>
               </Box>
@@ -135,7 +131,9 @@ const ContactForm = () => {
               </WrapTextArea>
               <Box mt={4}>
                 <Button variant="contained" fullWidth>
-                  <Typography variant="h3">Liên hệ</Typography>
+                  <Typography variant="h3" color={"white"}>
+                    Liên hệ
+                  </Typography>
                 </Button>
               </Box>
             </Box>

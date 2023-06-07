@@ -17,7 +17,7 @@ const Introduce = () => {
     <Box py={8}>
       <Container>
         <Box>
-          <Typography variant="h1" fontWeight={"bold"} color={"primary.main"}>
+          <Typography variant="h1" fontWeight={"bold"}>
             Liên hệ
           </Typography>
           <Typography
@@ -28,7 +28,7 @@ const Introduce = () => {
           >
             Viết về tranh tường miền Bắc
           </Typography>
-          <Typography variant="h4" color={"primary.main"} mt={2}>
+          <Typography variant="h4" mt={2}>
             <strong>Tranh tường miền Bắc</strong> là một trong những cơ sở đầu
             tiên ở Việt Nam cung cấp dịch vẽ tranh tường với chất lượng hàng đầu
             và hỗ trợ dịch vụ trọn gói:
@@ -39,7 +39,7 @@ const Introduce = () => {
             <ItemCustom>Thiết kế theo yêu cầu</ItemCustom>
             <ItemCustom>Giám sát và chỉnh sửa sản phẩm</ItemCustom>
           </ListCustom>
-          <Typography variant="h4" color={"primary.main"} mt={2}>
+          <Typography variant="h4" mt={2}>
             Tranh tường miền Bắc tự hào là thương hiệu uy tín đã được sử dụng
             trang trí cho hơn 350000 căn hộ cao cấp trên toàn quốc.
           </Typography>

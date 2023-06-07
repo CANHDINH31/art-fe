@@ -77,7 +77,9 @@ const HomeSpace = () => {
                 >
                   <Image src={homeSpace.image} alt={"home-space"} />
                   <SwipperText>
-                    <Typography variant="h5">{homeSpace.name}</Typography>
+                    <Typography variant="h5" color={"white"}>
+                      {homeSpace.name}
+                    </Typography>
                   </SwipperText>
                 </Box>
               </SwiperSlide>

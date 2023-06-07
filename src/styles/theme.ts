@@ -89,6 +89,13 @@ const theme = createTheme({
         },
       },
     },
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          color: blue[400],
+        },
+      },
+    },
   },
 });
 

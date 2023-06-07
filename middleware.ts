@@ -4,6 +4,8 @@ export function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
   if (pathname === "/admin")
     return NextResponse.redirect(new URL("/admin/statistical", req.url));
+  if (pathname === "/auth")
+    return NextResponse.redirect(new URL("/auth/login", req.url));
   if (pathname === "/admin/libraries")
     return NextResponse.redirect(
       new URL("/admin/libraries/categories-management", req.url)

@@ -11,10 +11,10 @@ const HeaderAdmin = () => {
         justifyContent={"center"}
       >
         <Box textAlign={"center"}>
-          <Typography color="primary.main" variant="h2" fontWeight={600}>
+          <Typography variant="h2" fontWeight={600}>
             Dashboard
           </Typography>
-          <Typography color="primary.main" variant="body1">
+          <Typography variant="body1">
             Welcome to management software
           </Typography>
         </Box>

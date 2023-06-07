@@ -25,7 +25,7 @@ const AdminLayout = ({ children, title, page }: Props) => {
           <Divider orientation="vertical" flexItem />
           <Box mt={1} flex={1} bgcolor={"#F7F8FB"}>
             <Stack p={5} height={"100%"}>
-              <Typography fontWeight={600} color={"primary.main"} variant="h2">
+              <Typography fontWeight={600} variant="h2">
                 {page?.toUpperCase()}
               </Typography>
               <Box mt={2} flex={1} height={"100%"}>

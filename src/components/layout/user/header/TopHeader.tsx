@@ -1,7 +1,6 @@
-import { Box, Container, Typography, styled } from "@mui/material";
+import { Box, Container, Link, Typography, styled } from "@mui/material";
 import { ClockIcon, PhoneIcon, EnvelopeIcon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/router";
-import Link from "next/link";
 
 const HeaderItem = styled(Box)(({ theme }) => ({
   color: "rgba(255,255,255,0.8)",
@@ -17,10 +16,14 @@ const HeaderItem = styled(Box)(({ theme }) => ({
   },
   "&>p": {
     fontSize: 14,
+    color: "rgba(255,255,255,0.8)",
   },
   "&:hover": {
     color: "white",
     borderColor: "white",
+    p: {
+      color: "white",
+    },
   },
 }));
 

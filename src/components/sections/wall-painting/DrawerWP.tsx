@@ -12,7 +12,7 @@ const DrawerWP = () => {
     <Box width={250} px={2}>
       <Box mt={8} py={8}>
         <Box>
-          <Typography fontWeight={"bold"} variant="h3" color="primary.main">
+          <Typography fontWeight={"bold"} variant="h3">
             DANH MỤC
           </Typography>
         </Box>

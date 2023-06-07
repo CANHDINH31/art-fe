@@ -56,7 +56,7 @@ const CardItem = ({ url, title }: Props) => {
         </WrapText>
       </WrapImage>
       <Box display={"flex"} justifyContent={"center"} mt={2}>
-        <Typography color="primary.main" variant="h5" fontWeight={"bold"}>
+        <Typography variant="h5" fontWeight={"bold"}>
           {title}
         </Typography>
       </Box>
