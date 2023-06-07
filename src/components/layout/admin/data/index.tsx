@@ -10,7 +10,7 @@ export const listMenuSidebar = [
   {
     icon: <ChartBarIcon />,
     name: "Thống kê",
-    path: "/admin",
+    path: "/admin/statistical",
   },
   {
     icon: <PhotoIcon />,
@@ -22,14 +22,14 @@ export const listMenuSidebar = [
     name: "Người dùng",
     path: "/admin/users",
   },
-  {
-    icon: <ChatBubbleBottomCenterIcon />,
-    name: "Chat GPT",
-    path: "/",
-  },
-  {
-    icon: <WrenchIcon />,
-    name: "Tool",
-    path: "/",
-  },
+  // {
+  //   icon: <ChatBubbleBottomCenterIcon />,
+  //   name: "Chat GPT",
+  //   path: "/",
+  // },
+  // {
+  //   icon: <WrenchIcon />,
+  //   name: "Tool",
+  //   path: "/",
+  // },
 ];

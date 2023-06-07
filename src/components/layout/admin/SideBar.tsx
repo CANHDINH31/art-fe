@@ -47,8 +47,8 @@ const MenuItem = styled(Box)(({ theme }) => ({
 }));
 
 const SideBar = () => {
-  const { push, pathname, ...rest } = useRouter();
-  console.log(rest);
+  const { push, pathname } = useRouter();
+
   return (
     <Stack height={"100%"} justifyContent={"space-between"}>
       <Box flex={1} pt={4} px={1}>
@@ -74,7 +74,7 @@ const SideBar = () => {
             <Box key={index}>
               <MenuItem
                 onClick={() => push(menu.path)}
-                className={menu.path === pathname ? "active" : ""}
+                className={pathname.includes(menu.path) ? "active" : ""}
               >
                 {menu.icon}
                 <Typography>{menu.name}</Typography>
