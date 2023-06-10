@@ -98,5 +98,9 @@ const Register = () => {
 export default Register;
 
 Register.getLayout = function getLayout(page: ReactElement) {
-  return <AuthLayout title="Đăng kí">{page}</AuthLayout>;
+  return (
+    <AuthLayout title="Đăng kí" src="/img/jpg/register.jpg">
+      {page}
+    </AuthLayout>
+  );
 };

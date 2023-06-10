@@ -5,9 +5,10 @@ import React, { ReactElement } from "react";
 type Props = {
   children: ReactElement;
   title?: string;
+  src?: string;
 };
 
-const AuthLayout = ({ children, title }: Props) => {
+const AuthLayout = ({ children, title, src }: Props) => {
   return (
     <>
       <Head>
@@ -28,7 +29,7 @@ const AuthLayout = ({ children, title }: Props) => {
                 <Box height={550}>
                   <Box
                     component={"img"}
-                    src={"/img/jpg/Auth.jpg"}
+                    src={src ? src : "/img/jpg/Auth.jpg"}
                     sx={{
                       display: "block",
                       width: "100%",
