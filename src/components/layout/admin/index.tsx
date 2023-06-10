@@ -52,7 +52,16 @@ const AdminLayout = ({ children, title, page }: Props) => {
         width={"100vw"}
         height={"100vh"}
       >
-        HI
+        <Box
+          component="img"
+          src={"/img/jpg/register.jpg"}
+          sx={{
+            width: "100vw",
+            height: "100vh",
+            objectFit: "cover",
+            objectPosition: "bottom",
+          }}
+        />
       </Box>
     </>
   );
