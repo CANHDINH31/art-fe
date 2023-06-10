@@ -22,14 +22,14 @@ export const listMenuSidebar = [
     name: "Người dùng",
     path: "/admin/users",
   },
-  // {
-  //   icon: <ChatBubbleBottomCenterIcon />,
-  //   name: "Chat GPT",
-  //   path: "/",
-  // },
-  // {
-  //   icon: <WrenchIcon />,
-  //   name: "Tool",
-  //   path: "/",
-  // },
+  {
+    icon: <ChatBubbleBottomCenterIcon />,
+    name: "Chat GPT",
+    path: "/chat-gpt",
+  },
+  {
+    icon: <WrenchIcon />,
+    name: "Tool",
+    path: "/tool",
+  },
 ];

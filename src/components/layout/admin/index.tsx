@@ -13,28 +13,47 @@ type Props = {
 const AdminLayout = ({ children, title, page }: Props) => {
   return (
     <>
-      <Head>
-        <title>{title || "Mỹ thuật Đông Anh"}</title>
-      </Head>
-      <Stack>
-        <HeaderAdmin />
-        <Box display={"flex"} height={"calc(100vh - 100px)"}>
-          <Box width={"14%"} minWidth={250}>
-            <SideBar />
+      <Box display={{ xs: "none", lg: "block" }}>
+        <Head>
+          <title>{title || "Mỹ thuật Đông Anh"}</title>
+        </Head>
+        <Stack>
+          <HeaderAdmin />
+          <Box display={"flex"} height={"calc(100vh - 100px)"}>
+            <Box width={"14%"} minWidth={250}>
+              <SideBar />
+            </Box>
+            <Divider orientation="vertical" flexItem />
+            <Box mt={1} flex={1} bgcolor={"#F7F8FB"}>
+              <Stack p={5} height={"100%"}>
+                <Typography fontWeight={600} variant="h2">
+                  {page?.toUpperCase()}
+                </Typography>
+                <Box mt={2} flex={1} height={"100%"}>
+                  <Paper
+                    sx={{
+                      height: "75vh",
+                      width: "80vw",
+                      px: 4,
+                      py: 4,
+                      overflow: "scroll",
+                    }}
+                  >
+                    {children}
+                  </Paper>
+                </Box>
+              </Stack>
+            </Box>
           </Box>
-          <Divider orientation="vertical" flexItem />
-          <Box mt={1} flex={1} bgcolor={"#F7F8FB"}>
-            <Stack p={5} height={"100%"}>
-              <Typography fontWeight={600} variant="h2">
-                {page?.toUpperCase()}
-              </Typography>
-              <Box mt={2} flex={1} height={"100%"}>
-                <Paper sx={{ height: "100%", px: 4, py: 4 }}>{children}</Paper>
-              </Box>
-            </Stack>
-          </Box>
-        </Box>
-      </Stack>
+        </Stack>
+      </Box>
+      <Box
+        display={{ xs: "block", lg: "none" }}
+        width={"100vw"}
+        height={"100vh"}
+      >
+        HI
+      </Box>
     </>
   );
 };
