@@ -1,4 +1,4 @@
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Paper } from "@mui/material";
 import Head from "next/head";
 import React, { ReactElement } from "react";
 
@@ -21,29 +21,31 @@ const AuthLayout = ({ children, title }: Props) => {
         justifyContent={"center"}
         alignItems={"center"}
       >
-        <Grid
-          container
-          width={"60%"}
-          border={"1px solid rgba(0,0,0,.125)"}
-          borderRadius={4}
-        >
-          <Grid item xs={6}>
-            <Box
-              component={"img"}
-              src={"https://seamaf.com/frontend/img/background.jpg"}
-              width={"100%"}
-              height={"100%"}
-              sx={{
-                objectFit: "cover",
-                borderTopLeftRadius: 16,
-                borderBottomLeftRadius: 16,
-              }}
-            />
-          </Grid>
-          <Grid item xs={6} p={8}>
-            {children}
-          </Grid>
-        </Grid>
+        <Box width={{ xs: "90%", sm: "70%", md: "50%", lg: "60%" }}>
+          <Paper elevation={3}>
+            <Grid container>
+              <Grid item xs={6} lg={6} display={{ xs: "none", lg: "block" }}>
+                <Box height={550}>
+                  <Box
+                    component={"img"}
+                    src={"/img/jpg/Auth.jpg"}
+                    sx={{
+                      display: "block",
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      borderTopLeftRadius: 4,
+                      borderBottomLeftRadius: 4,
+                    }}
+                  />
+                </Box>
+              </Grid>
+              <Grid item xs={12} lg={6} p={8}>
+                {children}
+              </Grid>
+            </Grid>
+          </Paper>
+        </Box>
       </Box>
     </>
   );
