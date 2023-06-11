@@ -2,7 +2,7 @@ import DataGridCustom from "@/src/components/common/DataGridCustom";
 import AdminLayout from "@/src/components/layout/admin";
 import Tab from "@/src/components/sections/admin/libraries/Tab";
 import { GlobeAltIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
-import { Box } from "@mui/material";
+import { Box, Link } from "@mui/material";
 import { GridColDef, GridRowsProp } from "@mui/x-data-grid";
 import React, { ReactElement } from "react";
 
@@ -70,11 +70,15 @@ const columns: GridColDef[] = [
     sortable: false,
     filterable: false,
     width: 100,
-    renderCell() {
+    renderCell(param) {
       return (
         <Box display={"flex"} gap={4}>
-          <PencilSquareIcon width={30} color="#1976d2" />
-          <GlobeAltIcon width={30} color="#2e7d32" />
+          <Link href={`/admin/libraries/categories-management/${param.row.id}`}>
+            <PencilSquareIcon width={30} color="#1976d2" />
+          </Link>
+          <Link href={`/wall-painting/${param.row.id}`}>
+            <GlobeAltIcon width={30} color="#2e7d32" />
+          </Link>
         </Box>
       );
     },
@@ -103,7 +107,7 @@ export default CategoriesManagement;
 
 CategoriesManagement.getLayout = function getLayout(page: ReactElement) {
   return (
-    <AdminLayout title="Quản trị viên" page="Quản lý thư viện">
+    <AdminLayout title="Quản lý thư viện" page="Quản lý thư viện">
       {page}
     </AdminLayout>
   );
