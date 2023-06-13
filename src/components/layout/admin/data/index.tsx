@@ -17,19 +17,19 @@ export const listMenuSidebar = [
     name: "Thư viện",
     path: "/admin/libraries",
   },
-  {
-    icon: <UsersIcon />,
-    name: "Người dùng",
-    path: "/admin/users",
-  },
-  {
-    icon: <ChatBubbleBottomCenterIcon />,
-    name: "Chat GPT",
-    path: "/chat-gpt",
-  },
-  {
-    icon: <WrenchIcon />,
-    name: "Tool",
-    path: "/tool",
-  },
+  // {
+  //   icon: <UsersIcon />,
+  //   name: "Người dùng",
+  //   path: "/admin/users",
+  // },
+  // {
+  //   icon: <ChatBubbleBottomCenterIcon />,
+  //   name: "Chat GPT",
+  //   path: "/chat-gpt",
+  // },
+  // {
+  //   icon: <WrenchIcon />,
+  //   name: "Tool",
+  //   path: "/tool",
+  // },
 ];

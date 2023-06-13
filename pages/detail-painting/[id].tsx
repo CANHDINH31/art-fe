@@ -56,7 +56,9 @@ const DetailPainting = () => {
                 <Button variant="contained" size="large" color="error">
                   <Box display={"flex"} gap={2} alignItems={"center"}>
                     <HeartIcon width={20} />
-                    <Typography variant="h4">Thêm vào yêu thích</Typography>
+                    <Typography variant="h4" color={"white"}>
+                      Thêm vào yêu thích
+                    </Typography>
                   </Box>
                 </Button>
               </Box>
@@ -69,7 +71,9 @@ const DetailPainting = () => {
                 >
                   <Box display={"flex"} gap={2} alignItems={"center"}>
                     <ArrowsPointingOutIcon width={20} />
-                    <Typography variant="h4">Phóng to</Typography>
+                    <Typography variant="h4" color="white">
+                      Phóng to
+                    </Typography>
                   </Box>
                 </Button>
               </Box>
