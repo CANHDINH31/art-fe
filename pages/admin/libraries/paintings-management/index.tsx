@@ -5,7 +5,15 @@ import AdminLayout from "@/src/components/layout/admin";
 import Tab from "@/src/components/sections/admin/libraries/Tab";
 import SettingPM from "@/src/components/sections/admin/libraries/painting-management/SettingPM";
 import { GlobeAltIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
-import { Box, Link, MenuItem, Pagination, Select } from "@mui/material";
+import {
+  Box,
+  Link,
+  MenuItem,
+  Pagination,
+  Select,
+  Stack,
+  TextField,
+} from "@mui/material";
 import {
   GridColDef,
   GridRowSelectionModel,
@@ -68,7 +76,7 @@ const columns: GridColDef[] = [
     renderCell(param) {
       return (
         <Box display={"flex"} gap={4}>
-          <Link href={`/admin/libraries/categories-management/${param.row.id}`}>
+          <Link href={`/admin/libraries/paintings-management/${param.row.id}`}>
             <PencilSquareIcon width={30} color="#1976d2" />
           </Link>
           <Link href={`/wall-painting/${param.row.id}`}>
@@ -87,6 +95,8 @@ const PaintingsManagement = () => {
 
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState<boolean>(false);
   const [isOpenAddModal, setIsOpenAddModal] = useState<boolean>(false);
+  const [isOpenAddPaint, setIsOpenAddPaint] = useState<boolean>(false);
+
   const hanldeCloseDeleteModal = () => {
     setIsOpenDeleteModal(false);
   };
@@ -99,6 +109,12 @@ const PaintingsManagement = () => {
   const handleOpenAddModal = () => {
     setIsOpenAddModal(true);
   };
+  const hanldeCloseAddPaint = () => {
+    setIsOpenAddPaint(false);
+  };
+  const handleOpenAddPaint = () => {
+    setIsOpenAddPaint(true);
+  };
   return (
     <Box>
       <Box display={"flex"} justifyContent={"flex-end"}>
@@ -108,6 +124,7 @@ const PaintingsManagement = () => {
         listIdSelected={listIdSelected}
         handleOpenDelete={handleOpenDeleteModal}
         handleOpenAdd={handleOpenAddModal}
+        handleOpenAddPaint={handleOpenAddPaint}
       />
       <Box mt={4}>
         <DataGridCustom
@@ -141,6 +158,20 @@ const PaintingsManagement = () => {
           <MenuItem value={20}>Tranh văn phòng</MenuItem>
           <MenuItem value={30}>Tranh dát vàng</MenuItem>
         </Select>
+      </AddModal>
+      <AddModal
+        title="Thêm tranh "
+        open={isOpenAddPaint}
+        handleClose={hanldeCloseAddPaint}
+      >
+        <Stack>
+          <Box>
+            <TextField size="small" placeholder="Nhập link tranh" fullWidth />
+          </Box>
+          <Box mt={4}>
+            <TextField size="small" placeholder="Nhập tên tranh" fullWidth />
+          </Box>
+        </Stack>
       </AddModal>
     </Box>
   );

@@ -79,7 +79,7 @@ const HomeContact = () => {
         </Typography>
         <Stack mt={4} alignItems={"center"}>
           <Button variant="contained" href="/contact">
-            <Typography variant="h4" fontWeight={"bold"}>
+            <Typography variant="h4" fontWeight={"bold"} color={"white"}>
               LIÊN HỆ VỚI CHÚNG TÔI
             </Typography>
           </Button>

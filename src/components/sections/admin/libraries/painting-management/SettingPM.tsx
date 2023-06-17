@@ -20,12 +20,14 @@ type Prop = {
   listIdSelected: GridRowSelectionModel;
   handleOpenDelete: () => void;
   handleOpenAdd: () => void;
+  handleOpenAddPaint: () => void;
 };
 
 const SettingPM = ({
   listIdSelected,
   handleOpenDelete,
   handleOpenAdd,
+  handleOpenAddPaint,
 }: Prop) => {
   return (
     <Box>
@@ -53,7 +55,7 @@ const SettingPM = ({
             </Select>
           </Box>
         </Box>
-        <Box>
+        <Box onClick={handleOpenAddPaint}>
           <Button variant="contained">
             <Box display={"flex"} alignItems={"center"} gap={1}>
               <PlusIcon color={"white"} height={20} />
