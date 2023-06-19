@@ -1,24 +1,22 @@
-import DataGridCustom from "@/src/components/common/DataGridCustom";
 import AdminLayout from "@/src/components/layout/admin";
-import {
-  ChevronLeftIcon,
-  GlobeAltIcon,
-  PencilSquareIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
+import ListPainting from "@/src/components/sections/admin/libraries/category-management/ListPainting";
+import { getDetailCategory, updateCategory } from "@/src/lib/api";
+import { queryClient } from "@/src/lib/react-query";
+import { typePaint } from "@/src/lib/types/paint";
+import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import {
   Box,
   Button,
-  Link,
   Stack,
   TextField,
   TextareaAutosize,
   Typography,
   styled,
 } from "@mui/material";
-import { GridColDef, GridRowsProp } from "@mui/x-data-grid";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
 
 const WrapTextarea = styled(Box)(({ theme }) => ({
   marginTop: theme.spacing(4),
@@ -44,70 +42,49 @@ const TextareaCustom = styled(TextareaAutosize)(({ theme }) => ({
     opacity: 0.6,
   },
 }));
-const rows: GridRowsProp = [
-  {
-    id: 1,
-    name: "Tranh Vẽ Tường ",
-    image:
-      "https://i.pinimg.com/736x/7c/b5/49/7cb5492889809cb8303b76b80759f0df.jpg",
-  },
-  {
-    id: 2,
-    name: "Tranh Vẽ Tường ",
-    image:
-      "https://i.pinimg.com/736x/7c/b5/49/7cb5492889809cb8303b76b80759f0df.jpg",
-  },
-  {
-    id: 3,
-    name: "Tranh Vẽ Tường ",
-    image:
-      "https://i.pinimg.com/736x/7c/b5/49/7cb5492889809cb8303b76b80759f0df.jpg",
-  },
-];
 
-const columns: GridColDef[] = [
-  {
-    field: "image",
-    headerName: "Ảnh đại diện",
-    sortable: false,
-    filterable: false,
-    width: 350,
-    renderCell(params) {
-      return (
-        <Box
-          component={"img"}
-          src={params.row.image}
-          sx={{ width: 120, height: 120, objectFit: "cover", borderRadius: 2 }}
-        />
-      );
-    },
-  },
-  { field: "name", headerName: "Tên", width: 350 },
-  {
-    field: "action",
-    headerName: "Hành động",
-    sortable: false,
-    filterable: false,
-    width: 300,
-    renderCell(param) {
-      return (
-        <Box display={"flex"} gap={4}>
-          <Link href={`/admin/libraries/categories-management/${param.row.id}`}>
-            <PencilSquareIcon width={30} color="#1976d2" />
-          </Link>
-          <Link href={`/wall-painting/${param.row.id}`}>
-            <GlobeAltIcon width={30} color="#2e7d32" />
-          </Link>
-          <Link href={`/wall-painting/${param.row.id}`}>
-            <XMarkIcon width={30} color="#d32f2f" />
-          </Link>
-        </Box>
-      );
-    },
-  },
-];
 const CategoriesManagementDetail = () => {
   const router = useRouter();
+  const [listPainting, setListPainting] = useState<typePaint[]>([]);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm();
+
+  const { data: detailCategory } = useQuery(
+    ["detailCategory"],
+    async () => {
+      try {
+        const res = await getDetailCategory(router.query.id as string);
+        const listPaint = res.data.data?.list_paint_id?.map(
+          (paint: typePaint) => ({
+            ...paint,
+            id: paint._id,
+          })
+        );
+        setListPainting(listPaint);
+        return res.data.data;
+      } catch (err) {
+        throw err;
+      }
+    },
+    { enabled: !!router.query.id }
+  );
+
+  const { mutate: handleUpdateCategory, isLoading } = useMutation({
+    mutationFn: updateCategory,
+    onSuccess: res => {
+      queryClient.invalidateQueries({ queryKey: ["detailCategory"] });
+    },
+  });
+
+  useEffect(() => {
+    setValue("url", detailCategory?.url);
+    setValue("description", detailCategory?.description);
+  }, [detailCategory, setValue]);
+
   return (
     <Box>
       <Box
@@ -124,9 +101,7 @@ const CategoriesManagementDetail = () => {
         <Box>
           <Box
             component={"img"}
-            src={
-              "https://i.pinimg.com/736x/7c/b5/49/7cb5492889809cb8303b76b80759f0df.jpg"
-            }
+            src={detailCategory?.url}
             sx={{
               width: 250,
               height: 250,
@@ -141,37 +116,52 @@ const CategoriesManagementDetail = () => {
             textAlign={"center"}
             textTransform={"uppercase"}
           >
-            Tranh vẽ tường
+            {detailCategory?.title}
           </Typography>
         </Box>
-        <Stack>
+        <Stack
+          component={"form"}
+          onSubmit={handleSubmit(data =>
+            handleUpdateCategory({ ...data, _id: router.query.id as string })
+          )}
+        >
           <TextField
+            error={errors.url ? true : false}
             sx={{ width: 500 }}
             placeholder="Đường link ảnh đại diện"
             variant="standard"
+            spellCheck={false}
+            {...register("url", { required: "Trường này không được để trống" })}
+            helperText={errors?.url?.message?.toString()}
           />
           <WrapTextarea>
             <TextareaCustom
               minRows={10}
               placeholder="Nhập mô tả"
               spellCheck={false}
+              {...register("description", {
+                required: "Trường này không được để trống",
+              })}
             />
           </WrapTextarea>
+          {errors.description && (
+            <Typography
+              component={"span"}
+              color={"#d32f2f"}
+              fontSize={"0.75rem"}
+            >
+              {errors?.description?.message?.toString()}
+            </Typography>
+          )}
           <Box mt={1} display={"flex"} justifyContent={"flex-end"}>
-            <Button variant="contained">Lưu</Button>
+            <Button variant="contained" type="submit">
+              Lưu
+            </Button>
           </Box>
         </Stack>
       </Box>
       <Box mt={8}>
-        <DataGridCustom
-          rows={rows}
-          columns={columns}
-          hideFooter={true}
-          rowHeight={150}
-        />
-      </Box>
-      <Box mt={4} display={"flex"} justifyContent={"center"}>
-        <Button variant="contained">Lưu</Button>
+        <ListPainting listPainting={listPainting} />
       </Box>
     </Box>
   );
