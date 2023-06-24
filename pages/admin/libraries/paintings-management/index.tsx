@@ -4,7 +4,7 @@ import AdminLayout from "@/src/components/layout/admin";
 import Tab from "@/src/components/sections/admin/libraries/Tab";
 import AddNewPainting from "@/src/components/sections/admin/libraries/painting-management/AddNewPainting";
 import SettingPM from "@/src/components/sections/admin/libraries/painting-management/SettingPM";
-import { getListPaint } from "@/src/lib/api";
+import { getListCategory, getListPaint } from "@/src/lib/api";
 import { queryClient } from "@/src/lib/react-query";
 import { typePaint } from "@/src/lib/types/paint";
 import { GlobeAltIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
@@ -13,6 +13,7 @@ import { GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { ChangeEvent, ReactElement, useState } from "react";
 import { detelePaint } from "@/src/lib/api";
+import AddPaintToCategory from "@/src/components/sections/admin/libraries/painting-management/AddPaintToCategory";
 
 const columns: GridColDef[] = [
   {
@@ -64,20 +65,35 @@ const PaintingsManagement = () => {
   };
 
   const [isOpenDeletePaint, setIsOpenDeletePaint] = useState<boolean>(false);
-  const [isOpenAddModal, setIsOpenAddModal] = useState<boolean>(false);
+  const [isOpenAddPaintToCategory, setIsOpenAddPaintToCategory] =
+    useState<boolean>(false);
   const [isOpenAddNewPaint, setIsOpenAddNewPaint] = useState<boolean>(false);
   const [totalPage, setTotalPage] = useState<number>();
+  const [title, setTitle] = useState<string>("");
 
   const { data: listPaint } = useQuery(
-    ["listPaint", currentPage],
+    ["listPaint", currentPage, title],
     async () => {
       try {
-        const res = await getListPaint(currentPage);
+        const res = await getListPaint(currentPage, title);
         setTotalPage(Math.ceil(res.data.totalItems / res.data.itemsPerPage));
         return res.data.data?.map((paint: typePaint) => ({
           ...paint,
           id: paint._id,
         }));
+      } catch (err) {
+        throw err;
+      }
+    },
+    { keepPreviousData: true }
+  );
+
+  const { data: listCategory } = useQuery(
+    ["listCategory"],
+    async () => {
+      try {
+        const res = await getListCategory();
+        return res.data.data;
       } catch (err) {
         throw err;
       }
@@ -99,20 +115,19 @@ const PaintingsManagement = () => {
     },
   });
 
-  const handleOpenAddModal = () => {
-    setIsOpenAddModal(true);
-  };
-
   return (
     <Box>
       <Box display={"flex"} justifyContent={"flex-end"}>
         <Tab />
       </Box>
       <SettingPM
+        listCategory={listCategory}
         listIdSelected={listIdSelected}
         handleOpenDelete={() => setIsOpenDeletePaint(true)}
-        handleOpenAdd={handleOpenAddModal}
+        handleOpenAdd={() => setIsOpenAddPaintToCategory(true)}
         handleOpenAddPaint={() => setIsOpenAddNewPaint(true)}
+        title={title}
+        setTitle={setTitle}
       />
       <Box mt={4}>
         {listPaint?.length > 0 && (
@@ -130,31 +145,32 @@ const PaintingsManagement = () => {
           />
         )}
       </Box>
-      <Box mt={8} display={"flex"} justifyContent={"center"}>
-        <Pagination
-          count={totalPage}
-          color="primary"
-          page={currentPage}
-          onChange={handlePageChange}
-        />
-      </Box>
+      {Number(totalPage) > 1 && (
+        <Box mt={8} display={"flex"} justifyContent={"center"}>
+          <Pagination
+            count={totalPage}
+            color="primary"
+            page={currentPage}
+            onChange={handlePageChange}
+          />
+        </Box>
+      )}
+
       <ConfirmDeleteModal
         handleOk={deletePaint}
         handleClose={() => setIsOpenDeletePaint(false)}
         open={isOpenDeletePaint}
         content="Bạn có chắc chắn xóa những bức tranh này ? Nếu xóa bạn sẽ không khôi phục được !!!"
       />
-      {/* <AddModal
-        title="Thêm tranh vào danh mục"
-        open={isOpenAddModal}
-        handleClose={hanldeCloseAddModal}
-      >
-        <Select size="medium" fullWidth value={10}>
-          <MenuItem value={10}>Tranh phong cảnh</MenuItem>
-          <MenuItem value={20}>Tranh văn phòng</MenuItem>
-          <MenuItem value={30}>Tranh dát vàng</MenuItem>
-        </Select>
-      </AddModal> */}
+      <AddPaintToCategory
+        open={isOpenAddPaintToCategory}
+        handleClose={() => {
+          setIsOpenAddPaintToCategory(false);
+          setListIdSelected([]);
+        }}
+        listCategory={listCategory}
+        listIdSelected={listIdSelected as string[]}
+      />
       <AddNewPainting
         open={isOpenAddNewPaint}
         handleClose={() => setIsOpenAddNewPaint(false)}

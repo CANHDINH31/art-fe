@@ -1,6 +1,7 @@
 import { request } from "../utils/request";
 
-const getListPaint = (page: number) => request.get("/api/paints?page=" + page);
+const getListPaint = (page: number, title: string) =>
+  request.get("/api/paints?page=" + page + "&title=" + title);
 const addNewPaint = (payload: { url: string; title: string }) =>
   request.post("/api/paints", { listPaints: [payload] });
 

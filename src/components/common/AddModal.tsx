@@ -28,14 +28,10 @@ const AddModal = ({ open, title, children, handleClose, handleOk }: Props) => {
     >
       <Box component={"form"} onSubmit={handleOk}>
         <DialogTitle id="alert-dialog-title">
-          <Typography variant="h3" fontWeight={600}>
-            {title || "Hộp thoại thêm"}
-          </Typography>
+          <Typography fontWeight={600}>{title || "Hộp thoại thêm"}</Typography>
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            <Box width={"25vw"}>{children}</Box>
-          </DialogContentText>
+          <Box width={"25vw"}>{children}</Box>
         </DialogContent>
         <DialogActions>
           <Button variant="contained" color="error" onClick={handleClose}>

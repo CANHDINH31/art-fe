@@ -18,9 +18,15 @@ const removeFromCategory = (payload: {
     listCategories: [payload],
   });
 
+const addToCategory = (payload: { _id: string; list_paint_id: string[] }) =>
+  request.patch("/api/categories/add-to-category", {
+    listCategories: [payload],
+  });
+
 export {
   getListCategory,
   getDetailCategory,
   updateCategory,
   removeFromCategory,
+  addToCategory,
 };
