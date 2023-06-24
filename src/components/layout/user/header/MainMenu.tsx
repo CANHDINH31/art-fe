@@ -100,6 +100,9 @@ const SubMenuItem = styled(Box)(({ theme }) => ({
   "&:hover": {
     backgroundColor: theme.palette.primary.main,
     color: "white",
+    h4: {
+      color: "white",
+    },
   },
 }));
 

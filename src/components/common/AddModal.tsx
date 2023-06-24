@@ -15,9 +15,10 @@ type Props = {
   title?: string;
   children: JSX.Element;
   handleClose: () => void;
+  handleOk?: any;
 };
 
-const AddModal = ({ open, title, children, handleClose }: Props) => {
+const AddModal = ({ open, title, children, handleClose, handleOk }: Props) => {
   return (
     <Dialog
       open={open}
@@ -25,24 +26,26 @@ const AddModal = ({ open, title, children, handleClose }: Props) => {
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">
-        <Typography variant="h3" fontWeight={600}>
-          {title || "Hộp thoại thêm"}
-        </Typography>
-      </DialogTitle>
-      <DialogContent>
-        <DialogContentText id="alert-dialog-description">
-          <Box width={"25vw"}>{children}</Box>
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button variant="contained" color="error" onClick={handleClose}>
-          Không đồng ý
-        </Button>
-        <Button autoFocus variant="contained">
-          Đồng ý
-        </Button>
-      </DialogActions>
+      <Box component={"form"} onSubmit={handleOk}>
+        <DialogTitle id="alert-dialog-title">
+          <Typography variant="h3" fontWeight={600}>
+            {title || "Hộp thoại thêm"}
+          </Typography>
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            <Box width={"25vw"}>{children}</Box>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="contained" color="error" onClick={handleClose}>
+            Không đồng ý
+          </Button>
+          <Button autoFocus variant="contained" type="submit">
+            Đồng ý
+          </Button>
+        </DialogActions>
+      </Box>
     </Dialog>
   );
 };

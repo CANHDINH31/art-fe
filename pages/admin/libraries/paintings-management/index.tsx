@@ -1,56 +1,22 @@
-import AddModal from "@/src/components/common/AddModal";
 import ConfirmDeleteModal from "@/src/components/common/ConfirmDeleteModal";
 import DataGridCustom from "@/src/components/common/DataGridCustom";
 import AdminLayout from "@/src/components/layout/admin";
 import Tab from "@/src/components/sections/admin/libraries/Tab";
+import AddNewPainting from "@/src/components/sections/admin/libraries/painting-management/AddNewPainting";
 import SettingPM from "@/src/components/sections/admin/libraries/painting-management/SettingPM";
+import { getListPaint } from "@/src/lib/api";
+import { queryClient } from "@/src/lib/react-query";
+import { typePaint } from "@/src/lib/types/paint";
 import { GlobeAltIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
-import {
-  Box,
-  Link,
-  MenuItem,
-  Pagination,
-  Select,
-  Stack,
-  TextField,
-} from "@mui/material";
-import {
-  GridColDef,
-  GridRowSelectionModel,
-  GridRowsProp,
-} from "@mui/x-data-grid";
-import React, { ReactElement, useState } from "react";
-
-const rows: GridRowsProp = [
-  {
-    id: 1,
-    type: "Tranh Vẽ Tường ",
-    image:
-      "https://i.pinimg.com/736x/7c/b5/49/7cb5492889809cb8303b76b80759f0df.jpg",
-    view: 50,
-    count: 25,
-  },
-  {
-    id: 2,
-    type: "Tranh Vẽ Tường ",
-    image:
-      "https://i.pinimg.com/736x/7c/b5/49/7cb5492889809cb8303b76b80759f0df.jpg",
-    view: 60,
-    count: 35,
-  },
-  {
-    id: 3,
-    type: "Tranh Vẽ Tường ",
-    image:
-      "https://i.pinimg.com/736x/7c/b5/49/7cb5492889809cb8303b76b80759f0df.jpg",
-    view: 20,
-    count: 45,
-  },
-];
+import { Box, Link, Pagination } from "@mui/material";
+import { GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import React, { ChangeEvent, ReactElement, useState } from "react";
+import { detelePaint } from "@/src/lib/api";
 
 const columns: GridColDef[] = [
   {
-    field: "image",
+    field: "url",
     headerName: "Ảnh đại diện",
     sortable: false,
     filterable: false,
@@ -59,13 +25,13 @@ const columns: GridColDef[] = [
       return (
         <Box
           component={"img"}
-          src={params.row.image}
+          src={params.row.url}
           sx={{ width: 120, height: 120, objectFit: "cover", borderRadius: 2 }}
         />
       );
     },
   },
-  { field: "type", headerName: "Loại", width: 250 },
+  { field: "title", headerName: "Tên", width: 250 },
   { field: "view", headerName: "Số lượt xem", width: 250 },
   {
     field: "action",
@@ -92,29 +58,51 @@ const PaintingsManagement = () => {
   const [listIdSelected, setListIdSelected] = useState<GridRowSelectionModel>(
     []
   );
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const handlePageChange = (event: ChangeEvent<unknown>, page: number) => {
+    setCurrentPage(page);
+  };
 
-  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState<boolean>(false);
+  const [isOpenDeletePaint, setIsOpenDeletePaint] = useState<boolean>(false);
   const [isOpenAddModal, setIsOpenAddModal] = useState<boolean>(false);
-  const [isOpenAddPaint, setIsOpenAddPaint] = useState<boolean>(false);
+  const [isOpenAddNewPaint, setIsOpenAddNewPaint] = useState<boolean>(false);
+  const [totalPage, setTotalPage] = useState<number>();
 
-  const hanldeCloseDeleteModal = () => {
-    setIsOpenDeleteModal(false);
-  };
-  const handleOpenDeleteModal = () => {
-    setIsOpenDeleteModal(true);
-  };
-  const hanldeCloseAddModal = () => {
-    setIsOpenAddModal(false);
-  };
+  const { data: listPaint } = useQuery(
+    ["listPaint", currentPage],
+    async () => {
+      try {
+        const res = await getListPaint(currentPage);
+        setTotalPage(Math.ceil(res.data.totalItems / res.data.itemsPerPage));
+        return res.data.data?.map((paint: typePaint) => ({
+          ...paint,
+          id: paint._id,
+        }));
+      } catch (err) {
+        throw err;
+      }
+    },
+    { keepPreviousData: true }
+  );
+
+  const { mutate: deletePaint, isLoading } = useMutation({
+    mutationFn: async () => {
+      try {
+        await detelePaint(listIdSelected as string[]);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    onSuccess: res => {
+      queryClient.invalidateQueries({ queryKey: ["listPaint"] });
+      setIsOpenDeletePaint(false);
+    },
+  });
+
   const handleOpenAddModal = () => {
     setIsOpenAddModal(true);
   };
-  const hanldeCloseAddPaint = () => {
-    setIsOpenAddPaint(false);
-  };
-  const handleOpenAddPaint = () => {
-    setIsOpenAddPaint(true);
-  };
+
   return (
     <Box>
       <Box display={"flex"} justifyContent={"flex-end"}>
@@ -122,33 +110,41 @@ const PaintingsManagement = () => {
       </Box>
       <SettingPM
         listIdSelected={listIdSelected}
-        handleOpenDelete={handleOpenDeleteModal}
+        handleOpenDelete={() => setIsOpenDeletePaint(true)}
         handleOpenAdd={handleOpenAddModal}
-        handleOpenAddPaint={handleOpenAddPaint}
+        handleOpenAddPaint={() => setIsOpenAddNewPaint(true)}
       />
       <Box mt={4}>
-        <DataGridCustom
-          checkboxSelection
-          disableRowSelectionOnClick
-          rows={rows}
-          columns={columns}
-          hideFooter={true}
-          rowHeight={150}
-          onRowSelectionModelChange={idSelected => {
-            setListIdSelected(idSelected);
-          }}
-          rowSelectionModel={listIdSelected}
-        />
+        {listPaint?.length > 0 && (
+          <DataGridCustom
+            checkboxSelection
+            disableRowSelectionOnClick
+            rows={listPaint}
+            columns={columns}
+            hideFooter={true}
+            rowHeight={150}
+            onRowSelectionModelChange={idSelected => {
+              setListIdSelected(idSelected);
+            }}
+            rowSelectionModel={listIdSelected}
+          />
+        )}
       </Box>
       <Box mt={8} display={"flex"} justifyContent={"center"}>
-        <Pagination count={10} color="primary" />
+        <Pagination
+          count={totalPage}
+          color="primary"
+          page={currentPage}
+          onChange={handlePageChange}
+        />
       </Box>
       <ConfirmDeleteModal
-        handleClose={hanldeCloseDeleteModal}
-        open={isOpenDeleteModal}
+        handleOk={deletePaint}
+        handleClose={() => setIsOpenDeletePaint(false)}
+        open={isOpenDeletePaint}
         content="Bạn có chắc chắn xóa những bức tranh này ? Nếu xóa bạn sẽ không khôi phục được !!!"
       />
-      <AddModal
+      {/* <AddModal
         title="Thêm tranh vào danh mục"
         open={isOpenAddModal}
         handleClose={hanldeCloseAddModal}
@@ -158,21 +154,11 @@ const PaintingsManagement = () => {
           <MenuItem value={20}>Tranh văn phòng</MenuItem>
           <MenuItem value={30}>Tranh dát vàng</MenuItem>
         </Select>
-      </AddModal>
-      <AddModal
-        title="Thêm tranh "
-        open={isOpenAddPaint}
-        handleClose={hanldeCloseAddPaint}
-      >
-        <Stack>
-          <Box>
-            <TextField size="small" placeholder="Nhập link tranh" fullWidth />
-          </Box>
-          <Box mt={4}>
-            <TextField size="small" placeholder="Nhập tên tranh" fullWidth />
-          </Box>
-        </Stack>
-      </AddModal>
+      </AddModal> */}
+      <AddNewPainting
+        open={isOpenAddNewPaint}
+        handleClose={() => setIsOpenAddNewPaint(false)}
+      />
     </Box>
   );
 };

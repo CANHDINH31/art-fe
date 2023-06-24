@@ -14,9 +14,16 @@ type Props = {
   title?: string;
   content: string;
   handleClose: () => void;
+  handleOk?: any;
 };
 
-const ConfirmDeleteModal = ({ open, title, content, handleClose }: Props) => {
+const ConfirmDeleteModal = ({
+  open,
+  title,
+  content,
+  handleClose,
+  handleOk,
+}: Props) => {
   return (
     <Dialog
       open={open}
@@ -38,7 +45,7 @@ const ConfirmDeleteModal = ({ open, title, content, handleClose }: Props) => {
         <Button onClick={handleClose} variant="contained" color="error">
           Không đồng ý
         </Button>
-        <Button autoFocus variant="contained">
+        <Button autoFocus variant="contained" onClick={handleOk}>
           Đồng ý
         </Button>
       </DialogActions>

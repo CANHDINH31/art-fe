@@ -10,4 +10,17 @@ const updateCategory = (payload: {
   description?: string;
 }) => request.patch("/api/categories", { listCategories: [payload] });
 
-export { getListCategory, getDetailCategory, updateCategory };
+const removeFromCategory = (payload: {
+  _id: string;
+  list_paint_id: string[];
+}) =>
+  request.patch("/api/categories/remove-to-category", {
+    listCategories: [payload],
+  });
+
+export {
+  getListCategory,
+  getDetailCategory,
+  updateCategory,
+  removeFromCategory,
+};
