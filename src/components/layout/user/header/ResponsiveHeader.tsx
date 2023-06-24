@@ -5,6 +5,7 @@ import ListSocial from "../common/ListSocial";
 import { ListBulletIcon } from "@heroicons/react/24/outline";
 import React, { useState } from "react";
 import DrawerHeader from "./DrawerHeader";
+import { useRouter } from "next/router";
 
 const DrawerCustom = styled(Drawer)(({ theme }) => ({
   "& .MuiPaper-root": {
@@ -13,6 +14,7 @@ const DrawerCustom = styled(Drawer)(({ theme }) => ({
 }));
 
 const ResponsiveHeader = () => {
+  const router = useRouter();
   const [isOpenDrawer, setIsOpenDrawer] = useState<boolean>(false);
 
   return (
@@ -26,7 +28,12 @@ const ResponsiveHeader = () => {
         <Fab color="primary" size="small" onClick={() => setIsOpenDrawer(true)}>
           <ListBulletIcon width={25} />
         </Fab>
-        <Image src={Logo} alt="logo-icon" height={70} />
+        <Image
+          src={Logo}
+          alt="logo-icon"
+          height={70}
+          onClick={() => router.push("/")}
+        />
         <ListSocial />
       </Box>
       <DrawerCustom
