@@ -61,9 +61,7 @@ const PaintingManagementDetail = () => {
         <Box>
           <Box
             component={"img"}
-            src={
-              "https://i.pinimg.com/736x/7c/b5/49/7cb5492889809cb8303b76b80759f0df.jpg"
-            }
+            src={detailPainting?.url}
             sx={{
               width: 250,
               height: 250,
