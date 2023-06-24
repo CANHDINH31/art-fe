@@ -3,50 +3,62 @@ import CardItem from "@/src/components/sections/common/CardItem";
 import Title from "@/src/components/sections/common/Title";
 import { listHomeProduct } from "@/src/components/sections/home/data";
 import { useRouter } from "next/router";
+import { useQuery } from "@tanstack/react-query";
+import { getDetailCategory } from "@/src/lib/api";
+import { typePaint } from "@/src/lib/types/paint";
 
 const MainWPC = () => {
   const router = useRouter();
+  const { data: detailCategory } = useQuery(
+    ["detailCategory", router.query.params],
+    async () => {
+      try {
+        const res = await getDetailCategory(router.query.params as string);
+
+        return res.data.data;
+      } catch (err) {
+        throw err;
+      }
+    },
+    {
+      enabled: !!router.query.params,
+      keepPreviousData: true,
+    }
+  );
   return (
     <Box>
       <Typography variant="h2" fontWeight={600} textAlign={"center"}>
-        Tranh Vẽ Tường Họa Sĩ Sáng Tác, Độc Bản, Đẹp và Ấn Tượng
+        TRANH VẼ TƯỜNG - {detailCategory?.title.toUpperCase()}
       </Typography>
       <Typography mt={4} variant="h4">
-        Tranh vẽ tường đã trở thành một xu hướng nghệ thuật độc đáo và tinh tế
-        trên website. Với sự sáng tạo và kỹ thuật tuyệt vời, các nghệ sĩ đã tạo
-        ra những tác phẩm đầy màu sắc và ấn tượng để trang trí các không gian
-        trên màn hình. Tranh vẽ tường trên website không chỉ là một phương tiện
-        trang trí mà còn mang ý nghĩa và cảm xúc sâu sắc. Những hình ảnh tuyệt
-        đẹp và tinh tế được chuyển tải thông qua những nét vẽ tinh tế và sự
-        tương phản màu sắc độc đáo. Những tranh vẽ tường trên website không chỉ
-        tạo điểm nhấn cho giao diện, mà còn mang lại một không gian sống động và
-        hấp dẫn cho người truy cập. Bằng cách kết hợp sự sáng tạo và công nghệ,
-        tranh vẽ tường trên website đã trở thành một phần không thể thiếu trong
-        việc tạo nên trải nghiệm đẹp mắt và độc đáo trên màn hình của chúng ta.
+        {detailCategory?.description}
       </Typography>
       <Box mt={12}>
-        <Title title="Danh Mục Tranh Vẽ Tường Nổi Bật" />
+        <Title title="Những Tác Phẩm Nổi Bật " />
       </Box>
       <Box mt={12}>
         <Grid container spacing={4}>
-          {listHomeProduct.map((homeProduct, index) => (
+          {detailCategory?.list_paint_id?.map((panting: typePaint) => (
             <Grid
               item
               xs={12}
               sm={6}
               md={6}
               lg={4}
-              key={index}
-              onClick={() => router.push(`/detail-painting/${index}`)}
+              key={panting._id}
+              onClick={() => router.push(`/detail-painting/${panting._id}`)}
             >
-              <CardItem url={homeProduct.src} title={homeProduct.title} />
+              <CardItem
+                url={panting.url}
+                title={panting.title.toLocaleUpperCase()}
+              />
             </Grid>
           ))}
         </Grid>
       </Box>
-      <Box mt={8} display={"flex"} justifyContent={"center"}>
+      {/* <Box mt={8} display={"flex"} justifyContent={"center"}>
         <Pagination count={10} color="primary" />
-      </Box>
+      </Box> */}
     </Box>
   );
 };

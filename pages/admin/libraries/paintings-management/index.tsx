@@ -75,7 +75,7 @@ const PaintingsManagement = () => {
     ["listPaint", currentPage, title],
     async () => {
       try {
-        const res = await getListPaint(currentPage, title);
+        const res = await getListPaint({ page: currentPage.toString(), title });
         setTotalPage(Math.ceil(res.data.totalItems / res.data.itemsPerPage));
         return res.data.data?.map((paint: typePaint) => ({
           ...paint,

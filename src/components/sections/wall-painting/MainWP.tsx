@@ -2,12 +2,35 @@ import { Box, Grid, Typography } from "@mui/material";
 import React from "react";
 import Title from "../common/Title";
 import CategoryItem from "../common/CategoryItem";
+import { useQuery } from "@tanstack/react-query";
+import { getListCategory } from "@/src/lib/api";
+import { typeCategory } from "@/src/lib/types";
+import { useRouter } from "next/router";
 
 const MainWP = () => {
+  const router = useRouter();
+  const { data: listCategories } = useQuery(
+    ["listCategories"],
+    async () => {
+      try {
+        const res = await getListCategory();
+        const listCategories = res.data.data?.map((category: typeCategory) => ({
+          ...category,
+          id: category._id,
+        }));
+        return listCategories;
+      } catch (err) {
+        throw err;
+      }
+    },
+    {
+      keepPreviousData: true,
+    }
+  );
   return (
     <Box>
       <Typography variant="h2" fontWeight={600} textAlign={"center"}>
-        Tranh Vẽ Tường Họa Sĩ Sáng Tác, Độc Bản, Đẹp và Ấn Tượng
+        Tranh Vẽ Tường Họa Sĩ Sáng Tác, Độc Bản, Đẹp Và Ấn Tượng
       </Typography>
       <Typography mt={4} variant="h4">
         Tranh vẽ tường đã trở thành một xu hướng nghệ thuật độc đáo và tinh tế
@@ -27,15 +50,19 @@ const MainWP = () => {
       </Box>
       <Box mt={12}>
         <Grid container spacing={4}>
-          <Grid xs={12} sm={6} md={6} lg={4} item>
-            <CategoryItem />
-          </Grid>
-          <Grid xs={12} sm={6} md={6} lg={4} item>
-            <CategoryItem />
-          </Grid>
-          <Grid xs={12} sm={6} md={6} lg={4} item>
-            <CategoryItem />
-          </Grid>
+          {listCategories?.map((category: typeCategory) => (
+            <Grid
+              xs={12}
+              sm={6}
+              md={6}
+              lg={4}
+              item
+              key={category._id}
+              onClick={() => router.push(`/wall-painting/${category._id}`)}
+            >
+              <CategoryItem category={category} />
+            </Grid>
+          ))}
         </Grid>
       </Box>
     </Box>

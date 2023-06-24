@@ -48,7 +48,7 @@ const CardItem = ({ url, title }: Props) => {
   return (
     <Box sx={{ cursor: "pointer" }}>
       <WrapImage>
-        <Image src={url} alt="home-product" />
+        <Box component={"img"} src={url as string} alt="home-product" />
         <WrapText>
           <Typography color="white" variant="h6" fontWeight={"bold"}>
             XEM CHI TIẾT

@@ -12,18 +12,38 @@ import {
 import React, { ReactElement } from "react";
 import { HeartIcon, ArrowsPointingOutIcon } from "@heroicons/react/24/solid";
 import ModalZoomImage from "@/src/components/sections/common/ModalZoomImage";
+import { useRouter } from "next/router";
+import { useQuery } from "@tanstack/react-query";
+import { getDetailPaint } from "@/src/lib/api";
 
 const ImagePainting = styled("img")(({ theme }) => ({
   width: "100%",
+  height: "80vh",
   objectFit: "cover",
-  height: "auto",
   borderRadius: theme.spacing(1),
 }));
 
 const DetailPainting = () => {
+  const router = useRouter();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const { data: detailPainting } = useQuery(
+    ["detailPainting", router.query.id],
+    async () => {
+      try {
+        const res = await getDetailPaint(router.query.id as string);
+        return res.data.data;
+      } catch (err) {
+        throw err;
+      }
+    },
+    {
+      enabled: !!router.query.id,
+      keepPreviousData: true,
+    }
+  );
   return (
     <Box py={4}>
       <Container>
@@ -31,15 +51,11 @@ const DetailPainting = () => {
         <Box mt={4}>
           <Grid container spacing={8}>
             <Grid item xs={12} md={8}>
-              <ImagePainting
-                src={
-                  "https://tranhtuongmienbac.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FHomeProduct2.5724f7a4.jpg&w=1920&q=75"
-                }
-              />
+              <ImagePainting src={detailPainting?.url} />
             </Grid>
             <Grid item xs={12} md={4}>
               <Typography variant="h2" fontWeight={"bold"}>
-                Tranh Đồng Quê
+                {detailPainting?.title.toUpperCase()}
               </Typography>
               <Box mt={4}>
                 <Divider />
@@ -81,7 +97,11 @@ const DetailPainting = () => {
           </Grid>
         </Box>
       </Container>
-      <ModalZoomImage open={open} handleClose={handleClose} />
+      <ModalZoomImage
+        image={detailPainting?.url as string}
+        open={open}
+        handleClose={handleClose}
+      />
     </Box>
   );
 };

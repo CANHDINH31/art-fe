@@ -1,19 +1,45 @@
 import { Box, Container, Grid } from "@mui/material";
 import React from "react";
 import HomeTitle from "../common/Title";
-import { listHomeProduct } from "./data";
 import CardItem from "../common/CardItem";
+import { getListPaint } from "@/src/lib/api";
+import { useQuery } from "@tanstack/react-query";
+import { typePaint } from "@/src/lib/types/paint";
+import { useRouter } from "next/router";
 
 const HomeProduct = () => {
+  const router = useRouter();
+  const { data: listPaint } = useQuery(
+    ["listPaint"],
+    async () => {
+      try {
+        const res = await getListPaint({
+          limit: "12",
+        });
+        return res.data.data;
+      } catch (err) {
+        throw err;
+      }
+    },
+    { keepPreviousData: true }
+  );
   return (
     <Box>
       <Container>
         <HomeTitle title="TÁC PHẨM TRANH TƯỜNG MỚI" />
         <Box mt={8}>
           <Grid container spacing={4}>
-            {listHomeProduct.map((homeProduct, index) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-                <CardItem url={homeProduct.src} title={homeProduct.title} />
+            {listPaint?.map((paint: typePaint) => (
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                md={4}
+                lg={3}
+                key={paint?._id}
+                onClick={() => router.push(`/detail-painting/${paint._id}`)}
+              >
+                <CardItem url={paint.url} title={paint?.title.toUpperCase()} />
               </Grid>
             ))}
           </Grid>
