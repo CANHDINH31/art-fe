@@ -14,6 +14,8 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import Loading from "../../../common/Loading";
+import { toast } from "react-toastify";
+import { error } from "console";
 
 type Props = { listPainting: typePaint[] };
 const columns: GridColDef[] = [
@@ -46,7 +48,7 @@ const columns: GridColDef[] = [
           <Link href={`/admin/libraries/categories-management/${param.row.id}`}>
             <PencilSquareIcon width={30} color="#1976d2" />
           </Link>
-          <Link href={`/wall-painting/${param.row.id}`}>
+          <Link href={`/detail-painting/${param.row.id}`}>
             <GlobeAltIcon width={30} color="#2e7d32" />
           </Link>
         </Box>
@@ -65,7 +67,11 @@ const ListPainting = ({ listPainting }: Props) => {
   const { mutate, isLoading } = useMutation({
     mutationFn: removeFromCategory,
     onSuccess: res => {
+      toast.success("Xóa thành công");
       queryClient.invalidateQueries({ queryKey: ["detailCategory"] });
+    },
+    onError: error => {
+      toast.error("Xóa thất bại");
     },
   });
 

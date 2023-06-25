@@ -7,6 +7,7 @@ import { useMutation } from "@tanstack/react-query";
 import React from "react";
 import { useForm } from "react-hook-form";
 import Loading from "../../../common/Loading";
+import { toast } from "react-toastify";
 
 type Props = {
   open: boolean;
@@ -27,6 +28,12 @@ const AddNewPainting = ({ open, handleClose }: Props) => {
       reset();
       queryClient.invalidateQueries({ queryKey: ["listPaint"] });
       handleClose();
+      toast.success("Thêm mới tranh thành công");
+    },
+    onError: (errors: { message?: string }) => {
+      reset();
+      handleClose();
+      toast.error(errors?.message || "Thêm mới tranh thất bại");
     },
   });
 

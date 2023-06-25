@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { typePaint } from "@/src/lib/types/paint";
 import { useRouter } from "next/router";
 import Loading from "../common/Loading";
+import { toast } from "react-toastify";
 
 const HomeProduct = () => {
   const router = useRouter();
@@ -18,7 +19,8 @@ const HomeProduct = () => {
           limit: "12",
         });
         return res.data.data;
-      } catch (err) {
+      } catch (err: any) {
+        toast.error(err?.message || "Có lỗi xảy ra");
         throw err;
       }
     },

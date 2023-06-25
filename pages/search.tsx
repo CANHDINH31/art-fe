@@ -9,6 +9,7 @@ import { Box, Container, Grid } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import React, { ReactElement } from "react";
+import { toast } from "react-toastify";
 
 const Search = () => {
   const router = useRouter();
@@ -20,7 +21,8 @@ const Search = () => {
       try {
         const res = await getListPaint({ title: query as string });
         return res.data.data;
-      } catch (err) {
+      } catch (err: any) {
+        toast.error(err?.message || "Lấy danh sách tranh thất bại");
         throw err;
       }
     },

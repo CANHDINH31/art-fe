@@ -1,11 +1,12 @@
 import AddModal from "@/src/components/common/AddModal";
 import { addToCategory } from "@/src/lib/api";
-import { queryClient } from "@/src/lib/react-query";
 import { typeCategory } from "@/src/lib/types";
 import { MenuItem, Select } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import Loading from "../../../common/Loading";
+import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
 
 type Props = {
   open: boolean;
@@ -20,18 +21,16 @@ const AddPaintToCategory = ({
   listCategory,
   listIdSelected,
 }: Props) => {
+  const { handleSubmit } = useForm();
   const [categoryValue, setCategoryValue] = useState<string>("");
   const { mutate, isLoading } = useMutation({
-    mutationFn: async () => {
-      try {
-        await addToCategory({
-          _id: categoryValue,
-          list_paint_id: listIdSelected,
-        });
-        handleClose();
-      } catch (error) {
-        console.log(error);
-      }
+    mutationFn: addToCategory,
+    onSuccess: res => {
+      toast.success("Thêm thành công");
+      handleClose();
+    },
+    onError: error => {
+      toast.error("Thêm thất bại");
     },
   });
 
@@ -46,7 +45,9 @@ const AddPaintToCategory = ({
       title="Thêm tranh vào danh mục"
       open={open}
       handleClose={handleClose}
-      handleOk={mutate}
+      handleOk={handleSubmit(data =>
+        mutate({ _id: categoryValue, list_paint_id: listIdSelected })
+      )}
     >
       <Select
         size="medium"

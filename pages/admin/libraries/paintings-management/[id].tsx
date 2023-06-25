@@ -8,6 +8,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import React, { ReactElement, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const PaintingManagementDetail = () => {
   const router = useRouter();
@@ -23,7 +24,8 @@ const PaintingManagementDetail = () => {
       try {
         const res = await getDetailPaint(router.query.id as string);
         return res.data.data;
-      } catch (err) {
+      } catch (err: any) {
+        toast.error(err?.message || "Có lỗi xảy ra");
         throw err;
       }
     },
@@ -36,7 +38,11 @@ const PaintingManagementDetail = () => {
   const { mutate: handleUpdatePaint, isLoading: loadingUpdate } = useMutation({
     mutationFn: updatePaint,
     onSuccess: res => {
+      toast.success("Cập nhật thành công");
       queryClient.invalidateQueries({ queryKey: ["detailPainting"] });
+    },
+    onError: errors => {
+      toast.error("Cập nhật thất bại");
     },
   });
 

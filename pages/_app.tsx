@@ -9,6 +9,9 @@ import { AppProps } from "next/app";
 import Head from "next/head";
 import { ReactElement, ReactNode } from "react";
 import "@/src/styles/global.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const clientSideEmotionCache = createEmotionCache();
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -34,6 +37,7 @@ export default function MyApp(props: MyAppProps) {
         <CssBaseline />
         <QueryClientProvider client={queryClient}>
           {getLayout(<Component {...pageProps} />)}
+          <ToastContainer />
         </QueryClientProvider>
       </ThemeProvider>
     </CacheProvider>

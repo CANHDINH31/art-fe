@@ -7,6 +7,7 @@ import { getListCategory } from "@/src/lib/api";
 import { typeCategory } from "@/src/lib/types";
 import { useRouter } from "next/router";
 import Loading from "../common/Loading";
+import { toast } from "react-toastify";
 
 const MainWP = () => {
   const router = useRouter();
@@ -20,7 +21,8 @@ const MainWP = () => {
           id: category._id,
         }));
         return listCategories;
-      } catch (err) {
+      } catch (err: any) {
+        toast.error(err?.message || "Có lỗi xảy ra");
         throw err;
       }
     },

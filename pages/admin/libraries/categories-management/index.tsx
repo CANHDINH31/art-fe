@@ -9,6 +9,7 @@ import { Box, Link } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
 import React, { ReactElement } from "react";
+import { toast } from "react-toastify";
 
 const columns: GridColDef[] = [
   {
@@ -76,7 +77,8 @@ const CategoriesManagement = () => {
           id: category._id,
         }));
         return listCategories;
-      } catch (err) {
+      } catch (err: any) {
+        toast.error(err?.message || "Có lỗi xảy ra");
         throw err;
       }
     },

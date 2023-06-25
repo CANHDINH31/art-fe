@@ -18,6 +18,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import React, { ReactElement, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const WrapTextarea = styled(Box)(({ theme }) => ({
   marginTop: theme.spacing(4),
@@ -67,7 +68,8 @@ const CategoriesManagementDetail = () => {
         );
         setListPainting(listPaint);
         return res.data.data;
-      } catch (err) {
+      } catch (err: any) {
+        toast.error(err?.message || "Có lỗi xảy ra");
         throw err;
       }
     },
@@ -78,7 +80,11 @@ const CategoriesManagementDetail = () => {
     useMutation({
       mutationFn: updateCategory,
       onSuccess: res => {
+        toast.success("Cập nhật thành công");
         queryClient.invalidateQueries({ queryKey: ["detailCategory"] });
+      },
+      onError: errors => {
+        toast.error("Cập nhật thất bại");
       },
     });
 

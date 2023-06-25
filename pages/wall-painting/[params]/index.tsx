@@ -8,6 +8,7 @@ import { Box, Container, Grid } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import React, { ReactElement } from "react";
+import { toast } from "react-toastify";
 
 const WallPaintingCategory = () => {
   const router = useRouter();
@@ -17,7 +18,8 @@ const WallPaintingCategory = () => {
       try {
         const res = await getDetailCategory(router.query.params as string);
         return res.data.data.title;
-      } catch (err) {
+      } catch (err: any) {
+        toast.error(err?.message || "Có lỗi xảy ra");
         throw err;
       }
     },

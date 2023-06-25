@@ -15,6 +15,7 @@ import React, { ChangeEvent, ReactElement, useState } from "react";
 import { detelePaint } from "@/src/lib/api";
 import AddPaintToCategory from "@/src/components/sections/admin/libraries/painting-management/AddPaintToCategory";
 import Loading from "@/src/components/sections/common/Loading";
+import { toast } from "react-toastify";
 
 const columns: GridColDef[] = [
   {
@@ -47,7 +48,7 @@ const columns: GridColDef[] = [
           <Link href={`/admin/libraries/paintings-management/${param.row.id}`}>
             <PencilSquareIcon width={30} color="#1976d2" />
           </Link>
-          <Link href={`/wall-painting/${param.row.id}`}>
+          <Link href={`/detail-painting/${param.row.id}`}>
             <GlobeAltIcon width={30} color="#2e7d32" />
           </Link>
         </Box>
@@ -82,7 +83,8 @@ const PaintingsManagement = () => {
           ...paint,
           id: paint._id,
         }));
-      } catch (err) {
+      } catch (err: any) {
+        toast.error(err?.message || "Có lỗi xảy ra");
         throw err;
       }
     },
@@ -95,7 +97,8 @@ const PaintingsManagement = () => {
       try {
         const res = await getListCategory();
         return res.data.data;
-      } catch (err) {
+      } catch (err: any) {
+        toast.error(err?.message || "Có lỗi xảy ra");
         throw err;
       }
     },
@@ -107,10 +110,11 @@ const PaintingsManagement = () => {
       try {
         await detelePaint(listIdSelected as string[]);
       } catch (error) {
-        console.log(error);
+        toast.error("Xóa thất bại");
       }
     },
     onSuccess: res => {
+      toast.success("Xóa thành công");
       queryClient.invalidateQueries({ queryKey: ["listPaint"] });
       setIsOpenDeletePaint(false);
     },
@@ -133,7 +137,7 @@ const PaintingsManagement = () => {
         setTitle={setTitle}
       />
       <Box mt={4}>
-        {listPaint?.length > 0 && (
+        {listPaint?.length > 0 ? (
           <DataGridCustom
             checkboxSelection
             disableRowSelectionOnClick
@@ -146,6 +150,15 @@ const PaintingsManagement = () => {
             }}
             rowSelectionModel={listIdSelected}
           />
+        ) : (
+          <Box
+            display={"flex"}
+            justifyContent={"center"}
+            alignItems={"center"}
+            mt={10}
+          >
+            <Box src={"/img/png/NoData.png"} component={"img"} />
+          </Box>
         )}
       </Box>
       {Number(totalPage) > 1 && (

@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import { getDetailPaint } from "@/src/lib/api";
 import Loading from "@/src/components/sections/common/Loading";
+import { toast } from "react-toastify";
 
 const ImagePainting = styled("img")(({ theme }) => ({
   width: "100%",
@@ -36,7 +37,8 @@ const DetailPainting = () => {
       try {
         const res = await getDetailPaint(router.query.id as string);
         return res.data.data;
-      } catch (err) {
+      } catch (err: any) {
+        toast.error(err?.message || "Có lỗi xảy ra");
         throw err;
       }
     },

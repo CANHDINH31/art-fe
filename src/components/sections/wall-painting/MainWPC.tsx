@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getDetailCategory } from "@/src/lib/api";
 import { typePaint } from "@/src/lib/types/paint";
 import Loading from "../common/Loading";
+import { toast } from "react-toastify";
 
 const MainWPC = () => {
   const router = useRouter();
@@ -15,7 +16,8 @@ const MainWPC = () => {
       try {
         const res = await getDetailCategory(router.query.params as string);
         return res.data.data;
-      } catch (err) {
+      } catch (err: any) {
+        toast.error(err?.message || "Có lỗi xảy ra");
         throw err;
       }
     },
