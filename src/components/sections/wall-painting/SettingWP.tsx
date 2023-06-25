@@ -16,13 +16,18 @@ import {
 import BreadcrumbsCustom from "../common/BreadcrumbsCustom";
 import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
 import DrawerWP from "./DrawerWP";
+
+type Props = {
+  breadcrumb: string[];
+};
+
 const DrawerCustom = styled(Drawer)(({ theme }) => ({
   "& .MuiPaper-root": {
     background: theme.palette.common.white,
   },
 }));
 
-const SettingWP = () => {
+const SettingWP = ({ breadcrumb }: Props) => {
   const [filter, setFilter] = React.useState("1");
   const [isOpenDrawer, setIsOpenDrawer] = useState<boolean>(false);
 
@@ -37,7 +42,7 @@ const SettingWP = () => {
       sx={{ flexDirection: { xs: "column", md: "row" } }}
     >
       <Box>
-        <BreadcrumbsCustom />
+        <BreadcrumbsCustom breadcrumb={breadcrumb} />
       </Box>
       <Box
         display={{ xs: "flex", md: "none" }}

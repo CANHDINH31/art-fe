@@ -1,9 +1,11 @@
 import { Link, Typography, Breadcrumbs } from "@mui/material";
 import React from "react";
 
-type Props = {};
+type Props = {
+  breadcrumb: string[];
+};
 
-const BreadcrumbsCustom = (props: Props) => {
+const BreadcrumbsCustom = ({ breadcrumb }: Props) => {
   return (
     <Breadcrumbs aria-label="breadcrumb">
       <Link color="inherit" href="/">
@@ -11,9 +13,11 @@ const BreadcrumbsCustom = (props: Props) => {
           TRANG CHỦ
         </Typography>
       </Link>
-      <Typography fontWeight={"bold"} variant="h4">
-        Tranh vẽ tường
-      </Typography>
+      {breadcrumb?.map((title, index) => (
+        <Typography key={index} fontWeight={"bold"} variant="h4">
+          {title}
+        </Typography>
+      ))}
     </Breadcrumbs>
   );
 };

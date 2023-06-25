@@ -47,7 +47,7 @@ const DetailPainting = () => {
   return (
     <Box py={4}>
       <Container>
-        <BreadcrumbsCustom />
+        <BreadcrumbsCustom breadcrumb={["Chi tiết tranh"]} />
         <Box mt={4}>
           <Grid container spacing={8}>
             <Grid item xs={12} md={8}>

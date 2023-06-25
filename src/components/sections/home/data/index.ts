@@ -22,19 +22,6 @@ import HomeNews9 from "../../../../../public/img/jpg/HomeNews9.jpg";
 import HomeNews10 from "../../../../../public/img/jpg/HomeNews10.jpg";
 import HomeNews11 from "../../../../../public/img/jpg/HomeNews11.jpg";
 import HomeNews12 from "../../../../../public/img/png/HomeNews12.png";
-import HomeProduct1 from "../../../../../public/img/jpg/HomeProduct1.jpg";
-import HomeProduct2 from "../../../../../public/img/jpg/HomeProduct2.jpg";
-import HomeProduct3 from "../../../../../public/img/jpg/HomeProduct3.jpg";
-import HomeProduct4 from "../../../../../public/img/jpg/HomeProduct4.jpg";
-import HomeProduct5 from "../../../../../public/img/jpg/HomeProduct5.jpg";
-import HomeProduct6 from "../../../../../public/img/jpg/HomeProduct6.jpg";
-import HomeProduct7 from "../../../../../public/img/jpg/HomeProduct7.jpg";
-import HomeProduct8 from "../../../../../public/img/jpg/HomeProduct8.jpg";
-import HomeProduct9 from "../../../../../public/img/jpg/HomeProduct9.jpg";
-import HomeProduct10 from "../../../../../public/img/jpg/HomeProduct10.jpg";
-import HomeProduct11 from "../../../../../public/img/jpg/HomeProduct11.jpg";
-import HomeProduct12 from "../../../../../public/img/jpg/HomeProduct12.jpg";
-
 import HomeCustomer1 from "../../../../../public/img/jpg/HomeCustomer1.jpg";
 import HomeCustomer2 from "../../../../../public/img/jpg/HomeCustomer2.jpg";
 import HomeCustomer3 from "../../../../../public/img/jpg/HomeCustomer3.jpg";
@@ -141,21 +128,6 @@ export const listHomeNews = [
   HomeNews10,
   HomeNews11,
   HomeNews12,
-];
-
-export const listHomeProduct = [
-  { src: HomeProduct1, title: "Starry Night - Vincent van Gogh" },
-  { src: HomeProduct2, title: "Mona Lisa - Leonardo da Vinci" },
-  { src: HomeProduct3, title: "The Persistence of Memory - Salvador" },
-  { src: HomeProduct4, title: "The Scream - Edvard Munch" },
-  { src: HomeProduct5, title: "The Last Supper - Leonardo da Vinci" },
-  { src: HomeProduct6, title: "Guernica - Pablo Picasso" },
-  { src: HomeProduct7, title: "Water Lilies - Claude Monet" },
-  { src: HomeProduct8, title: "The Kiss - Gustav Klimt" },
-  { src: HomeProduct9, title: "The Kiss - Gustav Klimt" },
-  { src: HomeProduct10, title: "The Hay Wagon - John Constable" },
-  { src: HomeProduct11, title: "The Fighting Temeraire - J. M. W" },
-  { src: HomeProduct12, title: "Sunflowers - Vincent van Gogh" },
 ];
 
 export const listHomeCustomer = [

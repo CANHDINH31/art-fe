@@ -1,7 +1,6 @@
 import { Box, Grid, Pagination, Typography } from "@mui/material";
 import CardItem from "@/src/components/sections/common/CardItem";
 import Title from "@/src/components/sections/common/Title";
-import { listHomeProduct } from "@/src/components/sections/home/data";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import { getDetailCategory } from "@/src/lib/api";
@@ -14,7 +13,6 @@ const MainWPC = () => {
     async () => {
       try {
         const res = await getDetailCategory(router.query.params as string);
-
         return res.data.data;
       } catch (err) {
         throw err;

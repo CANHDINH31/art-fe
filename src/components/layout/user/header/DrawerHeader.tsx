@@ -17,9 +17,15 @@ import { useState } from "react";
 import { HeaderType } from "@/src/lib/config";
 import { useRouter } from "next/router";
 
-const DrawerHeader = () => {
+type Props = {
+  onClose: () => void;
+};
+
+const DrawerHeader = ({ onClose }: Props) => {
   const router = useRouter();
   const [collapseActive, setCollapseActive] = useState<string[]>([]);
+  const [searchValue, setSearchValue] = useState<string>("");
+
   const toggleColappseActive = (collapse: string) => {
     if (!collapseActive.includes(collapse)) {
       setCollapseActive([...collapseActive, collapse]);
@@ -31,19 +37,42 @@ const DrawerHeader = () => {
   const handleClickItem = (type: string, value: string) => {
     if (type === HeaderType[0]) {
       router.push(value);
+      onClose();
     } else {
       toggleColappseActive(value as string);
+    }
+  };
+
+  const navigateSearchPage = () => {
+    if (searchValue) {
+      onClose();
+      router.push(`/search?query=${searchValue}`);
+    }
+  };
+
+  const handleSearch = (e: React.KeyboardEvent<HTMLElement>) => {
+    if (e.key === "Enter" && searchValue) {
+      onClose();
+      navigateSearchPage();
     }
   };
   return (
     <Box width={250} py={8} px={2}>
       <Box display={"flex"} width={"100%"} alignItems={"stretch"}>
-        <Input placeholder="Tìm kiếm ..." size="small" sx={{ width: "100%" }} />
+        <Input
+          placeholder="Tìm kiếm ..."
+          size="small"
+          sx={{ width: "100%" }}
+          value={searchValue}
+          onChange={e => setSearchValue(e.target.value)}
+          onKeyDown={handleSearch}
+        />
         <Box
           bgcolor={"primary.main"}
           display={"flex"}
           alignItems={"center"}
           px={1}
+          onClick={navigateSearchPage}
         >
           <MagnifyingGlassIcon width={18} color="white" />
         </Box>
@@ -55,7 +84,10 @@ const DrawerHeader = () => {
             <ListItemButton>
               <ListItemText
                 primary={"Trang chủ"}
-                onClick={() => router.push("/")}
+                onClick={() => {
+                  router.push("/");
+                  onClose();
+                }}
               />
             </ListItemButton>
           </Box>
@@ -64,7 +96,10 @@ const DrawerHeader = () => {
             <ListItemButton>
               <ListItemText
                 primary={"Giới thiệu"}
-                onClick={() => router.push("/introduce")}
+                onClick={() => {
+                  router.push("/introduce");
+                  onClose();
+                }}
               />
             </ListItemButton>
           </Box>
@@ -73,7 +108,10 @@ const DrawerHeader = () => {
             <ListItemButton>
               <ListItemText
                 primary={"Liên hệ"}
-                onClick={() => router.push("/contact")}
+                onClick={() => {
+                  router.push("/contact");
+                  onClose();
+                }}
               />
             </ListItemButton>
           </Box>

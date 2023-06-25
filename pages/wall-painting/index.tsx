@@ -9,7 +9,7 @@ const WallPaiting = () => {
   return (
     <Box py={4}>
       <Container>
-        <SettingWP />
+        <SettingWP breadcrumb={["Giới thiệu danh mục"]} />
         <Box mt={12}>
           <Grid container spacing={12}>
             <Grid item md={3} display={{ xs: "none", md: "block" }}>

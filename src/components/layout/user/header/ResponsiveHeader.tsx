@@ -41,7 +41,7 @@ const ResponsiveHeader = () => {
         open={isOpenDrawer}
         onClose={() => setIsOpenDrawer(false)}
       >
-        <DrawerHeader />
+        <DrawerHeader onClose={() => setIsOpenDrawer(false)} />
       </DrawerCustom>
     </Paper>
   );

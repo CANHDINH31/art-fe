@@ -9,6 +9,7 @@ import {
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
 import { HeartIcon, UserIcon } from "@heroicons/react/24/solid";
+import { useState } from "react";
 
 const InputWrap = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -34,6 +35,17 @@ const InputWrap = styled(Box)(({ theme }) => ({
 
 const SearchHeader = () => {
   const router = useRouter();
+  const [searchValue, setSearchValue] = useState<string>("");
+  const navigateSearchPage = () => {
+    searchValue && router.push(`/search?query=${searchValue}`);
+    setSearchValue("");
+  };
+
+  const handleSearch = (e: React.KeyboardEvent<HTMLElement>) => {
+    if (e.key === "Enter" && searchValue) {
+      navigateSearchPage();
+    }
+  };
   return (
     <Box py={2} bgcolor={"white"} sx={{ display: { xs: "none", lg: "flex" } }}>
       <Container>
@@ -52,8 +64,17 @@ const SearchHeader = () => {
               sx={{ objectFit: "contain", cursor: "pointer" }}
             />
             <InputWrap>
-              <input placeholder="Tìm kiếm sản phẩm ..." />
-              <MagnifyingGlassIcon width={18} color="black" />
+              <input
+                placeholder="Tìm kiếm sản phẩm (nhập đầy đủ dấu) ..."
+                value={searchValue}
+                onChange={e => setSearchValue(e.target.value)}
+                onKeyDown={handleSearch}
+              />
+              <MagnifyingGlassIcon
+                width={18}
+                color="black"
+                onClick={navigateSearchPage}
+              />
             </InputWrap>
           </Box>
 

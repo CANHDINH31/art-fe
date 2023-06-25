@@ -16,7 +16,7 @@ const ListContact = () => {
         />
       </Link>
 
-      <Link href="tel:09751465880">
+      <Link href="tel:0975146588">
         <Contact
           image={PhoneContact}
           bgFill={"rgb(32, 169, 204,0.7)"}
