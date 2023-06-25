@@ -14,6 +14,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { ChangeEvent, ReactElement, useState } from "react";
 import { detelePaint } from "@/src/lib/api";
 import AddPaintToCategory from "@/src/components/sections/admin/libraries/painting-management/AddPaintToCategory";
+import Loading from "@/src/components/sections/common/Loading";
 
 const columns: GridColDef[] = [
   {
@@ -71,7 +72,7 @@ const PaintingsManagement = () => {
   const [totalPage, setTotalPage] = useState<number>();
   const [title, setTitle] = useState<string>("");
 
-  const { data: listPaint } = useQuery(
+  const { data: listPaint, isLoading: loadingPaint } = useQuery(
     ["listPaint", currentPage, title],
     async () => {
       try {
@@ -88,7 +89,7 @@ const PaintingsManagement = () => {
     { keepPreviousData: true }
   );
 
-  const { data: listCategory } = useQuery(
+  const { data: listCategory, isLoading: loadingCategory } = useQuery(
     ["listCategory"],
     async () => {
       try {
@@ -101,7 +102,7 @@ const PaintingsManagement = () => {
     { keepPreviousData: true }
   );
 
-  const { mutate: deletePaint, isLoading } = useMutation({
+  const { mutate: deletePaint, isLoading: loadingDelete } = useMutation({
     mutationFn: async () => {
       try {
         await detelePaint(listIdSelected as string[]);
@@ -114,6 +115,8 @@ const PaintingsManagement = () => {
       setIsOpenDeletePaint(false);
     },
   });
+
+  if (loadingPaint || loadingCategory || loadingDelete) return <Loading />;
 
   return (
     <Box>

@@ -1,10 +1,11 @@
 import DataGridCustom from "@/src/components/common/DataGridCustom";
 import AdminLayout from "@/src/components/layout/admin";
 import Tab from "@/src/components/sections/admin/libraries/Tab";
+import Loading from "@/src/components/sections/common/Loading";
 import { getListCategory } from "@/src/lib/api";
 import { typeCategory } from "@/src/lib/types";
 import { GlobeAltIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
-import { Box, Link, Typography } from "@mui/material";
+import { Box, Link } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
 import React, { ReactElement } from "react";
@@ -65,7 +66,7 @@ const columns: GridColDef[] = [
 ];
 
 const CategoriesManagement = () => {
-  const { data: listCategories } = useQuery(
+  const { data: listCategories, isLoading } = useQuery(
     ["listCategories"],
     async () => {
       try {
@@ -83,6 +84,8 @@ const CategoriesManagement = () => {
       keepPreviousData: true,
     }
   );
+
+  if (isLoading) return <Loading />;
 
   return (
     <Box overflow={"scroll"}>

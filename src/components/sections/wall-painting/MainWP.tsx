@@ -6,10 +6,11 @@ import { useQuery } from "@tanstack/react-query";
 import { getListCategory } from "@/src/lib/api";
 import { typeCategory } from "@/src/lib/types";
 import { useRouter } from "next/router";
+import Loading from "../common/Loading";
 
 const MainWP = () => {
   const router = useRouter();
-  const { data: listCategories } = useQuery(
+  const { data: listCategories, isLoading } = useQuery(
     ["listCategories"],
     async () => {
       try {
@@ -27,6 +28,8 @@ const MainWP = () => {
       keepPreviousData: true,
     }
   );
+
+  if (isLoading) return <Loading />;
   return (
     <Box>
       <Typography variant="h2" fontWeight={600} textAlign={"center"}>

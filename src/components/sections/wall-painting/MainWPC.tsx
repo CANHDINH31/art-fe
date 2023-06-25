@@ -5,10 +5,11 @@ import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import { getDetailCategory } from "@/src/lib/api";
 import { typePaint } from "@/src/lib/types/paint";
+import Loading from "../common/Loading";
 
 const MainWPC = () => {
   const router = useRouter();
-  const { data: detailCategory } = useQuery(
+  const { data: detailCategory, isLoading } = useQuery(
     ["detailCategory", router.query.params],
     async () => {
       try {
@@ -23,6 +24,8 @@ const MainWPC = () => {
       keepPreviousData: true,
     }
   );
+
+  if (isLoading) return <Loading />;
   return (
     <Box>
       <Typography variant="h2" fontWeight={600} textAlign={"center"}>

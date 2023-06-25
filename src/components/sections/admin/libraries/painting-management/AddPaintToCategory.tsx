@@ -5,6 +5,7 @@ import { typeCategory } from "@/src/lib/types";
 import { MenuItem, Select } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
+import Loading from "../../../common/Loading";
 
 type Props = {
   open: boolean;
@@ -37,6 +38,8 @@ const AddPaintToCategory = ({
   useEffect(() => {
     listCategory?.length > 0 && setCategoryValue(listCategory[0]._id);
   }, [listCategory]);
+
+  if (isLoading) return <Loading />;
 
   return (
     <AddModal

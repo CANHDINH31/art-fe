@@ -6,6 +6,7 @@ import { Box, Stack, TextField } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import React from "react";
 import { useForm } from "react-hook-form";
+import Loading from "../../../common/Loading";
 
 type Props = {
   open: boolean;
@@ -28,6 +29,8 @@ const AddNewPainting = ({ open, handleClose }: Props) => {
       handleClose();
     },
   });
+
+  if (isLoading) return <Loading />;
 
   return (
     <AddModal

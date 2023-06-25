@@ -13,6 +13,7 @@ import { GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import Loading from "../../../common/Loading";
 
 type Props = { listPainting: typePaint[] };
 const columns: GridColDef[] = [
@@ -80,6 +81,8 @@ const ListPainting = ({ listPainting }: Props) => {
     setListIdSelected([]);
     setIsOpenConfirmDelete(false);
   };
+
+  if (isLoading) return <Loading />;
 
   return (
     <>

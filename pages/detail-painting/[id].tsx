@@ -15,6 +15,7 @@ import ModalZoomImage from "@/src/components/sections/common/ModalZoomImage";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import { getDetailPaint } from "@/src/lib/api";
+import Loading from "@/src/components/sections/common/Loading";
 
 const ImagePainting = styled("img")(({ theme }) => ({
   width: "100%",
@@ -29,7 +30,7 @@ const DetailPainting = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const { data: detailPainting } = useQuery(
+  const { data: detailPainting, isLoading } = useQuery(
     ["detailPainting", router.query.id],
     async () => {
       try {
@@ -44,6 +45,8 @@ const DetailPainting = () => {
       keepPreviousData: true,
     }
   );
+
+  if (isLoading) return <Loading />;
   return (
     <Box py={4}>
       <Container>

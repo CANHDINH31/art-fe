@@ -1,5 +1,5 @@
-import DataGridCustom from "@/src/components/common/DataGridCustom";
 import AdminLayout from "@/src/components/layout/admin";
+import Loading from "@/src/components/sections/common/Loading";
 import { getDetailPaint, updatePaint } from "@/src/lib/api";
 import { queryClient } from "@/src/lib/react-query";
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
@@ -17,7 +17,7 @@ const PaintingManagementDetail = () => {
     formState: { errors },
     setValue,
   } = useForm();
-  const { data: detailPainting } = useQuery(
+  const { data: detailPainting, isLoading: loadingList } = useQuery(
     ["detailPainting", router.query.id],
     async () => {
       try {
@@ -33,7 +33,7 @@ const PaintingManagementDetail = () => {
     }
   );
 
-  const { mutate: handleUpdatePaint, isLoading } = useMutation({
+  const { mutate: handleUpdatePaint, isLoading: loadingUpdate } = useMutation({
     mutationFn: updatePaint,
     onSuccess: res => {
       queryClient.invalidateQueries({ queryKey: ["detailPainting"] });
@@ -44,6 +44,8 @@ const PaintingManagementDetail = () => {
     setValue("url", detailPainting?.url);
     setValue("title", detailPainting?.title);
   }, [detailPainting, setValue]);
+
+  if (loadingList || loadingUpdate) return <Loading />;
 
   return (
     <Box>

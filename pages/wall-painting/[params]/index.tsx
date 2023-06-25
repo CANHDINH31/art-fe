@@ -1,4 +1,5 @@
 import MainLayout from "@/src/components/layout/user";
+import Loading from "@/src/components/sections/common/Loading";
 import MainWPC from "@/src/components/sections/wall-painting/MainWPC";
 import SettingWPC from "@/src/components/sections/wall-painting/SettingWPC";
 import SidebarWP from "@/src/components/sections/wall-painting/SidebarWP";
@@ -10,7 +11,7 @@ import React, { ReactElement } from "react";
 
 const WallPaintingCategory = () => {
   const router = useRouter();
-  const { data } = useQuery(
+  const { data, isLoading } = useQuery(
     ["breadcrumbs", router.query.params],
     async () => {
       try {
@@ -25,6 +26,9 @@ const WallPaintingCategory = () => {
       keepPreviousData: true,
     }
   );
+
+  if (isLoading) return <Loading />;
+
   return (
     <Box py={4}>
       <Container>

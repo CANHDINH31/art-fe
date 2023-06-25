@@ -6,10 +6,11 @@ import { getListPaint } from "@/src/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import { typePaint } from "@/src/lib/types/paint";
 import { useRouter } from "next/router";
+import Loading from "../common/Loading";
 
 const HomeProduct = () => {
   const router = useRouter();
-  const { data: listPaint } = useQuery(
+  const { data: listPaint, isLoading } = useQuery(
     ["listPaint"],
     async () => {
       try {
@@ -23,6 +24,7 @@ const HomeProduct = () => {
     },
     { keepPreviousData: true }
   );
+  if (isLoading) return <Loading />;
   return (
     <Box>
       <Container>

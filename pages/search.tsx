@@ -1,5 +1,6 @@
 import MainLayout from "@/src/components/layout/user";
 import CardItem from "@/src/components/sections/common/CardItem";
+import Loading from "@/src/components/sections/common/Loading";
 import SettingWP from "@/src/components/sections/wall-painting/SettingWP";
 import SidebarWP from "@/src/components/sections/wall-painting/SidebarWP";
 import { getListPaint } from "@/src/lib/api";
@@ -13,7 +14,7 @@ const Search = () => {
   const router = useRouter();
   const { query } = router.query;
 
-  const { data: listPaint } = useQuery(
+  const { data: listPaint, isLoading } = useQuery(
     ["listPaint", query],
     async () => {
       try {
@@ -28,6 +29,8 @@ const Search = () => {
       keepPreviousData: true,
     }
   );
+
+  if (isLoading) return <Loading />;
 
   return (
     <Box py={4}>

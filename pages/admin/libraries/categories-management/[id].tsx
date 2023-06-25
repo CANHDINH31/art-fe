@@ -1,5 +1,6 @@
 import AdminLayout from "@/src/components/layout/admin";
 import ListPainting from "@/src/components/sections/admin/libraries/category-management/ListPainting";
+import Loading from "@/src/components/sections/common/Loading";
 import { getDetailCategory, updateCategory } from "@/src/lib/api";
 import { queryClient } from "@/src/lib/react-query";
 import { typePaint } from "@/src/lib/types/paint";
@@ -16,7 +17,7 @@ import {
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import React, { ReactElement, useEffect, useState } from "react";
-import { FieldValues, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 const WrapTextarea = styled(Box)(({ theme }) => ({
   marginTop: theme.spacing(4),
@@ -53,7 +54,7 @@ const CategoriesManagementDetail = () => {
     setValue,
   } = useForm();
 
-  const { data: detailCategory } = useQuery(
+  const { data: detailCategory, isLoading: loadingList } = useQuery(
     ["detailCategory"],
     async () => {
       try {
@@ -73,17 +74,20 @@ const CategoriesManagementDetail = () => {
     { enabled: !!router.query.id }
   );
 
-  const { mutate: handleUpdateCategory, isLoading } = useMutation({
-    mutationFn: updateCategory,
-    onSuccess: res => {
-      queryClient.invalidateQueries({ queryKey: ["detailCategory"] });
-    },
-  });
+  const { mutate: handleUpdateCategory, isLoading: loadingUpdate } =
+    useMutation({
+      mutationFn: updateCategory,
+      onSuccess: res => {
+        queryClient.invalidateQueries({ queryKey: ["detailCategory"] });
+      },
+    });
 
   useEffect(() => {
     setValue("url", detailCategory?.url);
     setValue("description", detailCategory?.description);
   }, [detailCategory, setValue]);
+
+  if (loadingList || loadingUpdate) return <Loading />;
 
   return (
     <Box>
