@@ -52,7 +52,7 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
-  const { mutate: registerMutate, isLoading: loadingUpdate } = useMutation({
+  const { mutate: registerMutate, isLoading } = useMutation({
     mutationFn: registerAccount,
     onSuccess: res => {
       if (res.data.status == 400) {
@@ -196,6 +196,7 @@ const Register = () => {
             size="medium"
             color="secondary"
             type="submit"
+            disabled={isLoading ? true : false}
           >
             Đăng kí
           </Button>

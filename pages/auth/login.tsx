@@ -1,58 +1,140 @@
 import AuthLayout from "@/src/components/layout/auth";
 import { EnvelopeIcon, KeyIcon } from "@heroicons/react/24/solid";
-import { Box, Button, Divider, Typography, styled } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  InputAdornment,
+  TextField,
+  Typography,
+  styled,
+} from "@mui/material";
 import { useRouter } from "next/router";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
+import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+import { signInAccount } from "@/src/lib/api";
+import { toast } from "react-toastify";
+import useAuth from "@/src/lib/hooks/useAuth";
 
-const WrapInput = styled(Box)(({ theme }) => ({
-  position: "relative",
-  svg: {
-    position: "absolute",
-    top: "50%",
-    transform: "translateY(-50%)",
-    left: 10,
-    width: 20,
+const TextFieldCustom = styled(TextField)(({ theme }) => ({
+  "& .MuiInputBase-root": {
+    height: 45,
+    border: "1px solid #00000020",
+  },
+  "& input": {
+    padding: theme.spacing(0, 2),
+    height: "100%",
     color: theme.palette.primary.main,
+    "&::placeholder": {
+      color: theme.palette.primary.main,
+    },
+  },
+  "& .MuiInputAdornment-root": {
+    cursor: "pointer",
   },
 }));
-
-const InputCustom = styled("input")(({ theme }) => ({
-  width: "100%",
-  height: 45,
-  outline: "none",
-  paddingLeft: theme.spacing(10),
-  borderRadius: 5,
-  border: "1px solid #00000020",
-  transition: "all .15s ease-in-out",
-  fontSize: "1rem",
-  color: theme.palette.primary.main,
-  "&:focus": {
-    border: "1px solid #007bff",
-    boxShadow: "0 0 0 0.2rem rgba(0,123,255,.25)",
-  },
-  "&::placeholder": {
-    color: theme.palette.primary.main,
-  },
-}));
-
 const Login = () => {
   const router = useRouter();
+  const { handleLogin } = useAuth();
+  const [isHidePassword, setIsHidePassword] = useState<boolean>(true);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  const { mutate: loginMutate, isLoading } = useMutation({
+    mutationFn: signInAccount,
+    onSuccess: res => {
+      if (res.data.status == 400) {
+        toast.warn(res.data.message);
+      } else {
+        reset();
+        handleLogin(res.data);
+      }
+    },
+    onError: (errors: any) => {
+      toast.error(errors?.response?.data?.message);
+    },
+  });
   return (
     <Box>
       <Typography variant="h2" textAlign={"center"}>
         Đăng nhập tài khoản
       </Typography>
-      <Box mt={4}>
-        <WrapInput>
-          <EnvelopeIcon />
-          <InputCustom placeholder="Nhập email " />
-        </WrapInput>
-        <WrapInput mt={5}>
-          <KeyIcon />
-          <InputCustom placeholder="Nhập mật khẩu " type="password" />
-        </WrapInput>
-        <Box mt={5}>
-          <Button fullWidth variant="contained" size="medium" color="secondary">
+      <Box
+        mt={3}
+        component={"form"}
+        onSubmit={handleSubmit(data =>
+          loginMutate(data as { email: string; password: string })
+        )}
+      >
+        <Box>
+          <TextFieldCustom
+            fullWidth
+            error={errors.email ? true : false}
+            placeholder="Nhập email"
+            {...register("email", {
+              required: "Trường này không được để trống",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: "Email không hợp lệ",
+              },
+            })}
+            helperText={errors?.email?.message?.toString()}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <EnvelopeIcon height={20} color="#446084" />
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Box>
+        <Box mt={3}>
+          <TextFieldCustom
+            fullWidth
+            type={isHidePassword ? "password" : " text"}
+            error={errors.password ? true : false}
+            placeholder="Nhập mật khẩu"
+            {...register("password", {
+              required: "Trường này không được để trống",
+              minLength: { value: 6, message: "Mật khẩu tối thiểu 6 kí tự" },
+            })}
+            helperText={errors?.password?.message?.toString()}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <KeyIcon height={20} color="#446084" />
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment
+                  position="start"
+                  onClick={() => setIsHidePassword(!isHidePassword)}
+                >
+                  {!isHidePassword ? (
+                    <EyeIcon height={20} color="#446084" />
+                  ) : (
+                    <EyeSlashIcon height={20} color="#446084" />
+                  )}
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Box>
+        <Box mt={3}>
+          <Button
+            fullWidth
+            variant="contained"
+            size="medium"
+            color="secondary"
+            type="submit"
+            disabled={isLoading ? true : false}
+          >
             Đăng nhập
           </Button>
         </Box>

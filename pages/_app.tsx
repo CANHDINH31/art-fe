@@ -11,6 +11,7 @@ import { ReactElement, ReactNode } from "react";
 import "@/src/styles/global.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { AuthProvider } from "@/src/lib/context";
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -33,13 +34,15 @@ export default function MyApp(props: MyAppProps) {
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <QueryClientProvider client={queryClient}>
-          {getLayout(<Component {...pageProps} />)}
-          <ToastContainer />
-        </QueryClientProvider>
-      </ThemeProvider>
+      <AuthProvider>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <QueryClientProvider client={queryClient}>
+            {getLayout(<Component {...pageProps} />)}
+            <ToastContainer />
+          </QueryClientProvider>
+        </ThemeProvider>
+      </AuthProvider>
     </CacheProvider>
   );
 }
