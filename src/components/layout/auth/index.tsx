@@ -28,7 +28,6 @@ const AuthLayout = ({ children, title, src }: Props) => {
     if (currentUser) router.push("/");
   }, [currentUser, router]);
 
-  console.log(currentUser);
   return (
     <>
       <Head>
