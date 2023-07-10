@@ -1,6 +1,13 @@
+import useAuth from "@/src/lib/hooks/useAuth";
 import { Box, Grid, Paper } from "@mui/material";
 import Head from "next/head";
-import React, { ReactElement } from "react";
+import { useRouter } from "next/router";
+import React, {
+  ReactElement,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from "react";
 
 type Props = {
   children: ReactElement;
@@ -9,6 +16,19 @@ type Props = {
 };
 
 const AuthLayout = ({ children, title, src }: Props) => {
+  const router = useRouter();
+  const { user } = useAuth();
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    if (user) setCurrentUser(user);
+  }, [user]);
+
+  useEffect(() => {
+    if (currentUser) router.push("/");
+  }, [currentUser, router]);
+
+  console.log(currentUser);
   return (
     <>
       <Head>

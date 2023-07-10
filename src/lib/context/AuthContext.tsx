@@ -46,30 +46,22 @@ type Action =
 const reducer = (state: AuthType, action: Action): AuthType => {
   switch (action.type) {
     case "INITIALIZE": {
-      const {
-        accessToken,
-        // user,
-        refreshToken,
-      } = action.payload;
+      const { accessToken, user, refreshToken } = action.payload;
       return {
         ...state,
         accessToken,
         refreshToken,
-        // user,
+        user,
       };
     }
 
     case "LOGIN": {
-      const {
-        accessToken,
-        // user,
-        refreshToken,
-      } = action.payload;
+      const { accessToken, user, refreshToken } = action.payload;
       return {
         ...state,
         accessToken,
         refreshToken,
-        // user,
+        user,
       };
     }
 
@@ -90,35 +82,11 @@ type AuthProviderProps = {
 function AuthProvider({ children }: AuthProviderProps) {
   const router = useRouter();
   const [state, dispatch] = useReducer(reducer, initialState);
-
-  const initialize = async () => {
-    try {
-      const accessToken = localStorage.getItem("access_token");
-      const refreshToken = localStorage.getItem("refresh_token");
-      if (accessToken && isValidToken(refreshToken)) {
-        const user = await getMe();
-        dispatch({
-          type: "INITIALIZE",
-          payload: {
-            accessToken: accessToken,
-            refreshToken: refreshToken as string,
-            user: user.data,
-          },
-        });
-      } else {
-        handleLogout();
-      }
-    } catch (err) {
-      handleLogout();
-    }
-  };
-
   const handleLogout = async () => {
     setToken("");
     setRefreshToken("");
     dispatch({ type: "LOGOUT" });
   };
-
   const handleLogin = async (payload: AuthType) => {
     setToken(payload.accessToken);
     setRefreshToken(payload.refreshToken);
@@ -139,8 +107,29 @@ function AuthProvider({ children }: AuthProviderProps) {
   };
 
   useEffect(() => {
+    const initialize = async () => {
+      try {
+        const accessToken = localStorage.getItem("access_token");
+        const refreshToken = localStorage.getItem("refresh_token");
+        if (accessToken && isValidToken(refreshToken)) {
+          const user = await getMe();
+          dispatch({
+            type: "INITIALIZE",
+            payload: {
+              accessToken: accessToken,
+              refreshToken: refreshToken as string,
+              user: user.data,
+            },
+          });
+        } else {
+          handleLogout();
+        }
+      } catch (err) {
+        handleLogout();
+      }
+    };
     initialize();
-  }, []);
+  }, [router]);
 
   return (
     <AuthContext.Provider value={authContextValue}>

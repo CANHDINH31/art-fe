@@ -3,13 +3,19 @@ import {
   Box,
   Container,
   Divider,
+  Popover,
   Typography,
   styled,
 } from "@mui/material";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowRightOnRectangleIcon,
+  Cog6ToothIcon,
+  MagnifyingGlassIcon,
+} from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
 import { HeartIcon, UserIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
+import useAuth from "@/src/lib/hooks/useAuth";
 
 const InputWrap = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -35,7 +41,10 @@ const InputWrap = styled(Box)(({ theme }) => ({
 
 const SearchHeader = () => {
   const router = useRouter();
+  const { user, handleLogout } = useAuth();
   const [searchValue, setSearchValue] = useState<string>("");
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
   const navigateSearchPage = () => {
     searchValue && router.push(`/search?query=${searchValue}`);
     setSearchValue("");
@@ -46,6 +55,7 @@ const SearchHeader = () => {
       navigateSearchPage();
     }
   };
+
   return (
     <Box py={2} bgcolor={"white"} sx={{ display: { xs: "none", lg: "flex" } }}>
       <Container>
@@ -89,17 +99,78 @@ const SearchHeader = () => {
               </Typography>
             </Box>
             <Divider orientation="vertical" flexItem />
-            <Box
-              display={"flex"}
-              alignItems={"center"}
-              gap={2}
-              onClick={() => router.push("/auth/login")}
-            >
-              <UserIcon height={30} color="#446084" />
-              <Typography variant="h5" whiteSpace={"nowrap"} fontWeight={550}>
-                ĐĂNG NHẬP
-              </Typography>
-            </Box>
+            {user ? (
+              <>
+                <Box
+                  display={"flex"}
+                  alignItems={"center"}
+                  gap={2}
+                  onClick={(event: any) => setAnchorEl(event.currentTarget)}
+                >
+                  <UserIcon height={30} color="#446084" />
+                  <Typography
+                    variant="h5"
+                    whiteSpace={"nowrap"}
+                    fontWeight={550}
+                  >
+                    {user.name}
+                  </Typography>
+                </Box>
+                <Popover
+                  sx={{ marginTop: 2 }}
+                  open={Boolean(anchorEl)}
+                  anchorEl={anchorEl}
+                  onClose={() => setAnchorEl(null)}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left",
+                  }}
+                >
+                  <Box sx={{ cursor: "pointer", minWidth: 200 }}>
+                    {user?.isAdmin && (
+                      <>
+                        <Box
+                          display={"flex"}
+                          alignItems={"center"}
+                          px={3}
+                          py={2}
+                          gap={4}
+                          onClick={() => router.push("/admin")}
+                        >
+                          <Cog6ToothIcon height={24} color="#446084" />
+                          <Typography>Quản trị viên</Typography>
+                        </Box>
+                        <Divider />
+                      </>
+                    )}
+
+                    <Box
+                      display={"flex"}
+                      alignItems={"center"}
+                      px={3}
+                      py={2}
+                      gap={4}
+                      onClick={handleLogout}
+                    >
+                      <ArrowRightOnRectangleIcon height={24} color="#446084" />
+                      <Typography>Đăng xuất</Typography>
+                    </Box>
+                  </Box>
+                </Popover>
+              </>
+            ) : (
+              <Box
+                display={"flex"}
+                alignItems={"center"}
+                gap={2}
+                onClick={() => router.push("/auth/login")}
+              >
+                <UserIcon height={30} color="#446084" />
+                <Typography variant="h5" whiteSpace={"nowrap"} fontWeight={550}>
+                  ĐĂNG NHẬP
+                </Typography>
+              </Box>
+            )}
           </Box>
         </Box>
       </Container>

@@ -1,8 +1,10 @@
 import { Box, Divider, Paper, Stack, Typography } from "@mui/material";
 import Head from "next/head";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import HeaderAdmin from "./HeaderAdmin";
 import SideBar from "./SideBar";
+import { useRouter } from "next/router";
+import useAuth from "@/src/lib/hooks/useAuth";
 
 type Props = {
   children: ReactElement;
@@ -11,6 +13,27 @@ type Props = {
 };
 
 const AdminLayout = ({ children, title, page }: Props) => {
+  const router = useRouter();
+  const { user } = useAuth();
+  const [currentUser, setCurrentUser] = useState<{ isAdmin?: boolean }>({});
+  const [isCurrentUserSet, setIsCurrentUserSet] = useState(false);
+
+  useEffect(() => {
+    if (user) setCurrentUser(user);
+  }, [user]);
+
+  useEffect(() => {
+    if (isCurrentUserSet && !currentUser?.isAdmin) {
+      router.push("/");
+    }
+  }, [currentUser, isCurrentUserSet, router]);
+
+  useEffect(() => {
+    if (Object.keys(currentUser).length > 0) {
+      setIsCurrentUserSet(true);
+    }
+  }, [currentUser]);
+
   return (
     <>
       <Box display={{ xs: "none", lg: "block" }}>
