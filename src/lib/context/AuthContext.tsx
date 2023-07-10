@@ -3,6 +3,7 @@ import React, { createContext, useEffect, useReducer } from "react";
 import { toast } from "react-toastify";
 import { isValidToken, setRefreshToken, setToken } from "../utils/jwt";
 import { getMe } from "../api";
+import Cookies from "js-cookie";
 
 type AuthType = {
   accessToken: string | null;
@@ -109,9 +110,9 @@ function AuthProvider({ children }: AuthProviderProps) {
   useEffect(() => {
     const initialize = async () => {
       try {
-        const accessToken = localStorage.getItem("access_token");
-        const refreshToken = localStorage.getItem("refresh_token");
-        if (accessToken && isValidToken(refreshToken)) {
+        const accessToken = Cookies.get("access_token");
+        const refreshToken = Cookies.get("refresh_token");
+        if (accessToken && isValidToken(refreshToken as string)) {
           const user = await getMe();
           dispatch({
             type: "INITIALIZE",

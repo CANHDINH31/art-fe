@@ -1,4 +1,6 @@
 import axios, { AxiosRequestConfig } from "axios";
+import Cookies from "js-cookie";
+
 let baseURL;
 
 if (process.env.NODE_ENV === "production") {
@@ -8,7 +10,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 function authRequestInterceptor(config: AxiosRequestConfig) {
-  const _token = localStorage.getItem("access_token");
+  const _token = Cookies.get("access_token");
 
   if (_token && _token !== "undefined" && config.headers) {
     config.headers.authorization = _token;

@@ -1,6 +1,7 @@
 import jwtDecode from "jwt-decode";
 import { request } from "./request";
 import { getRefreshToken } from "../api";
+import Cookies from "js-cookie";
 
 const handleTokenExpired = (exp: number) => {
   let expiredTimer;
@@ -14,7 +15,7 @@ const handleTokenExpired = (exp: number) => {
 
 const handleRefreshToken = async () => {
   try {
-    const refreshToken = await localStorage.getItem("refresh_token");
+    const refreshToken = await Cookies.get("refresh_token");
     if (!refreshToken) return;
     const { data } = await getRefreshToken({ refreshToken });
     const { access_token, refresh_token } = data || {};
@@ -25,21 +26,21 @@ const handleRefreshToken = async () => {
 
 const setToken = (accessToken: string | null) => {
   if (accessToken) {
-    window.localStorage.setItem("access_token", accessToken);
+    Cookies.set("access_token", accessToken);
     request.defaults.headers.common.authorization = `Bearer ${accessToken}`;
     const { exp }: { exp: number } = jwtDecode(accessToken);
     handleTokenExpired(exp);
   } else {
-    window.localStorage.removeItem("access_token");
+    Cookies.remove("access_token");
     delete request.defaults.headers.common.authorization;
   }
 };
 
 const setRefreshToken = (refreshToken: string | null) => {
   if (refreshToken) {
-    window.localStorage.setItem("refresh_token", refreshToken);
+    Cookies.set("refresh_token", refreshToken);
   } else {
-    window.localStorage.removeItem("refresh_token");
+    Cookies.remove("refresh_token");
   }
 };
 
