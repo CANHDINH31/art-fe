@@ -56,7 +56,6 @@ const reducer = (state: AuthType, action: Action): AuthType => {
     }
 
     case "LOGIN": {
-      console.log("hello");
       const { accessToken, user, refreshToken } = action.payload;
       return {
         ...state,

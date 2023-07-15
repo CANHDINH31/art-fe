@@ -24,6 +24,7 @@ const handleRefreshToken = async () => {
 };
 
 const setToken = (accessToken: string | null) => {
+  console.log("set-token");
   if (accessToken) {
     window.localStorage.setItem("access_token", accessToken);
     request.defaults.headers.common.authorization = `Bearer ${accessToken}`;
@@ -36,6 +37,7 @@ const setToken = (accessToken: string | null) => {
 };
 
 const setRefreshToken = (refreshToken: string | null) => {
+  console.log("set-re-token");
   if (refreshToken) {
     window.localStorage.setItem("refresh_token", refreshToken);
   } else {
