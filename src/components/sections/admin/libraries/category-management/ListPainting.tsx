@@ -15,7 +15,6 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import Loading from "../../../common/Loading";
 import { toast } from "react-toastify";
-import { error } from "console";
 
 type Props = { listPainting: typePaint[] };
 const columns: GridColDef[] = [
