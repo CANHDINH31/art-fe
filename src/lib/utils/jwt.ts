@@ -24,20 +24,21 @@ const handleRefreshToken = async () => {
 };
 
 const setToken = (accessToken: string | null) => {
-  console.log("set-token");
+  console.log("token", accessToken);
   if (accessToken) {
+    console.log("set token");
     window.localStorage.setItem("access_token", accessToken);
     request.defaults.headers.common.authorization = `Bearer ${accessToken}`;
     const { exp }: { exp: number } = jwtDecode(accessToken);
     handleTokenExpired(exp);
   } else {
+    console.log("clear token");
     window.localStorage.removeItem("access_token");
     delete request.defaults.headers.common.authorization;
   }
 };
 
 const setRefreshToken = (refreshToken: string | null) => {
-  console.log("set-re-token");
   if (refreshToken) {
     window.localStorage.setItem("refresh_token", refreshToken);
   } else {
