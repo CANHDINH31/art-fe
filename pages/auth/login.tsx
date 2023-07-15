@@ -52,8 +52,7 @@ const Login = () => {
       if (res.data.status == 400) {
         toast.warn(res.data.message);
       } else {
-        reset();
-        handleLogin(res.data);
+        res.data && handleLogin(res.data);
       }
     },
     onError: (errors: any) => {
