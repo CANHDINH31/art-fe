@@ -10,13 +10,14 @@ import {
   styled,
 } from "@mui/material";
 import { useRouter } from "next/router";
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-import { signInAccount } from "@/src/lib/api";
+import { loginByPlatform, signInAccount } from "@/src/lib/api";
 import { toast } from "react-toastify";
 import useAuth from "@/src/lib/hooks/useAuth";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 const TextFieldCustom = styled(TextField)(({ theme }) => ({
   "& .MuiInputBase-root": {
@@ -38,15 +39,16 @@ const TextFieldCustom = styled(TextField)(({ theme }) => ({
 const Login = () => {
   const router = useRouter();
   const { handleLogin } = useAuth();
+  const { data, status } = useSession();
   const [isHidePassword, setIsHidePassword] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm();
 
-  const { mutate: loginMutate, isLoading } = useMutation({
+  const { mutate: loginMutate, isLoading: loginLoading } = useMutation({
     mutationFn: signInAccount,
     onSuccess: res => {
       if (res.data.status == 400) {
@@ -59,6 +61,24 @@ const Login = () => {
       toast.error(errors?.response?.data?.message);
     },
   });
+
+  const loginByFlatForm = async () => {
+    setIsLoading(true);
+    try {
+      const res = await loginByPlatform(
+        data?.user?.provider as string,
+        data?.user?.id_token as string
+      );
+      handleLogin(res.data);
+    } catch (error) {}
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    if (!data) return;
+    loginByFlatForm();
+  }, [data]);
+
   return (
     <Box>
       <Typography variant="h2" textAlign={"center"}>
@@ -132,7 +152,7 @@ const Login = () => {
             size="medium"
             color="secondary"
             type="submit"
-            disabled={isLoading ? true : false}
+            disabled={loginLoading ? true : false}
           >
             Đăng nhập
           </Button>
@@ -142,10 +162,20 @@ const Login = () => {
         Hoặc đăng nhập
       </Typography>
       <Box display={"flex"} gap={4} mt={5}>
-        <Button fullWidth variant="contained">
+        <Button
+          fullWidth
+          variant="contained"
+          disabled={status === "loading" || isLoading}
+        >
           Facebook
         </Button>
-        <Button fullWidth variant="contained" color="error">
+        <Button
+          fullWidth
+          variant="contained"
+          color="error"
+          disabled={status === "loading" || isLoading}
+          onClick={() => signIn("google")}
+        >
           Google
         </Button>
       </Box>

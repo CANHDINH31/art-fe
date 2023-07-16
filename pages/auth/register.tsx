@@ -58,7 +58,7 @@ const Register = () => {
       if (res.data.status == 400) {
         toast.warn(res.data.message);
       } else {
-        toast.success(res.data.message);
+        toast.success("Đăng kí tài khoản thành công");
         reset();
         router.push("/auth/login");
       }

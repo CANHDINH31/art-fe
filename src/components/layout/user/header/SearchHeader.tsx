@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 import { HeartIcon, UserIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
 import useAuth from "@/src/lib/hooks/useAuth";
+import { signOut } from "next-auth/react";
 
 const InputWrap = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -150,7 +151,10 @@ const SearchHeader = () => {
                       px={3}
                       py={2}
                       gap={4}
-                      onClick={handleLogout}
+                      onClick={() => {
+                        signOut();
+                        handleLogout();
+                      }}
                     >
                       <ArrowRightOnRectangleIcon height={24} color="#446084" />
                       <Typography>Đăng xuất</Typography>

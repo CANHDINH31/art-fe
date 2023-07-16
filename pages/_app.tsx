@@ -12,6 +12,7 @@ import "@/src/styles/global.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthProvider } from "@/src/lib/context";
+import { SessionProvider } from "next-auth/react";
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -34,15 +35,17 @@ export default function MyApp(props: MyAppProps) {
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
-      <AuthProvider>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <QueryClientProvider client={queryClient}>
-            {getLayout(<Component {...pageProps} />)}
-            <ToastContainer />
-          </QueryClientProvider>
-        </ThemeProvider>
-      </AuthProvider>
+      <SessionProvider session={pageProps.session}>
+        <AuthProvider>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <QueryClientProvider client={queryClient}>
+              {getLayout(<Component {...pageProps} />)}
+              <ToastContainer />
+            </QueryClientProvider>
+          </ThemeProvider>
+        </AuthProvider>
+      </SessionProvider>
     </CacheProvider>
   );
 }

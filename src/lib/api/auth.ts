@@ -15,4 +15,13 @@ const getRefreshToken = (args: typeRefreshToken) =>
 
 const getMe = () => request.get("/api/auth/me");
 
-export { registerAccount, signInAccount, getRefreshToken, getMe };
+const loginByPlatform = (method: string, token: string) =>
+  request.post("api/auth/" + method, { token });
+
+export {
+  registerAccount,
+  signInAccount,
+  getRefreshToken,
+  getMe,
+  loginByPlatform,
+};
