@@ -121,7 +121,7 @@ const SearchHeader = () => {
                     whiteSpace={"nowrap"}
                     fontWeight={550}
                   >
-                    {user.name}
+                    {user?.name}
                   </Typography>
                 </Box>
                 <Popover

@@ -1,11 +1,13 @@
 import {
   Box,
+  Button,
   Collapse,
   Divider,
   Input,
   List,
   ListItemButton,
   ListItemText,
+  Typography,
 } from "@mui/material";
 import {
   MagnifyingGlassIcon,
@@ -16,6 +18,8 @@ import { listMenu } from "./data";
 import { useState } from "react";
 import { HeaderType } from "@/src/lib/config";
 import { useRouter } from "next/router";
+import useAuth from "@/src/lib/hooks/useAuth";
+import { signOut } from "next-auth/react";
 
 type Props = {
   onClose: () => void;
@@ -23,6 +27,7 @@ type Props = {
 
 const DrawerHeader = ({ onClose }: Props) => {
   const router = useRouter();
+  const { user, handleLogout } = useAuth();
   const [collapseActive, setCollapseActive] = useState<string[]>([]);
   const [searchValue, setSearchValue] = useState<string>("");
 
@@ -77,7 +82,45 @@ const DrawerHeader = ({ onClose }: Props) => {
           <MagnifyingGlassIcon width={18} color="white" />
         </Box>
       </Box>
+
       <Box mt={8}>
+        <Box display={"flex"} gap={2} alignItems={"center"}>
+          {user ? (
+            <>
+              <Box
+                component={"img"}
+                src={user?.image || "img/jpg/default-avatar.jpg"}
+                width={30}
+                height={30}
+                borderRadius={"50%"}
+                sx={{ objectFit: "cover" }}
+              />
+              <Typography variant="h5" whiteSpace={"nowrap"} fontWeight={550}>
+                {user?.name}
+              </Typography>
+            </>
+          ) : (
+            <>
+              <Button
+                variant="contained"
+                size="small"
+                fullWidth
+                onClick={() => router.push("/auth/login")}
+              >
+                Đăng nhập
+              </Button>
+              <Button
+                variant="contained"
+                color="error"
+                size="small"
+                fullWidth
+                onClick={() => router.push("/auth/register")}
+              >
+                Đăng kí
+              </Button>
+            </>
+          )}
+        </Box>
         <List component="nav" aria-labelledby="nested-list-subheader">
           <Box>
             <Divider />
@@ -158,6 +201,19 @@ const DrawerHeader = ({ onClose }: Props) => {
             </Box>
           ))}
         </List>
+        {user && (
+          <Button
+            variant="outlined"
+            color="error"
+            fullWidth
+            onClick={() => {
+              signOut();
+              handleLogout();
+            }}
+          >
+            Đăng xuất
+          </Button>
+        )}
       </Box>
     </Box>
   );

@@ -3,6 +3,7 @@ import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import { styled } from "@mui/system";
 import { useRouter } from "next/router";
 import { listMenuSidebar } from "./data";
+import useAuth from "@/src/lib/hooks/useAuth";
 
 const BackButton = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -48,6 +49,9 @@ const MenuItem = styled(Box)(({ theme }) => ({
 
 const SideBar = () => {
   const { push, pathname } = useRouter();
+  const { user } = useAuth();
+
+  console.log(user);
 
   return (
     <Stack height={"100%"} justifyContent={"space-between"}>
@@ -61,9 +65,9 @@ const SideBar = () => {
           <Box display={"flex"} mt={8} alignItems={"center"} gap={2}>
             <Avatar
               alt="Remy Sharp"
-              src="https://mui.com/static/images/avatar/1.jpg"
+              src={user?.image || "/img/jpg/default-avatar.jpg"}
             />
-            <Typography fontWeight={600}>@Mỹ thuật Đông Anh</Typography>
+            <Typography fontWeight={600}>@{user?.name}</Typography>
           </Box>
         </Box>
 
