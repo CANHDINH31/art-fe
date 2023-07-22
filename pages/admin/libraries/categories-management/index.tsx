@@ -5,7 +5,7 @@ import Loading from "@/src/components/sections/common/Loading";
 import { getListCategory } from "@/src/lib/api";
 import { typeCategory } from "@/src/lib/types";
 import { GlobeAltIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
-import { Box, Link } from "@mui/material";
+import { Box, Link, Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
 import React, { ReactElement } from "react";
@@ -34,7 +34,18 @@ const columns: GridColDef[] = [
     headerName: "Mô tả",
     width: 400,
   },
-  { field: "view", headerName: "Số lượt xem", width: 150 },
+  {
+    field: "view",
+    headerName: "Số lượt xem",
+    width: 150,
+    renderCell(params) {
+      const totalViews = params?.row?.list_paint_id?.reduce(
+        (acc: number, post: { views: number }) => acc + post.views,
+        0
+      );
+      return <span>{totalViews}</span>;
+    },
+  },
   {
     field: "count",
     headerName: "Số tác phẩm",

@@ -21,4 +21,13 @@ const updatePaint = (payload: { _id: string; url?: string; title?: string }) =>
 const detelePaint = (payload: string[]) =>
   request.post("/api/paints/delete", { listIdDelete: payload });
 
-export { getListPaint, addNewPaint, detelePaint, getDetailPaint, updatePaint };
+const addView = (id: string) => request.put("/api/paints/" + id);
+
+export {
+  getListPaint,
+  addNewPaint,
+  detelePaint,
+  getDetailPaint,
+  updatePaint,
+  addView,
+};

@@ -9,12 +9,12 @@ import {
   Typography,
   styled,
 } from "@mui/material";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect } from "react";
 import { HeartIcon, ArrowsPointingOutIcon } from "@heroicons/react/24/solid";
 import ModalZoomImage from "@/src/components/sections/common/ModalZoomImage";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
-import { getDetailPaint } from "@/src/lib/api";
+import { addView, getDetailPaint } from "@/src/lib/api";
 import Loading from "@/src/components/sections/common/Loading";
 import { toast } from "react-toastify";
 
@@ -47,6 +47,17 @@ const DetailPainting = () => {
       keepPreviousData: true,
     }
   );
+
+  useEffect(() => {
+    const addViewForPaint = async () => {
+      try {
+        await addView(router.query.id as string);
+      } catch (error) {
+        throw error;
+      }
+    };
+    router.query.id && addViewForPaint();
+  }, [router.query.id]);
 
   if (isLoading) return <Loading />;
   return (

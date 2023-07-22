@@ -35,7 +35,7 @@ const columns: GridColDef[] = [
     },
   },
   { field: "title", headerName: "Tên", width: 250 },
-  { field: "view", headerName: "Số lượt xem", width: 250 },
+  { field: "views", headerName: "Số lượt xem", width: 250 },
   {
     field: "action",
     headerName: "Hành động",
