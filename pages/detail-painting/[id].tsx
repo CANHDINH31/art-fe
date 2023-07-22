@@ -64,9 +64,11 @@ const DetailPainting = () => {
               </Typography>
               <Box mt={4}>
                 <Divider />
-                <Typography py={2}>Mã: 31012001</Typography>
+                <Typography py={2}>Mã: {detailPainting?._id}</Typography>
                 <Divider />
-                <Typography py={2}>Số lượt xem: 40096</Typography>
+                <Typography py={2}>
+                  Số lượt xem: {detailPainting?.views || 0}
+                </Typography>
                 <Divider />
                 <Typography py={2}>
                   Danh mục: Tranh vẽ tường, tranh đồng quê

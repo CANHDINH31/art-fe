@@ -51,8 +51,6 @@ const SideBar = () => {
   const { push, pathname } = useRouter();
   const { user } = useAuth();
 
-  console.log(user);
-
   return (
     <Stack height={"100%"} justifyContent={"space-between"}>
       <Box flex={1} pt={4} px={1}>
@@ -67,7 +65,7 @@ const SideBar = () => {
               alt="Remy Sharp"
               src={user?.image || "/img/jpg/default-avatar.jpg"}
             />
-            <Typography fontWeight={600}>@{user?.name}</Typography>
+            <Typography fontWeight={600}>{user?.name}</Typography>
           </Box>
         </Box>
 
