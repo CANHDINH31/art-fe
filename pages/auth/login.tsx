@@ -67,7 +67,7 @@ const Login = () => {
     try {
       const res = await loginByPlatform(
         data?.user?.provider as string,
-        data?.user?.id_token as string
+        data?.user?.id_token || (data?.user?.access_token as string)
       );
       handleLogin(res.data);
     } catch (error) {}
@@ -166,6 +166,7 @@ const Login = () => {
           fullWidth
           variant="contained"
           disabled={status === "loading" || isLoading}
+          onClick={() => signIn("facebook")}
         >
           Facebook
         </Button>

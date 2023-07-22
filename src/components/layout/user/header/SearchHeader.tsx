@@ -108,7 +108,14 @@ const SearchHeader = () => {
                   gap={2}
                   onClick={(event: any) => setAnchorEl(event.currentTarget)}
                 >
-                  <UserIcon height={30} color="#446084" />
+                  <Box
+                    component={"img"}
+                    src={user?.image || "img/jpg/default-avatar.jpg"}
+                    width={30}
+                    height={30}
+                    borderRadius={"50%"}
+                    sx={{ objectFit: "cover" }}
+                  />
                   <Typography
                     variant="h5"
                     whiteSpace={"nowrap"}
