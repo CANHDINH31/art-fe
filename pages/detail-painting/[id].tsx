@@ -86,8 +86,8 @@ const DetailPainting = () => {
                 </Typography>
                 <Divider />
               </Box>
-              <Box mt={4}>
-                <Button variant="contained" size="large" color="error">
+              <Box mt={4} display={"flex"} gap={1} alignItems={"center"}>
+                <Button variant="contained" size="small" color="error">
                   <Box display={"flex"} gap={2} alignItems={"center"}>
                     <HeartIcon width={20} />
                     <Typography variant="h4" color={"white"}>
@@ -95,13 +95,12 @@ const DetailPainting = () => {
                     </Typography>
                   </Box>
                 </Button>
-              </Box>
-              <Box mt={4}>
                 <Button
+                  size="small"
                   variant="contained"
-                  size="large"
                   color="secondary"
                   onClick={handleOpen}
+                  sx={{ display: { xs: "none", lg: "block" } }}
                 >
                   <Box display={"flex"} gap={2} alignItems={"center"}>
                     <ArrowsPointingOutIcon width={20} />

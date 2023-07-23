@@ -14,8 +14,9 @@ const ModalContent = styled(Box)(({ theme }) => ({
   left: "50%",
   transform: "translate(-50%, -50%)",
   "& img": {
+    display: "block",
+    height: "94vh",
     objectFit: "contain",
-    objectPostion: "center",
   },
 }));
 
@@ -25,7 +26,7 @@ const ModalZoomImage = ({ open, handleClose, image }: Props) => {
       <ModalContent>
         <TransformWrapper>
           <TransformComponent>
-            <Box width={"60vw"} height={"80vh"} src={image} component={"img"} />
+            <Box src={image} component={"img"} />
           </TransformComponent>
         </TransformWrapper>
       </ModalContent>
