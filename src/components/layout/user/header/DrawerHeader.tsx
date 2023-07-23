@@ -7,12 +7,15 @@ import {
   List,
   ListItemButton,
   ListItemText,
+  Stack,
   Typography,
 } from "@mui/material";
 import {
   MagnifyingGlassIcon,
   ChevronDownIcon,
   ChevronUpIcon,
+  KeyIcon,
+  ArrowUpTrayIcon,
 } from "@heroicons/react/24/outline";
 import { listMenu } from "./data";
 import { useState } from "react";
@@ -86,19 +89,25 @@ const DrawerHeader = ({ onClose }: Props) => {
       <Box mt={8}>
         <Box display={"flex"} gap={2} alignItems={"center"}>
           {user ? (
-            <>
-              <Box
-                component={"img"}
-                src={user?.image || "img/jpg/default-avatar.jpg"}
-                width={30}
-                height={30}
-                borderRadius={"50%"}
-                sx={{ objectFit: "cover" }}
-              />
-              <Typography variant="h5" whiteSpace={"nowrap"} fontWeight={550}>
-                {user?.name}
-              </Typography>
-            </>
+            <Box
+              display={"flex"}
+              alignItems={"center"}
+              justifyContent={"space-between"}
+            >
+              <Box display={"flex"} alignItems={"center"} gap={1}>
+                <Box
+                  component={"img"}
+                  src={user?.image || "img/jpg/default-avatar.jpg"}
+                  width={30}
+                  height={30}
+                  borderRadius={"50%"}
+                  sx={{ objectFit: "cover" }}
+                />
+                <Typography variant="h5" whiteSpace={"nowrap"} fontWeight={550}>
+                  {user?.name}
+                </Typography>
+              </Box>
+            </Box>
           ) : (
             <>
               <Button
@@ -201,18 +210,37 @@ const DrawerHeader = ({ onClose }: Props) => {
             </Box>
           ))}
         </List>
+        <Divider />
         {user && (
-          <Button
-            variant="outlined"
-            color="error"
-            fullWidth
-            onClick={() => {
-              signOut();
-              handleLogout();
-            }}
-          >
-            Đăng xuất
-          </Button>
+          <Stack gap={2}>
+            <Button variant="outlined" color="primary" fullWidth>
+              <Box
+                display={"flex"}
+                alignItems={"center"}
+                gap={2}
+                onClick={() => {
+                  router.push("/auth/change-password");
+                }}
+              >
+                <KeyIcon height={18} color="#446084" />
+                <span>Thay đổi mật khẩu</span>
+              </Box>
+            </Button>
+            <Button
+              variant="outlined"
+              color="error"
+              fullWidth
+              onClick={() => {
+                signOut();
+                handleLogout();
+              }}
+            >
+              <Box display={"flex"} alignItems={"center"} gap={2}>
+                <ArrowUpTrayIcon height={18} color="#d32f2f" />
+                <span>Đăng xuất</span>
+              </Box>
+            </Button>
+          </Stack>
         )}
       </Box>
     </Box>
