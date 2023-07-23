@@ -58,10 +58,6 @@ const ResetPassword = () => {
     },
   });
 
-  useEffect(() => {
-    if (!router?.query?.token) router.push("/auth");
-  }, [router?.query?.token]);
-
   return (
     <Box
       component={"form"}

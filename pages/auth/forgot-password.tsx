@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import { useForm } from "react-hook-form";
 
 const TextFieldCustom = styled(TextField)(({ theme }) => ({
@@ -35,6 +35,7 @@ const TextFieldCustom = styled(TextField)(({ theme }) => ({
 
 const ForgotPassword = () => {
   const router = useRouter();
+  const [email, setEmail] = useState("");
   const {
     register,
     handleSubmit,
@@ -46,7 +47,7 @@ const ForgotPassword = () => {
   const { mutate, isLoading } = useMutation({
     mutationFn: sendEmail,
     onSuccess: res => {
-      router.push("/auth/reset-password?token=" + res.data);
+      setEmail(res.data.data.email);
       reset();
     },
     onError: (errors: any) => {
@@ -62,6 +63,12 @@ const ForgotPassword = () => {
       <Typography variant="h2" textAlign={"center"}>
         Quên mật khẩu
       </Typography>
+      {email && (
+        <Typography variant="h5" textAlign={"center"} color="green">
+          Chúng tôi đã gởi email tới tài khoản {email}. Vui lòng click link
+          trong mail vào để thay đổi mật khẩu. Hiệu lực trong vòng 5 phút
+        </Typography>
+      )}
       <Box mt={8}>
         <Box mt={3}>
           <TextFieldCustom
