@@ -38,7 +38,10 @@ const Search = () => {
     <Box py={4}>
       <Container>
         <SettingWP
-          breadcrumb={["Tìm kiếm", `Kết quả tìm kiếm cho "${query}"`]}
+          breadcrumb={[
+            "Tìm kiếm",
+            `Kết quả tìm kiếm cho "${query}" (${listPaint?.length})`,
+          ]}
         />
         <Box mt={12}>
           <Grid container spacing={12}>

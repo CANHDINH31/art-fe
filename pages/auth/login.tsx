@@ -158,7 +158,18 @@ const Login = () => {
           </Button>
         </Box>
       </Box>
-      <Typography textAlign={"center"} mt={8}>
+      <Box
+        mt={4}
+        sx={{ cursor: "pointer" }}
+        display={"flex"}
+        justifyContent={"flex-end"}
+        onClick={() => router.push("/auth/forgot-password")}
+      >
+        <Typography fontWeight={600} variant="h4">
+          Quên mật khẩu ?
+        </Typography>
+      </Box>
+      <Typography textAlign={"center"} mt={4}>
         Hoặc đăng nhập
       </Typography>
       <Box display={"flex"} gap={4} mt={5}>
