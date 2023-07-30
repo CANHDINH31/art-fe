@@ -56,6 +56,10 @@ const Login = () => {
       if (res.data.status == 400) {
         toast.warn(res.data.message);
       } else {
+        toast.success("Đăng nhập thành công");
+        setToken(res.data.accessToken);
+        setRefreshToken(res.data.refreshToken);
+        dispatch(login(res?.data?.user));
       }
     },
     onError: (errors: any) => {
