@@ -50,6 +50,11 @@ const WrapImage = styled(Box)(({}) => ({
 }));
 
 const LikeButton = styled(Box)(({ theme }) => ({
+  [theme.breakpoints.down("md")]: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   display: "none",
   position: "absolute",
   padding: theme.spacing(1.5),
