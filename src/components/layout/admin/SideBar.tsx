@@ -3,7 +3,7 @@ import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import { styled } from "@mui/system";
 import { useRouter } from "next/router";
 import { listMenuSidebar } from "./data";
-import useAuth from "@/src/lib/hooks/useAuth";
+import { useSelector } from "react-redux";
 
 const BackButton = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -49,7 +49,7 @@ const MenuItem = styled(Box)(({ theme }) => ({
 
 const SideBar = () => {
   const { push, pathname } = useRouter();
-  const { user } = useAuth();
+  const { user } = useSelector((state: any) => state?.user);
 
   return (
     <Stack height={"100%"} justifyContent={"space-between"}>

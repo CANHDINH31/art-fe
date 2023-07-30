@@ -16,8 +16,10 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { loginByPlatform, signInAccount } from "@/src/lib/api";
 import { toast } from "react-toastify";
-import useAuth from "@/src/lib/hooks/useAuth";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { useDispatch } from "react-redux";
+import { login } from "@/src/lib/redux/userSlice";
+import { setRefreshToken, setToken } from "@/src/lib/utils/jwt";
 
 const TextFieldCustom = styled(TextField)(({ theme }) => ({
   "& .MuiInputBase-root": {
@@ -38,7 +40,7 @@ const TextFieldCustom = styled(TextField)(({ theme }) => ({
 }));
 const Login = () => {
   const router = useRouter();
-  const { handleLogin } = useAuth();
+  const dispatch = useDispatch();
   const { data, status } = useSession();
   const [isHidePassword, setIsHidePassword] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -54,7 +56,6 @@ const Login = () => {
       if (res.data.status == 400) {
         toast.warn(res.data.message);
       } else {
-        res.data && handleLogin(res.data);
       }
     },
     onError: (errors: any) => {
@@ -69,8 +70,15 @@ const Login = () => {
         data?.user?.provider as string,
         data?.user?.id_token || (data?.user?.access_token as string)
       );
-      handleLogin(res.data);
-    } catch (error) {}
+      if (res) {
+        toast.success("Đăng nhập thành công");
+        setToken(res.data.accessToken);
+        setRefreshToken(res.data.refreshToken);
+        dispatch(login(res?.data?.user));
+      }
+    } catch (error) {
+      toast.error("Đăng nhập thất bại");
+    }
     setIsLoading(false);
   };
 

@@ -16,8 +16,11 @@ import {
 import { useRouter } from "next/router";
 import { HeartIcon, UserIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
-import useAuth from "@/src/lib/hooks/useAuth";
 import { signOut } from "next-auth/react";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "@/src/lib/redux/userSlice";
+import { toast } from "react-toastify";
+import { clearToken } from "@/src/lib/utils/jwt";
 
 const InputWrap = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -43,7 +46,8 @@ const InputWrap = styled(Box)(({ theme }) => ({
 
 const SearchHeader = () => {
   const router = useRouter();
-  const { user, handleLogout } = useAuth();
+  const { user } = useSelector((state: any) => state?.user);
+  const dispatch = useDispatch();
   const [searchValue, setSearchValue] = useState<string>("");
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
@@ -56,6 +60,20 @@ const SearchHeader = () => {
     if (e.key === "Enter" && searchValue) {
       navigateSearchPage();
     }
+  };
+
+  const handleFavourite = () => {
+    if (!user) {
+      toast.warn("Bạn phải đăng nhập để sử dụng chức năng này");
+    } else {
+      router.push("/me/favourite");
+    }
+  };
+
+  const handleLogout = () => {
+    clearToken();
+    signOut();
+    dispatch(logout());
   };
 
   return (
@@ -91,8 +109,13 @@ const SearchHeader = () => {
           </Box>
 
           <Box display={"flex"} alignItems={"center"} gap={8}>
-            <Box display={"flex"} alignItems={"center"} gap={2}>
-              <Badge badgeContent={1} color="error">
+            <Box
+              display={"flex"}
+              alignItems={"center"}
+              gap={2}
+              onClick={handleFavourite}
+            >
+              <Badge badgeContent={user?.favourite?.length} color="error">
                 <HeartIcon height={30} color="#446084" />
               </Badge>
 
@@ -111,7 +134,7 @@ const SearchHeader = () => {
                 >
                   <Box
                     component={"img"}
-                    src={user?.image || "img/jpg/default-avatar.jpg"}
+                    src={user?.image || "/img/jpg/default-avatar.jpg"}
                     width={30}
                     height={30}
                     borderRadius={"50%"}
@@ -175,10 +198,7 @@ const SearchHeader = () => {
                       px={3}
                       py={2}
                       gap={4}
-                      onClick={() => {
-                        signOut();
-                        handleLogout();
-                      }}
+                      onClick={handleLogout}
                     >
                       <ArrowRightOnRectangleIcon height={24} color="#446084" />
                       <Typography>Đăng xuất</Typography>

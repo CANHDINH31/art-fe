@@ -43,7 +43,7 @@ const HomeProduct = () => {
                 key={paint?._id}
                 onClick={() => router.push(`/detail-painting/${paint._id}`)}
               >
-                <CardItem url={paint.url} title={paint?.title.toUpperCase()} />
+                <CardItem paint={paint} />
               </Grid>
             ))}
           </Grid>

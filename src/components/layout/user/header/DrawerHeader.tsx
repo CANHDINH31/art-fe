@@ -16,13 +16,16 @@ import {
   ChevronUpIcon,
   KeyIcon,
   ArrowUpTrayIcon,
+  HeartIcon,
 } from "@heroicons/react/24/outline";
 import { listMenu } from "./data";
 import { useState } from "react";
 import { HeaderType } from "@/src/lib/config";
 import { useRouter } from "next/router";
-import useAuth from "@/src/lib/hooks/useAuth";
 import { signOut } from "next-auth/react";
+import { useDispatch, useSelector } from "react-redux";
+import { clearToken } from "@/src/lib/utils/jwt";
+import { logout } from "@/src/lib/redux/userSlice";
 
 type Props = {
   onClose: () => void;
@@ -30,7 +33,9 @@ type Props = {
 
 const DrawerHeader = ({ onClose }: Props) => {
   const router = useRouter();
-  const { user, handleLogout } = useAuth();
+  const { user } = useSelector((state: any) => state?.user);
+  const dispatch = useDispatch();
+
   const [collapseActive, setCollapseActive] = useState<string[]>([]);
   const [searchValue, setSearchValue] = useState<string>("");
 
@@ -64,8 +69,15 @@ const DrawerHeader = ({ onClose }: Props) => {
       navigateSearchPage();
     }
   };
+
+  const handleLogout = () => {
+    clearToken();
+    signOut();
+    dispatch(logout());
+  };
+
   return (
-    <Box width={250} py={8} px={2}>
+    <Box width={250} py={8} px={2} overflow={"scroll"}>
       <Box display={"flex"} width={"100%"} alignItems={"stretch"}>
         <Input
           placeholder="Tìm kiếm ..."
@@ -97,7 +109,7 @@ const DrawerHeader = ({ onClose }: Props) => {
               <Box display={"flex"} alignItems={"center"} gap={1}>
                 <Box
                   component={"img"}
-                  src={user?.image || "img/jpg/default-avatar.jpg"}
+                  src={user?.image || "/img/jpg/default-avatar.jpg"}
                   width={30}
                   height={30}
                   borderRadius={"50%"}
@@ -219,6 +231,19 @@ const DrawerHeader = ({ onClose }: Props) => {
                 alignItems={"center"}
                 gap={2}
                 onClick={() => {
+                  router.push("/me/favourite");
+                }}
+              >
+                <HeartIcon height={18} color="#446084" />
+                <span>Yêu thích</span>
+              </Box>
+            </Button>
+            <Button variant="outlined" color="primary" fullWidth>
+              <Box
+                display={"flex"}
+                alignItems={"center"}
+                gap={2}
+                onClick={() => {
                   router.push("/auth/change-password");
                 }}
               >
@@ -230,10 +255,7 @@ const DrawerHeader = ({ onClose }: Props) => {
               variant="outlined"
               color="error"
               fullWidth
-              onClick={() => {
-                signOut();
-                handleLogout();
-              }}
+              onClick={handleLogout}
             >
               <Box display={"flex"} alignItems={"center"} gap={2}>
                 <ArrowUpTrayIcon height={18} color="#d32f2f" />

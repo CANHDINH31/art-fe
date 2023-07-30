@@ -51,10 +51,7 @@ const MainWPC = () => {
               key={panting._id}
               onClick={() => router.push(`/detail-painting/${panting._id}`)}
             >
-              <CardItem
-                url={panting.url}
-                title={panting.title.toLocaleUpperCase()}
-              />
+              <CardItem paint={panting} />
             </Grid>
           ))}
         </Grid>

@@ -35,6 +35,11 @@ const setToken = (accessToken: string | null) => {
   }
 };
 
+const clearToken = () => {
+  setToken("");
+  setRefreshToken("");
+};
+
 const setRefreshToken = (refreshToken: string | null) => {
   if (refreshToken) {
     window.localStorage.setItem("refresh_token", refreshToken);
@@ -50,4 +55,4 @@ const isValidToken = (accessToken: string | null) => {
   return decoded.exp > currentTime;
 };
 
-export { setToken, setRefreshToken, isValidToken };
+export { setToken, setRefreshToken, isValidToken, clearToken };

@@ -1,57 +1,34 @@
 import MainLayout from "@/src/components/layout/user";
 import CardItem from "@/src/components/sections/common/CardItem";
-import Loading from "@/src/components/sections/common/Loading";
 import SettingWP from "@/src/components/sections/wall-painting/SettingWP";
 import SidebarWP from "@/src/components/sections/wall-painting/SidebarWP";
-import { getListPaint } from "@/src/lib/api";
-import { typePaint } from "@/src/lib/types/paint";
+import { typePaint } from "@/src/lib/types";
 import { Box, Container, Grid } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import React, { ReactElement } from "react";
-import { toast } from "react-toastify";
+import React, { ReactElement, useEffect } from "react";
+import { useSelector } from "react-redux";
 
-const Search = () => {
+const Favourite = () => {
+  const { user } = useSelector((state: any) => state?.user);
   const router = useRouter();
-  const { query } = router.query;
 
-  const { data: listPaint, isLoading } = useQuery(
-    ["listPaint", query],
-    async () => {
-      try {
-        const res = await getListPaint({ title: query as string });
-        return res.data.data;
-      } catch (err: any) {
-        toast.error(err?.message || "Lấy danh sách tranh thất bại");
-        throw err;
-      }
-    },
-    {
-      enabled: !!query,
-      keepPreviousData: true,
-    }
-  );
-
-  if (isLoading) return <Loading />;
+  useEffect(() => {
+    if (!user) router.push("/");
+  }, [user]);
 
   return (
     <Box py={4}>
       <Container>
-        <SettingWP
-          breadcrumb={[
-            "Tìm kiếm",
-            `Kết quả tìm kiếm cho "${query}" (${listPaint?.length})`,
-          ]}
-        />
+        <SettingWP breadcrumb={[`Yêu thích (${user?.favourite?.length})`]} />
         <Box mt={12}>
           <Grid container spacing={12}>
             <Grid item md={3} display={{ xs: "none", md: "block" }}>
               <SidebarWP />
             </Grid>
             <Grid item xs={12} md={9}>
-              {listPaint?.length > 0 ? (
+              {user?.favourite?.length > 0 ? (
                 <Grid container spacing={4}>
-                  {listPaint?.map((panting: typePaint) => (
+                  {user?.favourite?.map((panting: typePaint) => (
                     <Grid
                       item
                       xs={12}
@@ -85,7 +62,7 @@ const Search = () => {
   );
 };
 
-export default Search;
-Search.getLayout = function getLayout(page: ReactElement) {
-  return <MainLayout title="Tìm kiếm">{page}</MainLayout>;
+export default Favourite;
+Favourite.getLayout = function getLayout(page: ReactElement) {
+  return <MainLayout title="Yêu thích">{page}</MainLayout>;
 };

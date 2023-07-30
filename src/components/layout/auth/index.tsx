@@ -1,13 +1,8 @@
-import useAuth from "@/src/lib/hooks/useAuth";
 import { Box, Grid, Paper } from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, {
-  ReactElement,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from "react";
+import React, { ReactElement, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 type Props = {
   children: ReactElement;
@@ -17,17 +12,11 @@ type Props = {
 
 const AuthLayout = ({ children, title, src }: Props) => {
   const router = useRouter();
-  const { user } = useAuth();
-  const [currentUser, setCurrentUser] = useState(null);
+  const { user } = useSelector((state: any) => state?.user);
 
   useEffect(() => {
-    if (user) setCurrentUser(user);
-  }, [user]);
-
-  useEffect(() => {
-    if (currentUser && router.pathname !== "/auth/change-password")
-      router.push("/");
-  }, [currentUser, router]);
+    if (user && router.pathname !== "/auth/change-password") router.push("/");
+  }, [user, router]);
 
   return (
     <>

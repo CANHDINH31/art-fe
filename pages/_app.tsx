@@ -11,8 +11,10 @@ import { ReactElement, ReactNode } from "react";
 import "@/src/styles/global.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { AuthProvider } from "@/src/lib/context";
 import { SessionProvider } from "next-auth/react";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistor, store } from "@/src/lib/redux/store";
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -36,15 +38,17 @@ export default function MyApp(props: MyAppProps) {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <SessionProvider session={pageProps.session}>
-        <AuthProvider>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <QueryClientProvider client={queryClient}>
-              {getLayout(<Component {...pageProps} />)}
-              <ToastContainer />
-            </QueryClientProvider>
-          </ThemeProvider>
-        </AuthProvider>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              <QueryClientProvider client={queryClient}>
+                {getLayout(<Component {...pageProps} />)}
+                <ToastContainer />
+              </QueryClientProvider>
+            </ThemeProvider>
+          </PersistGate>
+        </Provider>
       </SessionProvider>
     </CacheProvider>
   );

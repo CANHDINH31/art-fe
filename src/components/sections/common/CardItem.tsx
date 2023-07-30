@@ -1,10 +1,15 @@
 import React from "react";
-import Image, { StaticImageData } from "next/image";
 import { Box, Typography, keyframes, styled } from "@mui/material";
+import { HeartIcon } from "@heroicons/react/24/solid";
+import { useMutation } from "@tanstack/react-query";
+import { handleFavourite } from "@/src/lib/api/user";
+import { useDispatch, useSelector } from "react-redux";
+import { typePaint } from "@/src/lib/types";
+import { favourite } from "@/src/lib/redux/userSlice";
+import { toast } from "react-toastify";
 
 type Props = {
-  url: string | StaticImageData;
-  title: string;
+  paint: typePaint;
 };
 
 const showText = keyframes`
@@ -44,11 +49,61 @@ const WrapImage = styled(Box)(({}) => ({
   },
 }));
 
-const CardItem = ({ url, title }: Props) => {
+const LikeButton = styled(Box)(({ theme }) => ({
+  display: "none",
+  position: "absolute",
+  padding: theme.spacing(1.5),
+  background: "rgba(240, 240, 240,0.6)",
+  right: 4,
+  top: 4,
+  cursor: "pointer",
+  borderRadius: theme.spacing(1),
+  animation: `${showText} .5s ease-out`,
+}));
+
+const CardItem = ({ paint }: Props) => {
+  const { user } = useSelector((state: any) => state?.user);
+  const dispatch = useDispatch();
+  const handleLike = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    paint: typePaint
+  ) => {
+    e.stopPropagation();
+    if (!user) {
+      toast.warn("Bạn phải đăng nhập để sử dụng chức năng này");
+    } else {
+      mutate(paint?._id as string);
+    }
+  };
+
+  const { mutate, isLoading } = useMutation({
+    mutationFn: handleFavourite,
+    onSuccess: res => {
+      const index = user?.favourite?.findIndex(
+        (item: any) => item._id === paint._id
+      );
+      if (index > -1) {
+        toast.success("Xóa khỏi yêu thích thành công");
+      } else {
+        toast.success("Thêm vào yêu thích thành công");
+      }
+      dispatch(favourite(paint));
+    },
+  });
+
   return (
     <Box sx={{ cursor: "pointer" }}>
       <WrapImage>
-        <Box component={"img"} src={url as string} alt="home-product" />
+        <LikeButton onClick={e => handleLike(e, paint)}>
+          {user?.favourite
+            ?.map((e: { _id: string }) => e._id)
+            ?.includes(paint._id) ? (
+            <HeartIcon width={28} color="#d32f2f" />
+          ) : (
+            <HeartIcon width={28} color="#446084" />
+          )}
+        </LikeButton>
+        <Box component={"img"} src={paint.url as string} alt="home-product" />
         <WrapText>
           <Typography color="white" variant="h6" fontWeight={"bold"}>
             XEM CHI TIẾT
@@ -57,7 +112,7 @@ const CardItem = ({ url, title }: Props) => {
       </WrapImage>
       <Box display={"flex"} justifyContent={"center"} mt={2}>
         <Typography variant="h5" fontWeight={"bold"}>
-          {title}
+          {paint.title}
         </Typography>
       </Box>
     </Box>

@@ -148,7 +148,7 @@ const ChangePassword = () => {
         </Box>
         <Box
           display={"flex"}
-          justifyContent={"flex-end"}
+          justifyContent={"center"}
           mt={8}
           sx={{ cursor: "pointer" }}
           onClick={() => router.push("/")}
