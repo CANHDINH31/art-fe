@@ -13,14 +13,17 @@ import React, { ReactElement, useEffect } from "react";
 import { HeartIcon, ArrowsPointingOutIcon } from "@heroicons/react/24/solid";
 import ModalZoomImage from "@/src/components/sections/common/ModalZoomImage";
 import { useRouter } from "next/router";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { addView, getDetailPaint } from "@/src/lib/api";
 import Loading from "@/src/components/sections/common/Loading";
 import { toast } from "react-toastify";
 import moment from "moment";
-import { listSocialIcon } from "@/src/components/layout/user/common/data";
 import SocialIcon from "@/src/components/layout/user/common/SocialIcon";
 import { listShareIcon } from "@/src/components/sections/detail-painting/data";
+import { handleFavourite } from "@/src/lib/api/user";
+import { useDispatch, useSelector } from "react-redux";
+import { favourite } from "@/src/lib/redux/userSlice";
+import { typePaint } from "@/src/lib/types";
 
 const ImagePainting = styled("img")(({ theme }) => ({
   width: "100%",
@@ -30,8 +33,11 @@ const ImagePainting = styled("img")(({ theme }) => ({
 }));
 
 const DetailPainting = () => {
+  const { user } = useSelector((state: any) => state?.user);
+  const dispatch = useDispatch();
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -52,6 +58,29 @@ const DetailPainting = () => {
     }
   );
 
+  const { mutate, isLoading: loading } = useMutation({
+    mutationFn: handleFavourite,
+    onSuccess: res => {
+      const index = user?.favourite?.findIndex(
+        (item: any) => item._id === detailPainting._id
+      );
+      if (index > -1) {
+        toast.success("Xóa khỏi yêu thích thành công");
+      } else {
+        toast.success("Thêm vào yêu thích thành công");
+      }
+      dispatch(favourite(detailPainting));
+    },
+  });
+
+  const handleLike = (paint: typePaint) => {
+    if (!user) {
+      toast.warn("Bạn phải đăng nhập để sử dụng chức năng này");
+    } else {
+      mutate(paint?._id as string);
+    }
+  };
+
   useEffect(() => {
     const addViewForPaint = async () => {
       try {
@@ -63,7 +92,8 @@ const DetailPainting = () => {
     router.query.id && addViewForPaint();
   }, [router.query.id]);
 
-  if (isLoading) return <Loading />;
+  if (isLoading || loading) return <Loading />;
+
   return (
     <Box py={4}>
       <Container>
@@ -106,11 +136,26 @@ const DetailPainting = () => {
                 <Divider />
               </Box>
               <Box mt={4} display={"flex"} gap={1} alignItems={"center"}>
-                <Button variant="contained" color="primary" size="large">
+                <Button
+                  variant="contained"
+                  color={
+                    !user?.favourite?.findIndex(
+                      (item: any) => item._id === detailPainting._id
+                    )
+                      ? "error"
+                      : "primary"
+                  }
+                  size="large"
+                  onClick={() => handleLike(detailPainting)}
+                >
                   <Box display={"flex"} gap={2} alignItems={"center"}>
                     <HeartIcon width={24} />
                     <Typography variant="h4" color={"white"}>
-                      Thêm vào yêu thích
+                      {user?.favourite?.findIndex(
+                        (item: any) => item._id === detailPainting._id
+                      )
+                        ? "Thêm vào yêu thích"
+                        : "Yêu thích"}
                     </Typography>
                   </Box>
                 </Button>
