@@ -64,6 +64,14 @@ const LikeButton = styled(Box)(({ theme }) => ({
   cursor: "pointer",
   borderRadius: theme.spacing(1),
   animation: `${showText} .5s ease-out`,
+  "&::before": {
+    position: "absolute",
+    content: '""',
+    left: -36,
+    top: -4,
+    width: 80,
+    height: 80,
+  },
 }));
 
 const CardItem = ({ paint }: Props) => {

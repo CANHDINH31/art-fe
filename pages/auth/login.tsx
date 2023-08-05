@@ -184,7 +184,12 @@ const Login = () => {
       <Typography textAlign={"center"} mt={4}>
         Hoặc đăng nhập
       </Typography>
-      <Box display={"flex"} gap={4} mt={5}>
+      <Box
+        display={"flex"}
+        gap={{ lg: 4, xs: 2 }}
+        mt={5}
+        sx={{ flexDirection: { lg: "row", xs: "column" } }}
+      >
         <Button
           fullWidth
           variant="contained"

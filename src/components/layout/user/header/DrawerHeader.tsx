@@ -99,49 +99,47 @@ const DrawerHeader = ({ onClose }: Props) => {
       </Box>
 
       <Box mt={8}>
-        <Box display={"flex"} gap={2} alignItems={"center"}>
-          {user ? (
-            <Box
-              display={"flex"}
-              alignItems={"center"}
-              justifyContent={"space-between"}
-            >
-              <Box display={"flex"} alignItems={"center"} gap={1}>
-                <Box
-                  component={"img"}
-                  src={user?.image || "/img/jpg/default-avatar.jpg"}
-                  width={30}
-                  height={30}
-                  borderRadius={"50%"}
-                  sx={{ objectFit: "cover" }}
-                />
-                <Typography variant="h5" whiteSpace={"nowrap"} fontWeight={550}>
-                  {user?.name}
-                </Typography>
-              </Box>
+        {user ? (
+          <Box
+            display={"flex"}
+            alignItems={"center"}
+            justifyContent={"space-between"}
+          >
+            <Box display={"flex"} alignItems={"center"} gap={1}>
+              <Box
+                component={"img"}
+                src={user?.image || "/img/jpg/default-avatar.jpg"}
+                width={30}
+                height={30}
+                borderRadius={"50%"}
+                sx={{ objectFit: "cover" }}
+              />
+              <Typography variant="h5" whiteSpace={"nowrap"} fontWeight={550}>
+                {user?.name}
+              </Typography>
             </Box>
-          ) : (
-            <>
-              <Button
-                variant="contained"
-                size="small"
-                fullWidth
-                onClick={() => router.push("/auth/login")}
-              >
-                Đăng nhập
-              </Button>
-              <Button
-                variant="contained"
-                color="error"
-                size="small"
-                fullWidth
-                onClick={() => router.push("/auth/register")}
-              >
-                Đăng kí
-              </Button>
-            </>
-          )}
-        </Box>
+          </Box>
+        ) : (
+          <Stack gap={2}>
+            <Button
+              variant="contained"
+              size="small"
+              fullWidth
+              onClick={() => router.push("/auth/login")}
+            >
+              Đăng nhập
+            </Button>
+            <Button
+              variant="contained"
+              color="error"
+              size="small"
+              fullWidth
+              onClick={() => router.push("/auth/register")}
+            >
+              Đăng kí
+            </Button>
+          </Stack>
+        )}
         <List component="nav" aria-labelledby="nested-list-subheader">
           <Box>
             <Divider />
@@ -235,7 +233,7 @@ const DrawerHeader = ({ onClose }: Props) => {
                 }}
               >
                 <HeartIcon height={18} color="#446084" />
-                <span>Yêu thích</span>
+                <span>Yêu thích ({user?.favourite?.length})</span>
               </Box>
             </Button>
             <Button variant="outlined" color="primary" fullWidth>
