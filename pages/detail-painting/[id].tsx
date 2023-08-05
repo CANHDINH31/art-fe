@@ -24,6 +24,7 @@ import { handleFavourite } from "@/src/lib/api/user";
 import { useDispatch, useSelector } from "react-redux";
 import { favourite } from "@/src/lib/redux/userSlice";
 import { typePaint } from "@/src/lib/types";
+import ContactOrder from "@/src/components/sections/detail-painting/ContactOrder";
 
 const ImagePainting = styled("img")(({ theme }) => ({
   width: "100%",
@@ -104,75 +105,80 @@ const DetailPainting = () => {
               <ImagePainting src={detailPainting?.url} />
             </Grid>
             <Grid item xs={12} md={4}>
-              <Typography variant="h2" fontWeight={"bold"}>
-                {detailPainting?.title.toUpperCase()}
-              </Typography>
-              <Box mt={4}>
-                <Divider />
-                <Typography py={2}>Mã: {detailPainting?._id}</Typography>
-                <Divider />
-                <Typography py={2}>
-                  Số lượt xem: {detailPainting?.views || 0}
+              <Box>
+                <Typography variant="h2" fontWeight={"bold"}>
+                  {detailPainting?.title.toUpperCase()}
                 </Typography>
-                <Divider />
-                <Typography py={2}>
-                  Ngày đăng:{" "}
-                  {moment(detailPainting?.createdAt)?.format("DD-MM-YYYY")}
-                </Typography>
-                <Divider />
-                <Box display={"flex"} alignItems={"center"} gap={4}>
-                  <Typography py={2}>Chia sẻ: </Typography>
-                  <Box display={"flex"} sx={{ cursor: "pointer" }} gap={4}>
-                    {listShareIcon.map((social, index) => (
-                      <SocialIcon
-                        key={index}
-                        icon={social.icon}
-                        title={social.title}
-                        href={social.href + detailPainting?._id}
-                      />
-                    ))}
+                <Box mt={4}>
+                  <Divider />
+                  <Typography py={2}>Mã: {detailPainting?._id}</Typography>
+                  <Divider />
+                  <Typography py={2}>
+                    Số lượt xem: {detailPainting?.views || 0}
+                  </Typography>
+                  <Divider />
+                  <Typography py={2}>
+                    Ngày đăng:{" "}
+                    {moment(detailPainting?.createdAt)?.format("DD-MM-YYYY")}
+                  </Typography>
+                  <Divider />
+                  <Box display={"flex"} alignItems={"center"} gap={4}>
+                    <Typography py={2}>Chia sẻ: </Typography>
+                    <Box display={"flex"} sx={{ cursor: "pointer" }} gap={4}>
+                      {listShareIcon.map((social, index) => (
+                        <SocialIcon
+                          key={index}
+                          icon={social.icon}
+                          title={social.title}
+                          href={social.href + detailPainting?._id}
+                        />
+                      ))}
+                    </Box>
                   </Box>
+                  <Divider />
                 </Box>
-                <Divider />
-              </Box>
-              <Box mt={4} display={"flex"} gap={1} alignItems={"center"}>
-                <Button
-                  variant="contained"
-                  color={
-                    !user?.favourite?.findIndex(
-                      (item: any) => item._id === detailPainting._id
-                    )
-                      ? "error"
-                      : "primary"
-                  }
-                  size="large"
-                  onClick={() => handleLike(detailPainting)}
-                >
-                  <Box display={"flex"} gap={2} alignItems={"center"}>
-                    <HeartIcon width={24} />
-                    <Typography variant="h4" color={"white"}>
-                      {user?.favourite?.findIndex(
+                <Box mt={4} display={"flex"} gap={1} alignItems={"center"}>
+                  <Button
+                    variant="contained"
+                    color={
+                      !user?.favourite?.findIndex(
                         (item: any) => item._id === detailPainting._id
                       )
-                        ? "Thêm vào yêu thích"
-                        : "Yêu thích"}
-                    </Typography>
-                  </Box>
-                </Button>
-                <Button
-                  size="large"
-                  variant="contained"
-                  color="secondary"
-                  onClick={handleOpen}
-                  sx={{ display: { xs: "none", lg: "block" } }}
-                >
-                  <Box display={"flex"} gap={2} alignItems={"center"}>
-                    <ArrowsPointingOutIcon width={24} />
-                    <Typography variant="h4" color="white">
-                      Phóng to
-                    </Typography>
-                  </Box>
-                </Button>
+                        ? "error"
+                        : "primary"
+                    }
+                    size="large"
+                    onClick={() => handleLike(detailPainting)}
+                  >
+                    <Box display={"flex"} gap={2} alignItems={"center"}>
+                      <HeartIcon width={24} />
+                      <Typography variant="h4" color={"white"}>
+                        {user?.favourite?.findIndex(
+                          (item: any) => item._id === detailPainting._id
+                        )
+                          ? "Thêm vào yêu thích"
+                          : "Yêu thích"}
+                      </Typography>
+                    </Box>
+                  </Button>
+                  <Button
+                    size="large"
+                    variant="contained"
+                    color="secondary"
+                    onClick={handleOpen}
+                    sx={{ display: { xs: "none", lg: "block" } }}
+                  >
+                    <Box display={"flex"} gap={2} alignItems={"center"}>
+                      <ArrowsPointingOutIcon width={24} />
+                      <Typography variant="h4" color="white">
+                        Phóng to
+                      </Typography>
+                    </Box>
+                  </Button>
+                </Box>
+              </Box>
+              <Box mt={12}>
+                <ContactOrder />
               </Box>
             </Grid>
           </Grid>
