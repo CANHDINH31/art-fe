@@ -17,6 +17,10 @@ import { useQuery } from "@tanstack/react-query";
 import { addView, getDetailPaint } from "@/src/lib/api";
 import Loading from "@/src/components/sections/common/Loading";
 import { toast } from "react-toastify";
+import moment from "moment";
+import { listSocialIcon } from "@/src/components/layout/user/common/data";
+import SocialIcon from "@/src/components/layout/user/common/SocialIcon";
+import { listShareIcon } from "@/src/components/sections/detail-painting/data";
 
 const ImagePainting = styled("img")(({ theme }) => ({
   width: "100%",
@@ -82,28 +86,43 @@ const DetailPainting = () => {
                 </Typography>
                 <Divider />
                 <Typography py={2}>
-                  Danh mục: Tranh vẽ tường, tranh đồng quê
+                  Ngày đăng:{" "}
+                  {moment(detailPainting?.createdAt)?.format("DD-MM-YYYY")}
                 </Typography>
+                <Divider />
+                <Box display={"flex"} alignItems={"center"} gap={4}>
+                  <Typography py={2}>Chia sẻ: </Typography>
+                  <Box display={"flex"} sx={{ cursor: "pointer" }} gap={4}>
+                    {listShareIcon.map((social, index) => (
+                      <SocialIcon
+                        key={index}
+                        icon={social.icon}
+                        title={social.title}
+                        href={social.href + detailPainting?._id}
+                      />
+                    ))}
+                  </Box>
+                </Box>
                 <Divider />
               </Box>
               <Box mt={4} display={"flex"} gap={1} alignItems={"center"}>
-                <Button variant="contained" size="small" color="error">
+                <Button variant="contained" color="primary" size="large">
                   <Box display={"flex"} gap={2} alignItems={"center"}>
-                    <HeartIcon width={20} />
+                    <HeartIcon width={24} />
                     <Typography variant="h4" color={"white"}>
                       Thêm vào yêu thích
                     </Typography>
                   </Box>
                 </Button>
                 <Button
-                  size="small"
+                  size="large"
                   variant="contained"
                   color="secondary"
                   onClick={handleOpen}
                   sx={{ display: { xs: "none", lg: "block" } }}
                 >
                   <Box display={"flex"} gap={2} alignItems={"center"}>
-                    <ArrowsPointingOutIcon width={20} />
+                    <ArrowsPointingOutIcon width={24} />
                     <Typography variant="h4" color="white">
                       Phóng to
                     </Typography>

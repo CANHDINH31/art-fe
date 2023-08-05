@@ -1,4 +1,5 @@
 import {
+  Link,
   Tooltip,
   TooltipProps,
   Zoom,
@@ -11,6 +12,7 @@ import Image from "next/image";
 type Props = {
   title?: string;
   icon: string;
+  href?: string;
 };
 
 const BootstrapTooltip = styled(({ className, ...props }: TooltipProps) => (
@@ -26,15 +28,17 @@ const BootstrapTooltip = styled(({ className, ...props }: TooltipProps) => (
   },
 }));
 
-const SocialIcon = ({ title, icon }: Props) => {
+const SocialIcon = ({ title, icon, href }: Props) => {
   return (
-    <BootstrapTooltip
-      TransitionComponent={Zoom}
-      TransitionProps={{ timeout: 300 }}
-      title={title}
-    >
-      <Image src={icon} alt="socail-icon" width={24} priority={false} />
-    </BootstrapTooltip>
+    <Link href={href} target="_blank">
+      <BootstrapTooltip
+        TransitionComponent={Zoom}
+        TransitionProps={{ timeout: 300 }}
+        title={title}
+      >
+        <Image src={icon} alt="socail-icon" width={24} priority={false} />
+      </BootstrapTooltip>
+    </Link>
   );
 };
 
