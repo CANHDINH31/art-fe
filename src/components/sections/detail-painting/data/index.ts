@@ -31,3 +31,11 @@ export const listShareIcon = [
     href: "https://tumblr.com/widgets/share/tool?canonicalUrl=https://tranhtuongmienbac.com/detail-painting/",
   },
 ];
+
+export const labelRating: { [index: string]: string } = {
+  1: "Tệ",
+  2: "Không hài lòng",
+  3: "Bình thường",
+  4: "Hài lòng",
+  5: "Tuyệt vời",
+};

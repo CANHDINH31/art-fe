@@ -6,6 +6,7 @@ import {
   Container,
   Divider,
   Grid,
+  Rating,
   Typography,
   styled,
 } from "@mui/material";
@@ -15,7 +16,6 @@ import ModalZoomImage from "@/src/components/sections/common/ModalZoomImage";
 import { useRouter } from "next/router";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { addView, getDetailPaint } from "@/src/lib/api";
-import Loading from "@/src/components/sections/common/Loading";
 import { toast } from "react-toastify";
 import moment from "moment";
 import SocialIcon from "@/src/components/layout/user/common/SocialIcon";
@@ -25,6 +25,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { favourite } from "@/src/lib/redux/userSlice";
 import { typePaint } from "@/src/lib/types";
 import ContactOrder from "@/src/components/sections/detail-painting/ContactOrder";
+import YourRating from "@/src/components/sections/detail-painting/YourRating";
+import { findManyRateById } from "@/src/lib/api/rate";
+import { scoreAvgRating } from "@/src/lib/utils/detail-painting";
 
 const ImagePainting = styled("img")(({ theme }) => ({
   width: "100%",
@@ -38,11 +41,12 @@ const DetailPainting = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
+  const [scoreRating, setScoreRating] = React.useState<string>("");
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const { data: detailPainting, isLoading } = useQuery(
+  const { data: detailPainting } = useQuery(
     ["detailPainting", router.query.id],
     async () => {
       try {
@@ -59,7 +63,7 @@ const DetailPainting = () => {
     }
   );
 
-  const { mutate, isLoading: loading } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: handleFavourite,
     onSuccess: res => {
       const index = user?.favourite?.findIndex(
@@ -90,10 +94,20 @@ const DetailPainting = () => {
         throw error;
       }
     };
+    const getScoreVote = async () => {
+      try {
+        const res = await findManyRateById(router.query.id as string);
+        if (res.data?.length > 0) {
+          const score = scoreAvgRating(res.data);
+          setScoreRating(score.toString());
+        }
+      } catch (error) {
+        throw error;
+      }
+    };
     router.query.id && addViewForPaint();
+    router.query.id && getScoreVote();
   }, [router.query.id]);
-
-  if (isLoading || loading) return <Loading />;
 
   return (
     <Box py={4}>
@@ -122,8 +136,8 @@ const DetailPainting = () => {
                     {moment(detailPainting?.createdAt)?.format("DD-MM-YYYY")}
                   </Typography>
                   <Divider />
-                  <Box display={"flex"} alignItems={"center"} gap={4}>
-                    <Typography py={2}>Chia sẻ: </Typography>
+                  <Box display={"flex"} alignItems={"flex-end"} gap={4} py={2}>
+                    <Typography>Chia sẻ: </Typography>
                     <Box display={"flex"} sx={{ cursor: "pointer" }} gap={4}>
                       {listShareIcon.map((social, index) => (
                         <SocialIcon
@@ -136,13 +150,31 @@ const DetailPainting = () => {
                     </Box>
                   </Box>
                   <Divider />
+                  <Box py={2} display={"flex"} alignItems={"flex-end"} gap={4}>
+                    <Typography>Đánh giá:</Typography>
+                    {scoreRating ? (
+                      <>
+                        <Rating
+                          value={Number(scoreRating)}
+                          precision={0.25}
+                          readOnly
+                        />
+                        <Typography>({scoreRating} / 5)</Typography>
+                      </>
+                    ) : (
+                      <Typography>Chưa có đánh giá</Typography>
+                    )}
+                  </Box>
+                  <Divider />
                 </Box>
                 <Box mt={4} display={"flex"} gap={1} alignItems={"center"}>
                   <Button
+                    sx={{ width: { xs: "100%", lg: "auto" } }}
                     variant="contained"
                     color={
+                      user &&
                       !user?.favourite?.findIndex(
-                        (item: any) => item._id === detailPainting._id
+                        (item: any) => item._id === detailPainting?._id
                       )
                         ? "error"
                         : "primary"
@@ -153,11 +185,12 @@ const DetailPainting = () => {
                     <Box display={"flex"} gap={2} alignItems={"center"}>
                       <HeartIcon width={24} />
                       <Typography variant="h4" color={"white"}>
-                        {user?.favourite?.findIndex(
-                          (item: any) => item._id === detailPainting._id
+                        {user &&
+                        !user?.favourite?.findIndex(
+                          (item: any) => item._id === detailPainting?._id
                         )
-                          ? "Thêm vào yêu thích"
-                          : "Yêu thích"}
+                          ? "Yêu thích"
+                          : "Thêm vào yêu thích"}
                       </Typography>
                     </Box>
                   </Button>
@@ -181,6 +214,20 @@ const DetailPainting = () => {
                 <ContactOrder />
               </Box>
             </Grid>
+          </Grid>
+        </Box>
+        <Box mt={8}>
+          <Grid container spacing={8}>
+            <Grid item xs={12} md={8}>
+              <Box display={"flex"} justifyContent={"flex-start"}>
+                <YourRating
+                  paintId={detailPainting?._id}
+                  isAuth={Boolean(user)}
+                />
+              </Box>
+              {/* <ListComment /> */}
+            </Grid>
+            <Grid item xs={12} md={4}></Grid>
           </Grid>
         </Box>
       </Container>
