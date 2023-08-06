@@ -24,6 +24,7 @@ const YourRating = ({ paintId, isAuth }: Props) => {
   const { mutate } = useMutation({
     mutationFn: handleRate,
     onSuccess: res => {
+      setTimeRate(moment(res?.data?.updatedAt).format("hh:mm:ss DD-MM-YYYY"));
       toast.success("Bạn đã đánh giá thành công");
     },
   });
@@ -45,7 +46,7 @@ const YourRating = ({ paintId, isAuth }: Props) => {
     const getCurrentRate = async () => {
       const res = await findOneRateById(paintId);
       res.data.value && setValue(Number(res.data.value));
-      res?.data?.updatedA &&
+      res?.data?.updatedAt &&
         setTimeRate(moment(res?.data?.updatedAt).format("hh:mm:ss DD-MM-YYYY"));
     };
     isAuth && paintId && getCurrentRate();
