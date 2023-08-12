@@ -107,12 +107,12 @@ const YourRating = ({ paintId, isAuth }: Props) => {
 
         <Button
           variant="outlined"
-          size="small"
+          size="medium"
           onClick={handleRating}
           fullWidth
           sx={{ maxWidth: { lg: 300 } }}
         >
-          Hoàn thành
+          Đánh giá
         </Button>
       </Box>
 

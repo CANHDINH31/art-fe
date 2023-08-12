@@ -28,6 +28,7 @@ import ContactOrder from "@/src/components/sections/detail-painting/ContactOrder
 import YourRating from "@/src/components/sections/detail-painting/YourRating";
 import { findManyRateById } from "@/src/lib/api/rate";
 import { scoreAvgRating } from "@/src/lib/utils/detail-painting";
+import Comment from "@/src/components/sections/detail-painting/Comment";
 
 const ImagePainting = styled("img")(({ theme }) => ({
   width: "100%",
@@ -217,7 +218,7 @@ const DetailPainting = () => {
           </Grid>
         </Box>
         <Box mt={8}>
-          <Grid container spacing={8}>
+          <Grid container>
             <Grid item xs={12} md={8}>
               <Box display={"flex"} justifyContent={"flex-start"}>
                 <YourRating
@@ -225,9 +226,15 @@ const DetailPainting = () => {
                   isAuth={Boolean(user)}
                 />
               </Box>
-              {/* <ListComment /> */}
             </Grid>
-            <Grid item xs={12} md={4}></Grid>
+          </Grid>
+        </Box>
+        <Box mt={8}>
+          <Grid container>
+            <Grid item lg={8} xs={12}>
+              <Comment paintId={detailPainting?._id} />
+            </Grid>
+            <Grid item xs={4}></Grid>
           </Grid>
         </Box>
       </Container>
