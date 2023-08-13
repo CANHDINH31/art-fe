@@ -33,9 +33,9 @@ export const listShareIcon = [
 ];
 
 export const labelRating: { [index: string]: string } = {
-  1: "Tệ",
-  2: "Không hài lòng",
-  3: "Bình thường",
-  4: "Hài lòng",
-  5: "Tuyệt vời",
+  1: "Không đẹp",
+  2: "Bình thường",
+  3: "Ấn tượng",
+  4: "Tuyệt vời",
+  5: "Tuyệt phẩm",
 };

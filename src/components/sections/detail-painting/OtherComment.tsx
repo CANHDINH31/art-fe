@@ -110,7 +110,12 @@ const OtherComment = ({ comment, isOwner, refetch }: Props) => {
           alignItems={"flex-start"}
         >
           <Box>
-            <Box display={"flex"} gap={2} alignItems={"center"}>
+            <Box
+              display={"flex"}
+              gap={{ xs: 1, md: 2 }}
+              alignItems={{ xs: "flex=start", md: "center" }}
+              flexDirection={{ xs: "column", md: "row" }}
+            >
               <Typography variant="h5" fontWeight={600}>
                 {comment?.user_id?.email}
               </Typography>

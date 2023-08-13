@@ -73,7 +73,7 @@ const YourRating = ({ paintId, isAuth }: Props) => {
               lineHeight={"16px"}
               whiteSpace={"nowrap"}
             >
-              Đánh giá của bạn:
+              Cảm nhận của bạn:
             </Typography>
             <Rating
               size="medium"

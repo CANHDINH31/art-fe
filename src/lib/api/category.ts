@@ -23,10 +23,14 @@ const addToCategory = (payload: { _id: string; list_paint_id: string[] }) =>
     listCategories: [payload],
   });
 
+const getListPaintRelation = (id: string) =>
+  request.get("/api/categories/find-by-painting-id/" + id);
+
 export {
   getListCategory,
   getDetailCategory,
   updateCategory,
   removeFromCategory,
   addToCategory,
+  getListPaintRelation,
 };
