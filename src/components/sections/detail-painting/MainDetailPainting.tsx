@@ -86,7 +86,7 @@ const MainDetailPainting = ({
               <Typography py={2}>Mã: {detailPainting?._id}</Typography>
               <Divider />
               <Typography py={2}>
-                Danh mục: {category.join(",").toUpperCase()}
+                Danh mục: {category?.join(",")?.toUpperCase()}
               </Typography>
               <Divider />
               <Typography py={2}>
