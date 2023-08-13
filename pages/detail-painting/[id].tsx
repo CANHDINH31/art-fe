@@ -46,7 +46,6 @@ const DetailPainting = () => {
     }
   );
 
-  console.log(listPaintRelation);
   useEffect(() => {
     const addViewForPaint = async () => {
       try {
@@ -79,6 +78,7 @@ const DetailPainting = () => {
             detailPainting={detailPainting}
             scoreRating={scoreRating}
             user={user}
+            category={listPaintRelation?.title}
           />
         </Box>
         <Box mt={8}>
@@ -103,7 +103,11 @@ const DetailPainting = () => {
               <Comment paintId={detailPainting?._id} />
             </Grid>
             <Grid item md={4} xs={12}>
-              <PaintRelation listPaint={listPaintRelation?.listPaint} />
+              <PaintRelation
+                listPaint={listPaintRelation?.listPaint?.filter(
+                  (i: { _id: string }) => i?._id !== router.query.id
+                )}
+              />
             </Grid>
           </Grid>
         </Box>

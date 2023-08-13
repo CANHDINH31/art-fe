@@ -1,5 +1,5 @@
 import { typePaint } from "@/src/lib/types";
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Link, Stack, Typography } from "@mui/material";
 import moment from "moment";
 import React from "react";
 
@@ -18,13 +18,8 @@ const PaintRelation = ({ listPaint }: Props) => {
       <Stack mt={8} gap={8}>
         {listPaint?.length > 0 &&
           listPaint?.map((paint: typePaint) => (
-            <Box
-              sx={{ cursor: "pointer" }}
-              display={"flex"}
-              gap={2}
-              key={paint?._id}
-            >
-              <Box flex={1}>
+            <Link key={paint?._id} href={`/detail-painting/${paint._id}`}>
+              <Box sx={{ cursor: "pointer" }} display={"flex"} gap={2}>
                 <Box
                   component="img"
                   src={paint?.url}
@@ -33,32 +28,33 @@ const PaintRelation = ({ listPaint }: Props) => {
                   borderRadius={2}
                   sx={{ objectFit: "cover", objectPosition: "center" }}
                 />
-              </Box>
 
-              <Stack justifyContent={"space-around"}>
-                <Typography
-                  variant="h5"
-                  fontWeight={600}
-                  sx={{
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    display: "-webkit-box",
-                    WebkitLineClamp: "2",
-                    WebkitBoxOrient: "vertical",
-                  }}
-                >
-                  {paint?.title}
-                </Typography>
-                <Typography variant="h5">
-                  Số lượt xem: {paint?.views}
-                </Typography>
-                <Typography variant="h5"></Typography>
-                <Typography variant="h5">
-                  {moment(paint.createdAt).format("DD-MM-YYYY")} -{" "}
-                  {moment(paint.createdAt).fromNow()}
-                </Typography>
-              </Stack>
-            </Box>
+                <Stack justifyContent={"space-around"}>
+                  <Typography
+                    variant="h5"
+                    fontWeight={600}
+                    sx={{
+                      maxWidth: 170,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      display: "-webkit-box",
+                      WebkitLineClamp: "2",
+                      WebkitBoxOrient: "vertical",
+                    }}
+                  >
+                    {paint?.title}
+                  </Typography>
+                  <Typography variant="h5">
+                    Số lượt xem: {paint?.views}
+                  </Typography>
+                  <Typography variant="h5"></Typography>
+                  <Typography variant="h5">
+                    {moment(paint.createdAt).format("DD-MM-YYYY")} -{" "}
+                    {moment(paint.createdAt).fromNow()}
+                  </Typography>
+                </Stack>
+              </Box>
+            </Link>
           ))}
       </Stack>
     </>

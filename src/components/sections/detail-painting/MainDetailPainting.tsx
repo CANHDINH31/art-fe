@@ -25,6 +25,7 @@ type Props = {
   detailPainting: typePaint;
   scoreRating: string;
   user: any;
+  category: string[];
 };
 
 const ImagePainting = styled("img")(({ theme }) => ({
@@ -34,7 +35,12 @@ const ImagePainting = styled("img")(({ theme }) => ({
   borderRadius: theme.spacing(1),
 }));
 
-const MainDetailPainting = ({ detailPainting, scoreRating, user }: Props) => {
+const MainDetailPainting = ({
+  detailPainting,
+  scoreRating,
+  user,
+  category,
+}: Props) => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
 
@@ -78,6 +84,10 @@ const MainDetailPainting = ({ detailPainting, scoreRating, user }: Props) => {
             <Box mt={4}>
               <Divider />
               <Typography py={2}>Mã: {detailPainting?._id}</Typography>
+              <Divider />
+              <Typography py={2}>
+                Danh mục: {category.join(",").toUpperCase()}
+              </Typography>
               <Divider />
               <Typography py={2}>
                 Số lượt xem: {detailPainting?.views || 0}
