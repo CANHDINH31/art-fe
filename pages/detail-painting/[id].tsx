@@ -8,8 +8,6 @@ import { addView, getDetailPaint, getListPaintRelation } from "@/src/lib/api";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import YourRating from "@/src/components/sections/detail-painting/YourRating";
-import { findManyRateById } from "@/src/lib/api/rate";
-import { scoreAvgRating } from "@/src/lib/utils/detail-painting";
 import Comment from "@/src/components/sections/detail-painting/Comment";
 import PaintRelation from "@/src/components/sections/detail-painting/PaintRelation";
 import MainDetailPainting from "@/src/components/sections/detail-painting/MainDetailPainting";
@@ -17,9 +15,8 @@ import MainDetailPainting from "@/src/components/sections/detail-painting/MainDe
 const DetailPainting = () => {
   const { user } = useSelector((state: any) => state?.user);
   const router = useRouter();
-  const [scoreRating, setScoreRating] = React.useState<string>("");
 
-  const { data: detailPainting } = useQuery(
+  const { data: detailPainting, refetch } = useQuery(
     ["detailPainting", router.query.id],
     async () => {
       try {
@@ -54,19 +51,8 @@ const DetailPainting = () => {
         throw error;
       }
     };
-    const getScoreVote = async () => {
-      try {
-        const res = await findManyRateById(router.query.id as string);
-        if (res.data?.length > 0) {
-          const score = scoreAvgRating(res.data);
-          setScoreRating(score.toString());
-        }
-      } catch (error) {
-        throw error;
-      }
-    };
+
     router.query.id && addViewForPaint();
-    router.query.id && getScoreVote();
   }, [router.query.id]);
 
   return (
@@ -76,7 +62,9 @@ const DetailPainting = () => {
         <Box mt={4}>
           <MainDetailPainting
             detailPainting={detailPainting}
-            scoreRating={scoreRating}
+            scoreRating={Number(
+              detailPainting?.total_score / detailPainting?.account_users_rate
+            )}
             user={user}
             category={listPaintRelation?.title}
           />
@@ -86,6 +74,7 @@ const DetailPainting = () => {
             <Grid item xs={12} md={8}>
               <Box display={"flex"} justifyContent={"flex-start"}>
                 <YourRating
+                  refetch={refetch}
                   paintId={detailPainting?._id}
                   isAuth={Boolean(user)}
                 />

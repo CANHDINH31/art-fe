@@ -16,9 +16,14 @@ import {
 import BreadcrumbsCustom from "../common/BreadcrumbsCustom";
 import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
 import DrawerWP from "./DrawerWP";
+import { typeCategory } from "@/src/lib/types";
+import { infoRating } from "@/src/lib/utils/wall-painting";
 
 type Props = {
+  detailCategory: typeCategory | null;
   breadcrumb: string[];
+  value: string;
+  onChange: (value: string) => void;
 };
 
 const DrawerCustom = styled(Drawer)(({ theme }) => ({
@@ -27,13 +32,14 @@ const DrawerCustom = styled(Drawer)(({ theme }) => ({
   },
 }));
 
-const SettingWPC = ({ breadcrumb }: Props) => {
-  const [filter, setFilter] = React.useState("1");
+const SettingWPC = ({ breadcrumb, value, onChange, detailCategory }: Props) => {
   const [isOpenDrawer, setIsOpenDrawer] = useState<boolean>(false);
 
   const handleChange = (event: SelectChangeEvent) => {
-    setFilter(event.target.value as string);
+    onChange(event.target.value as string);
   };
+
+  const { totalScore, totalUsers } = infoRating(detailCategory as typeCategory);
 
   return (
     <Box
@@ -63,9 +69,18 @@ const SettingWPC = ({ breadcrumb }: Props) => {
           sx={{ flexDirection: { xs: "column", md: "row" } }}
           mt={4}
         >
-          <Rating value={5} readOnly size="medium" />
+          <Rating
+            value={Math.round((totalScore / totalUsers) * 4) / 4}
+            readOnly
+            size="medium"
+            precision={0.25}
+          />
           <Typography variant="h4">
-            Xếp hạng 4.76 / 5 (144 phiếu bầu) trong 1429 sản phẩm
+            {totalUsers > 0
+              ? `Xếp hạng ${Math.round((totalScore / totalUsers) * 4) / 4} / 5`
+              : "Chưa có đánh giá"}{" "}
+            ( {totalUsers} phiếu bầu) trong{" "}
+            {detailCategory?.list_paint_id?.length} sản phẩm
           </Typography>
         </Box>
         <Grid container>
@@ -75,8 +90,9 @@ const SettingWPC = ({ breadcrumb }: Props) => {
               height={"100%"}
               textAlign={"center"}
             >
-              <Typography variant="h4" fontWeight={550}>
-                Hiển thị 55–108 của 1372 kết quả
+              <Typography variant="h4" fontWeight={550} whiteSpace={"nowrap"}>
+                Hiển thị 1– {detailCategory?.list_paint_id?.length} của{" "}
+                {detailCategory?.list_paint_id?.length} kết quả
               </Typography>
             </Stack>
           </Grid>
@@ -86,14 +102,12 @@ const SettingWPC = ({ breadcrumb }: Props) => {
               <Select
                 label="Lọc theo"
                 size="small"
-                value={filter}
+                value={value}
                 onChange={handleChange}
               >
-                <MenuItem value={1}>Mới nhất</MenuItem>
-                <MenuItem value={2}>Theo mức độ phổ biến</MenuItem>
-                <MenuItem value={3}>Theo điểm đánh giá</MenuItem>
-                <MenuItem value={4}>Theo giá: từ thấp đến cao</MenuItem>
-                <MenuItem value={5}>Theo giá: từ cao đến thấp </MenuItem>
+                <MenuItem value={"1"}>Mới nhất</MenuItem>
+                <MenuItem value={"2"}>Theo mức độ phổ biến</MenuItem>
+                <MenuItem value={"3"}>Theo điểm đánh giá</MenuItem>
               </Select>
             </FormControl>
           </Grid>

@@ -6,6 +6,8 @@ type typePaint = {
   createdAt: string;
   updatedAt: string;
   views: string;
+  total_score: number;
+  account_users_rate: number;
 };
 
 export type { typePaint };

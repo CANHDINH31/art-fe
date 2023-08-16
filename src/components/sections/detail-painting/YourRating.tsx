@@ -1,17 +1,25 @@
 import { Box, Button, Rating, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 import { labelRating } from "./data";
-import { useMutation } from "@tanstack/react-query";
+import {
+  QueryObserverResult,
+  RefetchOptions,
+  RefetchQueryFilters,
+  useMutation,
+} from "@tanstack/react-query";
 import { findOneRateById, handleRate } from "@/src/lib/api/rate";
 import { toast } from "react-toastify";
 import moment from "moment";
 
 type Props = {
+  refetch: <TPageData>(
+    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
+  ) => Promise<QueryObserverResult<any, unknown>>;
   paintId: string;
   isAuth: boolean;
 };
 
-const YourRating = ({ paintId, isAuth }: Props) => {
+const YourRating = ({ paintId, isAuth, refetch }: Props) => {
   const [error, setError] = React.useState<boolean>(false);
   const [timeRate, setTimeRate] = React.useState<string>("");
   const [value, setValue] = React.useState<number>(4);
@@ -24,6 +32,7 @@ const YourRating = ({ paintId, isAuth }: Props) => {
   const { mutate } = useMutation({
     mutationFn: handleRate,
     onSuccess: res => {
+      refetch();
       setTimeRate(moment(res?.data?.updatedAt).format("hh:mm:ss DD-MM-YYYY"));
       toast.success("Bạn đã đánh giá thành công");
     },

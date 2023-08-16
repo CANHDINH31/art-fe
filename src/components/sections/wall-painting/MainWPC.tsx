@@ -2,32 +2,15 @@ import { Box, Grid, Pagination, Typography } from "@mui/material";
 import CardItem from "@/src/components/sections/common/CardItem";
 import Title from "@/src/components/sections/common/Title";
 import { useRouter } from "next/router";
-import { useQuery } from "@tanstack/react-query";
-import { getDetailCategory } from "@/src/lib/api";
 import { typePaint } from "@/src/lib/types/paint";
-import Loading from "../common/Loading";
-import { toast } from "react-toastify";
+import { typeCategory } from "@/src/lib/types";
 
-const MainWPC = () => {
+type Props = {
+  detailCategory: typeCategory;
+};
+
+const MainWPC = ({ detailCategory }: Props) => {
   const router = useRouter();
-  const { data: detailCategory, isLoading } = useQuery(
-    ["detailCategory", router.query.params],
-    async () => {
-      try {
-        const res = await getDetailCategory(router.query.params as string);
-        return res.data.data;
-      } catch (err: any) {
-        toast.error(err?.message || "Có lỗi xảy ra");
-        throw err;
-      }
-    },
-    {
-      enabled: !!router.query.params,
-      keepPreviousData: true,
-    }
-  );
-
-  if (isLoading) return <Loading />;
   return (
     <Box>
       <Typography variant="h2" fontWeight={600} textAlign={"center"}>

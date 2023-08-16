@@ -23,7 +23,7 @@ import ContactOrder from "./ContactOrder";
 
 type Props = {
   detailPainting: typePaint;
-  scoreRating: string;
+  scoreRating: number;
   user: any;
   category: string[];
 };
@@ -114,14 +114,16 @@ const MainDetailPainting = ({
               <Divider />
               <Box py={2} display={"flex"} alignItems={"flex-end"} gap={4}>
                 <Typography>Đánh giá:</Typography>
-                {scoreRating ? (
+                {scoreRating > 0 ? (
                   <>
                     <Rating
-                      value={Number(scoreRating)}
+                      value={Math.round(scoreRating * 4) / 4}
                       precision={0.25}
                       readOnly
                     />
-                    <Typography>({scoreRating} / 5)</Typography>
+                    <Typography>
+                      ({Math.round(scoreRating * 4) / 4} / 5)
+                    </Typography>
                   </>
                 ) : (
                   <Typography>Chưa có đánh giá</Typography>
