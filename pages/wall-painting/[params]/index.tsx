@@ -57,7 +57,6 @@ const WallPaintingCategory = () => {
   useEffect(() => {
     if (detailCategory) {
       const data = sortWallPainting(detailCategory as typeCategory, filter);
-      console.log({ filter, data });
       setDetailCategory(data);
     }
   }, [filter]);
