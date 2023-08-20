@@ -32,8 +32,8 @@ const ConfirmDeleteModal = ({
       aria-describedby="alert-dialog-description"
     >
       <DialogTitle id="alert-dialog-title">
-        <Typography variant="h3" fontWeight={600}>
-          {title || "Hộp thoại xác nhận xóa"}
+        <Typography variant="h4" fontWeight={600}>
+          {title || "XÁC NHẬN XÓA"}
         </Typography>
       </DialogTitle>
       <DialogContent>
@@ -42,10 +42,10 @@ const ConfirmDeleteModal = ({
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} variant="contained" color="error">
+        <Button onClick={handleClose} variant="outlined" color="error">
           Không đồng ý
         </Button>
-        <Button autoFocus variant="contained" onClick={handleOk}>
+        <Button autoFocus variant="outlined" onClick={handleOk}>
           Đồng ý
         </Button>
       </DialogActions>

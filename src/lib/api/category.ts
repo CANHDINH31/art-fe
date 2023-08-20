@@ -18,10 +18,10 @@ const removeFromCategory = (payload: {
     listCategories: [payload],
   });
 
-const addToCategory = (payload: { _id: string; list_paint_id: string[] }) =>
-  request.patch("/api/categories/add-to-category", {
-    listCategories: [payload],
-  });
+const addToCategory = (payload: {
+  list_category_id: string[];
+  list_paint_id: string[];
+}) => request.patch("/api/categories/add-to-category", payload);
 
 const getListPaintRelation = (id: string) =>
   request.get("/api/categories/find-by-painting-id/" + id);

@@ -24,19 +24,20 @@ const AddModal = ({ open, title, children, handleClose, handleOk }: Props) => {
       onClose={handleClose}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
+      fullWidth
     >
       <Box component={"form"} onSubmit={handleOk}>
         <DialogTitle id="alert-dialog-title">
           <Typography fontWeight={600}>{title || "Hộp thoại thêm"}</Typography>
         </DialogTitle>
         <DialogContent>
-          <Box width={"25vw"}>{children}</Box>
+          <Box>{children}</Box>
         </DialogContent>
         <DialogActions>
-          <Button variant="contained" color="error" onClick={handleClose}>
+          <Button variant="outlined" color="error" onClick={handleClose}>
             Không đồng ý
           </Button>
-          <Button autoFocus variant="contained" type="submit">
+          <Button autoFocus variant="outlined" type="submit">
             Đồng ý
           </Button>
         </DialogActions>

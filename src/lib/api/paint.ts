@@ -1,3 +1,4 @@
+import { createPaintingConvert } from "../types";
 import { request } from "../utils/request";
 
 type typeQueryPaint = {
@@ -12,8 +13,8 @@ const getListPaint = (query: typeQueryPaint) =>
 
 const getDetailPaint = (id: string) => request.get("/api/paints/" + id);
 
-const addNewPaint = (payload: { url: string; title: string }) =>
-  request.post("/api/paints", { listPaints: [payload] });
+const addNewPaint = (payload: createPaintingConvert[]) =>
+  request.post("/api/paints", { listPaints: payload });
 
 const updatePaint = (payload: { _id: string; url?: string; title?: string }) =>
   request.patch("/api/paints", { listPaints: [payload] });

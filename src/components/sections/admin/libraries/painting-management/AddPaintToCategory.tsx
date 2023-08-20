@@ -1,7 +1,7 @@
 import AddModal from "@/src/components/common/AddModal";
 import { addToCategory } from "@/src/lib/api";
 import { typeCategory } from "@/src/lib/types";
-import { MenuItem, Select } from "@mui/material";
+import { Autocomplete, Chip, TextField } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import Loading from "../../../common/Loading";
@@ -22,9 +22,13 @@ const AddPaintToCategory = ({
   listIdSelected,
 }: Props) => {
   const { handleSubmit } = useForm();
-  const [categoryValue, setCategoryValue] = useState<string>("");
+  const [categoryValue, setCategoryValue] = useState<string[]>([]);
   const { mutate, isLoading } = useMutation({
-    mutationFn: addToCategory,
+    mutationFn: async () =>
+      addToCategory({
+        list_category_id: categoryValue,
+        list_paint_id: listIdSelected,
+      }),
     onSuccess: res => {
       toast.success("Thêm thành công");
       handleClose();
@@ -34,33 +38,41 @@ const AddPaintToCategory = ({
     },
   });
 
-  useEffect(() => {
-    listCategory?.length > 0 && setCategoryValue(listCategory[0]._id);
-  }, [listCategory]);
+  const handleChangeAutocomplete = (listCategory: typeCategory[]) => {
+    const listIdCategoryId = listCategory?.map(el => el._id);
+    setCategoryValue(listIdCategoryId);
+  };
 
   if (isLoading) return <Loading />;
 
   return (
     <AddModal
-      title="Thêm tranh vào danh mục"
+      title="THÊM TRANH VÀO DANH MỤC"
       open={open}
       handleClose={handleClose}
-      handleOk={handleSubmit(data =>
-        mutate({ _id: categoryValue, list_paint_id: listIdSelected })
-      )}
+      handleOk={handleSubmit(() => mutate())}
     >
-      <Select
-        size="medium"
-        fullWidth
-        value={categoryValue}
-        onChange={e => setCategoryValue(e.target.value)}
-      >
-        {listCategory?.map((category: typeCategory) => (
-          <MenuItem value={category._id} key={category._id}>
-            {category.title}
-          </MenuItem>
-        ))}
-      </Select>
+      <Autocomplete
+        multiple
+        limitTags={3}
+        options={listCategory}
+        getOptionLabel={option => option.title}
+        onChange={(_, value) => handleChangeAutocomplete(value)}
+        renderInput={params => (
+          <TextField {...params} placeholder="Chọn danh mục" size="small" />
+        )}
+        renderTags={(value, getTagProps) => {
+          return value.map((option: typeCategory, index) => (
+            <Chip
+              label={option.title}
+              {...getTagProps({ index })}
+              key={option._id}
+              size="small"
+              color={"primary"}
+            />
+          ));
+        }}
+      />
     </AddModal>
   );
 };

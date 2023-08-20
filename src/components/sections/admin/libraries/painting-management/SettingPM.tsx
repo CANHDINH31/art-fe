@@ -54,33 +54,27 @@ const SettingPM = ({
             />
           </Box>
           <Box display={"flex"} alignItems={"center"} gap={2}>
-            <Button variant="contained" onClick={handleOpenAddPaint}>
+            <Button variant="outlined" onClick={handleOpenAddPaint}>
               <Box display={"flex"} alignItems={"center"} gap={1}>
-                <PlusIcon color={"white"} height={20} />
-                <Typography color={"white"}>Thêm tranh</Typography>
+                <PlusIcon height={20} />
+                <Typography>Thêm tranh</Typography>
               </Box>
             </Button>
             <Button
-              variant="contained"
+              variant="outlined"
               color="success"
               disabled={listIdSelected.length == 0}
               onClick={handleOpenAdd}
             >
-              <Box display={"flex"} alignItems={"center"} gap={1}>
-                <DocumentPlusIcon color={"white"} height={20} />
-                <Typography color={"white"}>Thêm vào danh mục</Typography>
-              </Box>
+              Thêm vào danh mục
             </Button>
             <Button
-              variant="contained"
+              variant="outlined"
               color="error"
               disabled={listIdSelected.length == 0}
               onClick={handleOpenDelete}
             >
-              <Box display={"flex"} alignItems={"center"} gap={1}>
-                <TrashIcon color={"white"} height={20} />
-                <Typography color={"white"}>Xóa</Typography>
-              </Box>
+              Xóa
             </Button>
           </Box>
         </Box>

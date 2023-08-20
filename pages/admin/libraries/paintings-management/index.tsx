@@ -7,8 +7,7 @@ import SettingPM from "@/src/components/sections/admin/libraries/painting-manage
 import { getListCategory, getListPaint } from "@/src/lib/api";
 import { queryClient } from "@/src/lib/react-query";
 import { typePaint } from "@/src/lib/types/paint";
-import { GlobeAltIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
-import { Box, Link, Pagination } from "@mui/material";
+import { Box, Button, Pagination } from "@mui/material";
 import { GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { ChangeEvent, ReactElement, useState } from "react";
@@ -16,6 +15,7 @@ import { detelePaint } from "@/src/lib/api";
 import AddPaintToCategory from "@/src/components/sections/admin/libraries/painting-management/AddPaintToCategory";
 import Loading from "@/src/components/sections/common/Loading";
 import { toast } from "react-toastify";
+import moment from "moment";
 
 const columns: GridColDef[] = [
   {
@@ -23,7 +23,7 @@ const columns: GridColDef[] = [
     headerName: "Ảnh đại diện",
     sortable: false,
     filterable: false,
-    width: 250,
+    width: 150,
     renderCell(params) {
       return (
         <Box
@@ -34,24 +34,34 @@ const columns: GridColDef[] = [
       );
     },
   },
-  { field: "title", headerName: "Tên", width: 250 },
-  { field: "views", headerName: "Số lượt xem", width: 250 },
+  { field: "title", headerName: "Tên", width: 200 },
+  { field: "views", headerName: "Số lượt xem", width: 120 },
+  { field: "total_score", headerName: "Tổng số điểm", width: 120 },
+  { field: "account_users_rate", headerName: "Số lượt đánh giá", width: 120 },
+  {
+    field: "created_at",
+    headerName: "Ngày tạo",
+    width: 180,
+    renderCell(param) {
+      return (
+        <Box>{moment(param.row.createdAt).format("DD-MM-YYYY HH:mm:ss")}</Box>
+      );
+    },
+  },
   {
     field: "action",
-    headerName: "Hành động",
+    headerName: "",
     sortable: false,
     filterable: false,
     width: 100,
     renderCell(param) {
       return (
-        <Box display={"flex"} gap={4}>
-          <Link href={`/admin/libraries/paintings-management/${param.row.id}`}>
-            <PencilSquareIcon width={30} color="#1976d2" />
-          </Link>
-          <Link href={`/detail-painting/${param.row.id}`}>
-            <GlobeAltIcon width={30} color="#2e7d32" />
-          </Link>
-        </Box>
+        <Button
+          href={`/admin/libraries/paintings-management/${param.row.id}`}
+          variant="outlined"
+        >
+          Chi tiết
+        </Button>
       );
     },
   },
@@ -189,6 +199,7 @@ const PaintingsManagement = () => {
       />
       <AddNewPainting
         open={isOpenAddNewPaint}
+        // open={true}
         handleClose={() => setIsOpenAddNewPaint(false)}
       />
     </Box>
