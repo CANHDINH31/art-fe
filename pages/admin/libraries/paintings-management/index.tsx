@@ -83,7 +83,11 @@ const PaintingsManagement = () => {
   const [totalPage, setTotalPage] = useState<number>();
   const [title, setTitle] = useState<string>("");
 
-  const { data: listPaint, isLoading: loadingPaint } = useQuery(
+  const {
+    data: listPaint,
+    isLoading: loadingPaint,
+    refetch,
+  } = useQuery(
     ["listPaint", currentPage, title],
     async () => {
       try {
@@ -125,8 +129,8 @@ const PaintingsManagement = () => {
     },
     onSuccess: res => {
       toast.success("Xóa thành công");
-      queryClient.invalidateQueries({ queryKey: ["listPaint"] });
       setIsOpenDeletePaint(false);
+      refetch();
     },
   });
 
@@ -198,8 +202,7 @@ const PaintingsManagement = () => {
         listIdSelected={listIdSelected as string[]}
       />
       <AddNewPainting
-        // open={isOpenAddNewPaint}
-        open={true}
+        open={isOpenAddNewPaint}
         handleClose={() => setIsOpenAddNewPaint(false)}
       />
     </Box>

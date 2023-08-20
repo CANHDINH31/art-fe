@@ -39,10 +39,11 @@ const SettingPM = ({
         <Box flex={1} display={"flex"} justifyContent={"space-between"}>
           <Box width={"30%"}>
             <TextField
+              variant="standard"
               value={title}
               onChange={e => setTitle(e.target.value as string)}
               size="small"
-              placeholder="Tìm kiếm tên tranh ......"
+              label="Tìm kiếm tranh"
               fullWidth
               InputProps={{
                 endAdornment: (

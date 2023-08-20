@@ -59,6 +59,13 @@ const AddNewPainting = ({ open, handleClose }: Props) => {
     },
   });
 
+  const handleChangeMode = () => {
+    reset();
+    setIsUpload(!isUpload);
+    setArrComponent([]);
+    setImageFile([]);
+  };
+
   const handleUploadFile = (files: File[]) => {
     for (const file of files) {
       const name = file.name;
@@ -99,7 +106,7 @@ const AddNewPainting = ({ open, handleClose }: Props) => {
     index: number;
   }) => {
     return (
-      <Box display={"flex"} alignItems={"flex-start"} gap={4} mt={4}>
+      <Box display={"flex"} alignItems={"flex-end"} gap={4} mt={4}>
         <Box width={"100%"}>
           <TextField
             variant="standard"
@@ -186,10 +193,7 @@ const AddNewPainting = ({ open, handleClose }: Props) => {
                 </Box>
               </Button>
             )}
-            <Switch
-              checked={isUpload}
-              onChange={() => setIsUpload(!isUpload)}
-            />
+            <Switch checked={isUpload} onChange={handleChangeMode} />
           </Box>
           {isUpload ? (
             <Box mt={4}>
@@ -204,16 +208,23 @@ const AddNewPainting = ({ open, handleClose }: Props) => {
                         height={50}
                         borderRadius={"8px"}
                       />
+                      <input
+                        hidden={true}
+                        value={el}
+                        {...register(`url ${index}`)}
+                      />
                       <TextField
                         variant="standard"
-                        error={errors.url ? true : false}
+                        error={errors[`title ${index}`] ? true : false}
                         size="small"
                         label="Tên"
                         fullWidth
-                        {...register("url", {
+                        {...register(`title ${index}`, {
                           required: "Trường này không được để trống",
                         })}
-                        helperText={errors?.url?.message?.toString()}
+                        helperText={errors[
+                          `title ${index}`
+                        ]?.message?.toString()}
                       />
                     </Box>
                   </Grid>

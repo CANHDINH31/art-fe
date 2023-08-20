@@ -59,7 +59,12 @@ const AddPaintToCategory = ({
         getOptionLabel={option => option.title}
         onChange={(_, value) => handleChangeAutocomplete(value)}
         renderInput={params => (
-          <TextField {...params} placeholder="Chọn danh mục" size="small" />
+          <TextField
+            {...params}
+            label="Chọn danh mục"
+            size="small"
+            variant="standard"
+          />
         )}
         renderTags={(value, getTagProps) => {
           return value.map((option: typeCategory, index) => (
