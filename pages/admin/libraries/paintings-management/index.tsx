@@ -198,8 +198,8 @@ const PaintingsManagement = () => {
         listIdSelected={listIdSelected as string[]}
       />
       <AddNewPainting
-        open={isOpenAddNewPaint}
-        // open={true}
+        // open={isOpenAddNewPaint}
+        open={true}
         handleClose={() => setIsOpenAddNewPaint(false)}
       />
     </Box>
