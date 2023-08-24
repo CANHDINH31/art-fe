@@ -5,7 +5,7 @@ import Loading from "@/src/components/sections/common/Loading";
 import { getListCategory } from "@/src/lib/api";
 import { typeCategory } from "@/src/lib/types";
 import { GlobeAltIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
-import { Box, Link, Typography } from "@mui/material";
+import { Box, Button, Link, Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
 import React, { ReactElement } from "react";
@@ -62,16 +62,12 @@ const columns: GridColDef[] = [
     width: 100,
     renderCell(param) {
       return (
-        <Box display={"flex"} gap={4}>
-          <Link
-            href={`/admin/libraries/categories-management/${param.row._id}`}
-          >
-            <PencilSquareIcon width={30} color="#1976d2" />
-          </Link>
-          <Link href={`/wall-painting/${param.row._id}`}>
-            <GlobeAltIcon width={30} color="#2e7d32" />
-          </Link>
-        </Box>
+        <Button
+          href={`/admin/libraries/categories-management/${param.row._id}`}
+          variant="outlined"
+        >
+          Chi tiết
+        </Button>
       );
     },
   },

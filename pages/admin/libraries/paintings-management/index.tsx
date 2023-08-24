@@ -5,7 +5,6 @@ import Tab from "@/src/components/sections/admin/libraries/Tab";
 import AddNewPainting from "@/src/components/sections/admin/libraries/painting-management/AddNewPainting";
 import SettingPM from "@/src/components/sections/admin/libraries/painting-management/SettingPM";
 import { getListCategory, getListPaint } from "@/src/lib/api";
-import { queryClient } from "@/src/lib/react-query";
 import { typePaint } from "@/src/lib/types/paint";
 import { Box, Button, Pagination } from "@mui/material";
 import { GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
@@ -16,56 +15,6 @@ import AddPaintToCategory from "@/src/components/sections/admin/libraries/painti
 import Loading from "@/src/components/sections/common/Loading";
 import { toast } from "react-toastify";
 import moment from "moment";
-
-const columns: GridColDef[] = [
-  {
-    field: "url",
-    headerName: "Ảnh đại diện",
-    sortable: false,
-    filterable: false,
-    width: 150,
-    renderCell(params) {
-      return (
-        <Box
-          component={"img"}
-          src={params.row.url}
-          sx={{ width: 120, height: 120, objectFit: "cover", borderRadius: 2 }}
-        />
-      );
-    },
-  },
-  { field: "title", headerName: "Tên", width: 200 },
-  { field: "views", headerName: "Số lượt xem", width: 120 },
-  { field: "total_score", headerName: "Tổng số điểm", width: 120 },
-  { field: "account_users_rate", headerName: "Số lượt đánh giá", width: 120 },
-  {
-    field: "created_at",
-    headerName: "Ngày tạo",
-    width: 180,
-    renderCell(param) {
-      return (
-        <Box>{moment(param.row.createdAt).format("DD-MM-YYYY HH:mm:ss")}</Box>
-      );
-    },
-  },
-  {
-    field: "action",
-    headerName: "",
-    sortable: false,
-    filterable: false,
-    width: 100,
-    renderCell(param) {
-      return (
-        <Button
-          href={`/admin/libraries/paintings-management/${param.row.id}`}
-          variant="outlined"
-        >
-          Chi tiết
-        </Button>
-      );
-    },
-  },
-];
 
 const PaintingsManagement = () => {
   const [listIdSelected, setListIdSelected] = useState<GridRowSelectionModel>(
@@ -82,6 +31,73 @@ const PaintingsManagement = () => {
   const [isOpenAddNewPaint, setIsOpenAddNewPaint] = useState<boolean>(false);
   const [totalPage, setTotalPage] = useState<number>();
   const [title, setTitle] = useState<string>("");
+
+  const columns: GridColDef[] = [
+    {
+      field: "url",
+      headerName: "Ảnh đại diện",
+      sortable: false,
+      filterable: false,
+      width: 150,
+      renderCell(params) {
+        return (
+          <Box
+            component={"img"}
+            src={params.row.url}
+            sx={{
+              width: 120,
+              height: 120,
+              objectFit: "cover",
+              borderRadius: 2,
+            }}
+          />
+        );
+      },
+    },
+    { field: "title", headerName: "Tên", width: 200 },
+    { field: "views", headerName: "Số lượt xem", width: 120 },
+    { field: "total_score", headerName: "Tổng số điểm", width: 120 },
+    { field: "account_users_rate", headerName: "Số lượt đánh giá", width: 120 },
+    {
+      field: "created_at",
+      headerName: "Ngày tạo",
+      width: 180,
+      renderCell(param) {
+        return (
+          <Box>{moment(param.row.createdAt).format("DD-MM-YYYY HH:mm:ss")}</Box>
+        );
+      },
+    },
+    {
+      field: "action",
+      headerName: "Hành động",
+      sortable: false,
+      filterable: false,
+      width: 200,
+      renderCell(param) {
+        return (
+          <Box display={"flex"} alignItems={"center"} gap={2}>
+            <Button
+              href={`/admin/libraries/paintings-management/${param.row.id}`}
+              variant="outlined"
+            >
+              Chi tiết
+            </Button>
+            <Button
+              variant="outlined"
+              color="error"
+              onClick={() => {
+                setIsOpenDeletePaint(true);
+                setListIdSelected([param.row._id]);
+              }}
+            >
+              Xóa
+            </Button>
+          </Box>
+        );
+      },
+    },
+  ];
 
   const {
     data: listPaint,
