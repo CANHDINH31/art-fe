@@ -48,9 +48,9 @@ const setRefreshToken = (refreshToken: string | null) => {
   }
 };
 
-const isValidToken = (accessToken: string | null) => {
-  if (!accessToken) return false;
-  const decoded: any = jwtDecode(accessToken);
+const isValidToken = (token: string | null) => {
+  if (!token) return false;
+  const decoded: any = jwtDecode(token);
   const currentTime = Date.now() / 1000;
   return decoded.exp > currentTime;
 };
