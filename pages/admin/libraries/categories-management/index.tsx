@@ -4,8 +4,7 @@ import Tab from "@/src/components/sections/admin/libraries/Tab";
 import Loading from "@/src/components/sections/common/Loading";
 import { getListCategory } from "@/src/lib/api";
 import { typeCategory } from "@/src/lib/types";
-import { GlobeAltIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
-import { Box, Button, Link, Typography } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
 import React, { ReactElement } from "react";
@@ -59,7 +58,7 @@ const columns: GridColDef[] = [
     headerName: "Hành động",
     sortable: false,
     filterable: false,
-    width: 100,
+    width: 200,
     renderCell(param) {
       return (
         <Button

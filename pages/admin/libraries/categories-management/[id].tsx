@@ -4,10 +4,15 @@ import Loading from "@/src/components/sections/common/Loading";
 import { getDetailCategory, updateCategory } from "@/src/lib/api";
 import { queryClient } from "@/src/lib/react-query";
 import { typePaint } from "@/src/lib/types/paint";
-import { ChevronLeftIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowUpTrayIcon,
+  ChevronLeftIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline";
 import {
   Box,
   Button,
+  CircularProgress,
   Stack,
   TextField,
   TextareaAutosize,
@@ -16,9 +21,11 @@ import {
 } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { storage } from "@/src/lib/firebase/firebaseConfig";
 
 const WrapTextarea = styled(Box)(({ theme }) => ({
   marginTop: theme.spacing(4),
@@ -47,6 +54,9 @@ const TextareaCustom = styled(TextareaAutosize)(({ theme }) => ({
 
 const CategoriesManagementDetail = () => {
   const router = useRouter();
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const [image, setImage] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const [listPainting, setListPainting] = useState<typePaint[]>([]);
   const {
     register,
@@ -60,6 +70,7 @@ const CategoriesManagementDetail = () => {
     async () => {
       try {
         const res = await getDetailCategory(router.query.id as string);
+        setImage(res?.data?.data?.url);
         const listPaint = res.data.data?.list_paint_id?.map(
           (paint: typePaint) => ({
             ...paint,
@@ -73,7 +84,7 @@ const CategoriesManagementDetail = () => {
         throw err;
       }
     },
-    { enabled: !!router.query.id }
+    { enabled: !!router.query.id, refetchOnWindowFocus: false }
   );
 
   const { mutate: handleUpdateCategory, isLoading: loadingUpdate } =
@@ -88,12 +99,33 @@ const CategoriesManagementDetail = () => {
       },
     });
 
+  const handleUploadFile = (files: File[]) => {
+    const name = files[0].name;
+    const storageRef = ref(storage, `paint/${name}`);
+    const uploadTask = uploadBytesResumable(storageRef, files[0]);
+    uploadTask.on(
+      "state_changed",
+      snapshot => {
+        setLoading(true);
+      },
+      error => {
+        console.log(error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then(url => {
+          setValue("url", url);
+          setImage(url);
+          setLoading(false);
+        });
+      }
+    );
+  };
   useEffect(() => {
     setValue("url", detailCategory?.url);
     setValue("description", detailCategory?.description);
   }, [detailCategory, setValue]);
 
-  if (loadingList || loadingUpdate) return <Loading />;
+  if (loadingList) return <Loading />;
 
   return (
     <Box>
@@ -108,33 +140,81 @@ const CategoriesManagementDetail = () => {
         <Typography>Quay lại quản lý danh mục</Typography>
       </Box>
       <Box mt={8} display={"flex"} justifyContent={"center"} gap={4}>
-        <Box>
-          <Box
-            component={"img"}
-            src={detailCategory?.url}
+        {image && !loading ? (
+          <Box>
+            <Box
+              component={"img"}
+              src={image}
+              sx={{
+                width: 280,
+                height: 280,
+                objectFit: "cover",
+                borderRadius: 2,
+              }}
+            />
+            <Stack mt={4} alignItems={"center"}>
+              <Button
+                color="error"
+                size="small"
+                onClick={() => {
+                  setValue("url", "");
+                  setImage("");
+                }}
+              >
+                <TrashIcon width={20} />
+              </Button>
+            </Stack>
+          </Box>
+        ) : (
+          <Stack
+            border={"1px dashed #949494"}
             sx={{
-              width: 250,
-              height: 250,
-              objectFit: "cover",
+              width: 280,
+              height: 280,
               borderRadius: 2,
             }}
-          />
-          <Typography
-            variant="h4"
-            fontWeight={600}
-            mt={1}
-            textAlign={"center"}
-            textTransform={"uppercase"}
+            justifyContent={"center"}
+            alignItems={"center"}
           >
-            {detailCategory?.title}
-          </Typography>
-        </Box>
+            {!loading ? (
+              <>
+                <Button
+                  onClick={() => inputRef.current && inputRef.current?.click()}
+                >
+                  <Box display={"flex"} gap={2}>
+                    <ArrowUpTrayIcon width={18} />
+                    <Typography>Upload ảnh</Typography>
+                  </Box>
+                </Button>
+                <input
+                  ref={inputRef}
+                  type="file"
+                  hidden
+                  accept="image/*"
+                  onChange={files =>
+                    handleUploadFile(Array.from(files.target.files || []))
+                  }
+                />
+              </>
+            ) : (
+              <CircularProgress />
+            )}
+          </Stack>
+        )}
         <Stack
           component={"form"}
           onSubmit={handleSubmit(data =>
             handleUpdateCategory({ ...data, _id: router.query.id as string })
           )}
         >
+          <Typography
+            variant="h4"
+            fontWeight={600}
+            textTransform={"uppercase"}
+            mb={1}
+          >
+            {detailCategory?.title}
+          </Typography>
           <TextField
             error={errors.url ? true : false}
             sx={{ width: 500 }}
@@ -164,8 +244,8 @@ const CategoriesManagementDetail = () => {
             </Typography>
           )}
           <Box mt={1} display={"flex"} justifyContent={"flex-end"}>
-            <Button variant="contained" type="submit">
-              Lưu
+            <Button variant="outlined" type="submit">
+              Cập nhật
             </Button>
           </Box>
         </Stack>

@@ -3,11 +3,7 @@ import DataGridCustom from "@/src/components/common/DataGridCustom";
 import { removeFromCategory } from "@/src/lib/api";
 import { queryClient } from "@/src/lib/react-query";
 import { typePaint } from "@/src/lib/types/paint";
-import {
-  GlobeAltIcon,
-  PencilSquareIcon,
-  TrashIcon,
-} from "@heroicons/react/24/outline";
+import { TrashIcon } from "@heroicons/react/24/outline";
 import { Box, Button, Link } from "@mui/material";
 import { GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
 import { useMutation } from "@tanstack/react-query";
@@ -17,45 +13,63 @@ import Loading from "../../../common/Loading";
 import { toast } from "react-toastify";
 
 type Props = { listPainting: typePaint[] };
-const columns: GridColDef[] = [
-  {
-    field: "url",
-    headerName: "Ảnh đại diện",
-    sortable: false,
-    filterable: false,
-    width: 350,
-    renderCell(params) {
-      return (
-        <Box
-          component={"img"}
-          src={params.row.url}
-          sx={{ width: 120, height: 120, objectFit: "cover", borderRadius: 2 }}
-        />
-      );
-    },
-  },
-  { field: "title", headerName: "Tên", width: 350 },
-  {
-    field: "action",
-    headerName: "Hành động",
-    sortable: false,
-    filterable: false,
-    width: 300,
-    renderCell(param) {
-      return (
-        <Box display={"flex"} gap={4}>
-          <Link href={`/admin/libraries/categories-management/${param.row.id}`}>
-            <PencilSquareIcon width={30} color="#1976d2" />
-          </Link>
-          <Link href={`/detail-painting/${param.row.id}`}>
-            <GlobeAltIcon width={30} color="#2e7d32" />
-          </Link>
-        </Box>
-      );
-    },
-  },
-];
+
 const ListPainting = ({ listPainting }: Props) => {
+  const columns: GridColDef[] = [
+    {
+      field: "url",
+      headerName: "Ảnh đại diện",
+      sortable: false,
+      filterable: false,
+      width: 250,
+      renderCell(params) {
+        return (
+          <Box
+            component={"img"}
+            src={params.row.url}
+            sx={{
+              width: 120,
+              height: 120,
+              objectFit: "cover",
+              borderRadius: 2,
+            }}
+          />
+        );
+      },
+    },
+    { field: "title", headerName: "Tên", width: 250 },
+    { field: "views", headerName: "Lượt xem", width: 150 },
+    {
+      field: "action",
+      headerName: "Hành động",
+      sortable: false,
+      filterable: false,
+      width: 300,
+      renderCell(param) {
+        return (
+          <Box display={"flex"} alignItems={"center"} gap={2}>
+            <Button
+              variant="outlined"
+              href={`/admin/libraries/categories-management/${param.row.id}`}
+            >
+              Chi tiết
+            </Button>
+            <Button
+              variant="outlined"
+              color="error"
+              onClick={() => {
+                setIsOpenConfirmDelete(true);
+                setListIdSelected([param.row.id]);
+              }}
+            >
+              Xóa khỏi danh mục
+            </Button>
+          </Box>
+        );
+      },
+    },
+  ];
+
   const router = useRouter();
   const [listIdSelected, setListIdSelected] = useState<GridRowSelectionModel>(
     []
@@ -93,7 +107,7 @@ const ListPainting = ({ listPainting }: Props) => {
     <>
       <Box mb={4} display={"flex"} justifyContent={"flex-end"}>
         <Button
-          variant="contained"
+          variant="outlined"
           color="error"
           onClick={() => setIsOpenConfirmDelete(true)}
           disabled={listIdSelected?.length === 0}
