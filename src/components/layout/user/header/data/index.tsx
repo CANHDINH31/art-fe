@@ -1,6 +1,10 @@
 export const listMenu = [
   {
-    title: "Giới thiệu danh mục",
+    title: "Trang chủ",
+    href: "/",
+  },
+  {
+    title: "Danh mục",
     href: "/wall-painting",
   },
   {
