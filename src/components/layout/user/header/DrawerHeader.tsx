@@ -122,7 +122,7 @@ const DrawerHeader = ({ onClose }: Props) => {
         ) : (
           <Stack gap={2}>
             <Button
-              variant="contained"
+              variant="outlined"
               size="small"
               fullWidth
               onClick={() => router.push("/auth/login")}
@@ -130,7 +130,7 @@ const DrawerHeader = ({ onClose }: Props) => {
               Đăng nhập
             </Button>
             <Button
-              variant="contained"
+              variant="outlined"
               color="error"
               size="small"
               fullWidth

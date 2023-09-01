@@ -134,28 +134,28 @@ const MainDetailPainting = ({
             <Box mt={4} display={"flex"} gap={1} alignItems={"center"}>
               <Button
                 sx={{ width: { xs: "100%", lg: "auto" } }}
-                variant="contained"
+                variant="outlined"
                 color={
                   user &&
                   user?.favourite?.findIndex(
                     (item: any) => item._id === detailPainting?._id
                   ) >= 0
                     ? "error"
-                    : "primary"
+                    : "secondary"
                 }
                 size="large"
                 onClick={() => handleLike(detailPainting)}
               >
                 <Box display={"flex"} gap={2} alignItems={"center"}>
                   <HeartIcon width={24} />
-                  <Typography variant="h4" color={"white"}>
+                  <Box component={"div"} fontSize={16}>
                     {user &&
                     user?.favourite?.findIndex(
                       (item: any) => item._id === detailPainting?._id
                     ) >= 0
                       ? "Yêu thích"
                       : "Thêm vào yêu thích"}
-                  </Typography>
+                  </Box>
                 </Box>
               </Button>
               <Button

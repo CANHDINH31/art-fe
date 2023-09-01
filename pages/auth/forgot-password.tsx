@@ -95,7 +95,7 @@ const ForgotPassword = () => {
         <Box mt={3}>
           <Button
             fullWidth
-            variant="contained"
+            variant="outlined"
             size="medium"
             color="secondary"
             type="submit"

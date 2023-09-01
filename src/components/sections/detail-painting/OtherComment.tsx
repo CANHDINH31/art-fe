@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { typeComment } from "@/src/lib/types";
 import moment from "moment";
 import {
@@ -39,7 +39,7 @@ const OtherComment = ({ comment, isOwner, refetch }: Props) => {
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
-  const textFieldRef = useRef(null);
+  const textFieldRef = useRef<HTMLInputElement | null>(null);
   const [isAddEmoji, setIsAddEmoji] = useState<boolean>(false);
   const [contentComment, setContentComment] = useState<string>("");
   const [selectionStart, setSelectionStart] = useState<number>(0);
@@ -50,11 +50,8 @@ const OtherComment = ({ comment, isOwner, refetch }: Props) => {
   };
 
   const handleAddEmoji = (icon: string) => {
-    const newContent =
-      contentComment.slice(0, selectionStart) +
-      icon +
-      contentComment.slice(selectionStart);
-    setContentComment(newContent);
+    setContentComment(contentComment.slice(0, selectionStart) + icon + contentComment.slice(selectionStart))
+    setSelectionStart(selectionStart + icon?.length)
   };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -69,6 +66,7 @@ const OtherComment = ({ comment, isOwner, refetch }: Props) => {
     setAnchorEl(null);
     setIsEdit(true);
     setContentComment(comment?.content);
+  
   };
 
   const { mutate } = useMutation({
@@ -87,6 +85,10 @@ const OtherComment = ({ comment, isOwner, refetch }: Props) => {
       await refetch();
     },
   });
+  
+  useEffect(()=>{
+    isEdit && textFieldRef?.current?.focus()
+  },[isEdit])
 
   return (
     <Box display={"flex"} gap={4} mt={8}>

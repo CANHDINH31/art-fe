@@ -22,7 +22,7 @@ type Props = {
 
 const Comment = ({ paintId }: Props) => {
   const { user } = useSelector((state: any) => state?.user);
-  const textFieldRef = useRef(null);
+  const textFieldRef = useRef<HTMLInputElement | null>(null);
   const router = useRouter();
 
   const [isAddEmoji, setIsAddEmoji] = useState<boolean>(false);
@@ -53,13 +53,11 @@ const Comment = ({ paintId }: Props) => {
   };
 
   const handleAddEmoji = (icon: string) => {
-    const newContent =
-      contentComment.slice(0, selectionStart) +
-      icon +
-      contentComment.slice(selectionStart);
-    setContentComment(newContent);
+    setContentComment(contentComment.slice(0, selectionStart) + icon + contentComment.slice(selectionStart))
+    setSelectionStart(selectionStart + icon?.length)
   };
 
+  
   return (
     <Box>
       {!user && (
@@ -124,7 +122,7 @@ const Comment = ({ paintId }: Props) => {
                     justifyContent={"center"}
                     alignItems={"center"}
                     borderRadius={"50%"}
-                    onClick={() => setIsAddEmoji(!isAddEmoji)}
+                    onClick={() => {setIsAddEmoji(!isAddEmoji); textFieldRef?.current?.focus()}}
                   >
                     <FaceSmileIcon width={28} height={28} color="#446084" />
                   </Box>

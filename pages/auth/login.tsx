@@ -160,7 +160,7 @@ const Login = () => {
         <Box mt={3}>
           <Button
             fullWidth
-            variant="contained"
+            variant="outlined"
             size="medium"
             color="secondary"
             type="submit"
@@ -192,7 +192,7 @@ const Login = () => {
       >
         <Button
           fullWidth
-          variant="contained"
+          variant="outlined"
           disabled={status === "loading" || isLoading}
           onClick={() => signIn("facebook")}
         >
@@ -200,7 +200,7 @@ const Login = () => {
         </Button>
         <Button
           fullWidth
-          variant="contained"
+          variant="outlined"
           color="error"
           disabled={status === "loading" || isLoading}
           onClick={() => signIn("google")}
