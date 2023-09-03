@@ -190,7 +190,7 @@ const OtherComment = ({ comment, isOwner, refetch }: Props) => {
               <Box
                 width={40}
                 height={40}
-                bgcolor={"rgba(229, 229, 229, 0.4)"}
+                bgcolor={isAddEmoji ? "rgba(229, 229, 229, 0.4)" : ""}
                 display={"flex"}
                 justifyContent={"center"}
                 alignItems={"center"}
@@ -224,7 +224,7 @@ const OtherComment = ({ comment, isOwner, refetch }: Props) => {
               </Button>
               <Button
                 size="medium"
-                variant="contained"
+                variant="outlined"
                 disabled={Boolean(!contentComment)}
                 onClick={() => handleUpdateComment()}
               >

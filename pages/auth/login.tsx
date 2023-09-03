@@ -16,7 +16,7 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { loginByPlatform, signInAccount } from "@/src/lib/api";
 import { toast } from "react-toastify";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useDispatch } from "react-redux";
 import { login } from "@/src/lib/redux/userSlice";
 import { setRefreshToken, setToken } from "@/src/lib/utils/jwt";
@@ -52,7 +52,7 @@ const Login = () => {
 
   const { mutate: loginMutate, isLoading: loginLoading } = useMutation({
     mutationFn: signInAccount,
-    onSuccess: res => {
+    onSuccess: (res) => {
       if (res.data.status == 400) {
         toast.warn(res.data.message);
       } else {
@@ -92,154 +92,152 @@ const Login = () => {
   }, [data]);
 
   return (
-    <Box>
-      <Typography variant="h2" textAlign={"center"}>
-        Đăng nhập tài khoản
-      </Typography>
-      <Box
-        mt={3}
-        component={"form"}
-        onSubmit={handleSubmit(data =>
-          loginMutate(data as { email: string; password: string })
-        )}
-      >
-        <Box>
-          <TextFieldCustom
-            fullWidth
-            error={errors.email ? true : false}
-            placeholder="Nhập email"
-            {...register("email", {
-              required: "Trường này không được để trống",
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: "Email không hợp lệ",
-              },
-            })}
-            helperText={errors?.email?.message?.toString()}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <EnvelopeIcon height={20} color="#446084" />
-                </InputAdornment>
-              ),
-            }}
-          />
+    <AuthLayout title="Đăng nhập" loading={isLoading || loginLoading}>
+      <Box>
+        <Typography variant="h2" textAlign={"center"}>
+          Đăng nhập tài khoản
+        </Typography>
+        <Box
+          mt={3}
+          component={"form"}
+          onSubmit={handleSubmit((data) =>
+            loginMutate(data as { email: string; password: string })
+          )}
+        >
+          <Box>
+            <TextFieldCustom
+              fullWidth
+              error={errors.email ? true : false}
+              placeholder="Nhập email"
+              {...register("email", {
+                required: "Trường này không được để trống",
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: "Email không hợp lệ",
+                },
+              })}
+              helperText={errors?.email?.message?.toString()}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <EnvelopeIcon height={20} color="#446084" />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Box>
+          <Box mt={3}>
+            <TextFieldCustom
+              fullWidth
+              type={isHidePassword ? "password" : " text"}
+              error={errors.password ? true : false}
+              placeholder="Nhập mật khẩu"
+              {...register("password", {
+                required: "Trường này không được để trống",
+                minLength: { value: 6, message: "Mật khẩu tối thiểu 6 kí tự" },
+              })}
+              helperText={errors?.password?.message?.toString()}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <KeyIcon height={20} color="#446084" />
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment
+                    position="start"
+                    onClick={() => setIsHidePassword(!isHidePassword)}
+                  >
+                    {!isHidePassword ? (
+                      <EyeIcon height={20} color="#446084" />
+                    ) : (
+                      <EyeSlashIcon height={20} color="#446084" />
+                    )}
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Box>
+          <Box mt={3}>
+            <Button
+              fullWidth
+              variant="outlined"
+              size="medium"
+              color="secondary"
+              type="submit"
+              disabled={loginLoading ? true : false}
+            >
+              Đăng nhập
+            </Button>
+          </Box>
         </Box>
-        <Box mt={3}>
-          <TextFieldCustom
-            fullWidth
-            type={isHidePassword ? "password" : " text"}
-            error={errors.password ? true : false}
-            placeholder="Nhập mật khẩu"
-            {...register("password", {
-              required: "Trường này không được để trống",
-              minLength: { value: 6, message: "Mật khẩu tối thiểu 6 kí tự" },
-            })}
-            helperText={errors?.password?.message?.toString()}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <KeyIcon height={20} color="#446084" />
-                </InputAdornment>
-              ),
-              endAdornment: (
-                <InputAdornment
-                  position="start"
-                  onClick={() => setIsHidePassword(!isHidePassword)}
-                >
-                  {!isHidePassword ? (
-                    <EyeIcon height={20} color="#446084" />
-                  ) : (
-                    <EyeSlashIcon height={20} color="#446084" />
-                  )}
-                </InputAdornment>
-              ),
-            }}
-          />
+        <Box
+          mt={4}
+          sx={{ cursor: "pointer" }}
+          display={"flex"}
+          justifyContent={"flex-end"}
+          onClick={() => router.push("/auth/forgot-password")}
+        >
+          <Typography fontWeight={600} variant="h4">
+            Quên mật khẩu ?
+          </Typography>
         </Box>
-        <Box mt={3}>
+        <Typography textAlign={"center"} mt={4}>
+          Hoặc đăng nhập
+        </Typography>
+        <Box
+          display={"flex"}
+          gap={{ lg: 4, xs: 2 }}
+          mt={5}
+          sx={{ flexDirection: { lg: "row", xs: "column" } }}
+        >
           <Button
             fullWidth
             variant="outlined"
-            size="medium"
-            color="secondary"
-            type="submit"
-            disabled={loginLoading ? true : false}
+            disabled={status === "loading" || isLoading}
+            onClick={() => signIn("facebook")}
           >
-            Đăng nhập
+            Facebook
+          </Button>
+          <Button
+            fullWidth
+            variant="outlined"
+            color="error"
+            disabled={status === "loading" || isLoading}
+            onClick={() => signIn("google")}
+          >
+            Google
           </Button>
         </Box>
-      </Box>
-      <Box
-        mt={4}
-        sx={{ cursor: "pointer" }}
-        display={"flex"}
-        justifyContent={"flex-end"}
-        onClick={() => router.push("/auth/forgot-password")}
-      >
-        <Typography fontWeight={600} variant="h4">
-          Quên mật khẩu ?
-        </Typography>
-      </Box>
-      <Typography textAlign={"center"} mt={4}>
-        Hoặc đăng nhập
-      </Typography>
-      <Box
-        display={"flex"}
-        gap={{ lg: 4, xs: 2 }}
-        mt={5}
-        sx={{ flexDirection: { lg: "row", xs: "column" } }}
-      >
-        <Button
-          fullWidth
-          variant="outlined"
-          disabled={status === "loading" || isLoading}
-          onClick={() => signIn("facebook")}
-        >
-          Facebook
-        </Button>
-        <Button
-          fullWidth
-          variant="outlined"
-          color="error"
-          disabled={status === "loading" || isLoading}
-          onClick={() => signIn("google")}
-        >
-          Google
-        </Button>
-      </Box>
-      <Box mt={8}>
-        <Divider />
-      </Box>
-      <Box mt={5}>
-        <Box
-          display={"flex"}
-          justifyContent={"center"}
-          gap={2}
-          sx={{ cursor: "pointer" }}
-          onClick={() => router.push("/")}
-        >
-          <Typography>Quay lại Website ?</Typography>
-          <Typography fontWeight={600}>Click Here</Typography>
+        <Box mt={8}>
+          <Divider />
         </Box>
-        <Box
-          display={"flex"}
-          justifyContent={"center"}
-          gap={2}
-          sx={{ cursor: "pointer" }}
-          mt={1}
-          onClick={() => router.push("/auth/register")}
-        >
-          <Typography>Bạn chưa có tài khoản ?</Typography>
-          <Typography fontWeight={600}>Đăng kí</Typography>
+        <Box mt={5}>
+          <Box
+            display={"flex"}
+            justifyContent={"center"}
+            gap={2}
+            sx={{ cursor: "pointer" }}
+            onClick={() => router.push("/")}
+          >
+            <Typography>Quay lại Website ?</Typography>
+            <Typography fontWeight={600}>Click Here</Typography>
+          </Box>
+          <Box
+            display={"flex"}
+            justifyContent={"center"}
+            gap={2}
+            sx={{ cursor: "pointer" }}
+            mt={1}
+            onClick={() => router.push("/auth/register")}
+          >
+            <Typography>Bạn chưa có tài khoản ?</Typography>
+            <Typography fontWeight={600}>Đăng kí</Typography>
+          </Box>
         </Box>
       </Box>
-    </Box>
+    </AuthLayout>
   );
 };
 
 export default Login;
-
-Login.getLayout = function getLayout(page: ReactElement) {
-  return <AuthLayout title="Đăng nhập">{page}</AuthLayout>;
-};

@@ -117,7 +117,7 @@ const Comment = ({ paintId }: Props) => {
                   <Box
                     width={40}
                     height={40}
-                    bgcolor={"rgba(229, 229, 229, 0.4)"}
+                    bgcolor={isAddEmoji ? "rgba(229, 229, 229, 0.4)" : ""}
                     display={"flex"}
                     justifyContent={"center"}
                     alignItems={"center"}
@@ -142,7 +142,7 @@ const Comment = ({ paintId }: Props) => {
                 </Box>
                 <Button
                   size="medium"
-                  variant="contained"
+                  variant="outlined"
                   disabled={Boolean(!contentComment)}
                   onClick={() => {
                     mutate({ paint_id: paintId, content: contentComment });
