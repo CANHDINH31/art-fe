@@ -1,6 +1,7 @@
+import ConfirmDeleteModal from "@/src/components/common/ConfirmDeleteModal";
 import DataGridCustom from "@/src/components/common/DataGridCustom";
 import AdminLayout from "@/src/components/layout/admin";
-import { getListUsers } from "@/src/lib/api/user";
+import { deteleUser, getListUsers } from "@/src/lib/api/user";
 import { typeUser } from "@/src/lib/types";
 import {
   ArrowPathIcon,
@@ -16,9 +17,10 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import { GridColDef } from "@mui/x-data-grid";
-import { useQuery } from "@tanstack/react-query";
+import { GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { ChangeEvent, ReactElement, useState } from "react";
+import { toast } from "react-toastify";
 
 const Users = () => {
   const columns: GridColDef[] = [
@@ -108,7 +110,15 @@ const Users = () => {
             >
               Chi tiết
             </Button>
-            <Button variant="outlined" color="error" size="small">
+            <Button
+              variant="outlined"
+              color="error"
+              size="small"
+              onClick={() => {
+                setIsOpenDeleteUser(true);
+                setListIdSelected([param.row._id]);
+              }}
+            >
               Xóa
             </Button>
           </Box>
@@ -121,8 +131,12 @@ const Users = () => {
   const [searchText, setSearchText] = useState<string>("");
   const [provider, setProvider] = useState<string>("");
   const [role, setRole] = useState<string>("");
+  const [isOpenDeleteUser, setIsOpenDeleteUser] = useState<boolean>(false);
+  const [listIdSelected, setListIdSelected] = useState<GridRowSelectionModel>(
+    []
+  );
 
-  const { data } = useQuery(
+  const { data, refetch } = useQuery(
     ["listUsers", currentPage, searchText, provider, role],
     async () => {
       try {
@@ -141,6 +155,21 @@ const Users = () => {
     { keepPreviousData: true }
   );
 
+  const { mutate: deleteUser } = useMutation({
+    mutationFn: async () => {
+      try {
+        await deteleUser(listIdSelected as string[]);
+      } catch (error) {
+        toast.error("Xóa thất bại");
+      }
+    },
+    onSuccess: (res) => {
+      toast.success("Xóa thành công");
+      setIsOpenDeleteUser(false);
+      refetch();
+    },
+  });
+
   const handlePageChange = (event: ChangeEvent<unknown>, page: number) => {
     setCurrentPage(page);
   };
@@ -153,6 +182,7 @@ const Users = () => {
 
   return (
     <Box>
+      {/* Search */}
       <Grid container>
         <Grid xs={3}>
           <TextField
@@ -208,6 +238,7 @@ const Users = () => {
           </Button>
         </Grid>
       </Grid>
+      {/* Feature */}
       <Box display={"flex"} gap={2} justifyContent={"flex-end"} mt={4}>
         <Button variant="outlined">
           <Box display={"flex"} gap={2}>
@@ -215,13 +246,18 @@ const Users = () => {
             <span> Thêm mới</span>
           </Box>
         </Button>
-        <Button variant="outlined" color="error">
+        <Button
+          variant="outlined"
+          color="error"
+          onClick={() => setIsOpenDeleteUser(true)}
+        >
           <Box display={"flex"} gap={2}>
             <TrashIcon width={16} />
             <span>Xóa</span>
           </Box>
         </Button>
       </Box>
+      {/* Table List User */}
       <Box mt={4}>
         {data && (
           <DataGridCustom
@@ -231,10 +267,14 @@ const Users = () => {
             columns={columns}
             hideFooter={true}
             rowHeight={60}
+            onRowSelectionModelChange={(idSelected) => {
+              setListIdSelected(idSelected);
+            }}
+            rowSelectionModel={listIdSelected}
           />
         )}
       </Box>
-
+      {/* Pagination */}
       {Number(totalPage) > 1 && (
         <Box mt={8} display={"flex"} justifyContent={"center"}>
           <Pagination
@@ -245,6 +285,13 @@ const Users = () => {
           />
         </Box>
       )}
+      {/* Modal Confirm Delete */}
+      <ConfirmDeleteModal
+        handleOk={deleteUser}
+        handleClose={() => setIsOpenDeleteUser(false)}
+        open={isOpenDeleteUser}
+        content="Bạn có chắc chắn xóa user này ? Nếu xóa bạn sẽ không khôi phục được !!!"
+      />
     </Box>
   );
 };

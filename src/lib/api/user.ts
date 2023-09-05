@@ -18,4 +18,7 @@ const handleFavourite = (id: string) =>
 const getListUsers = (query?: typeQueryUser) =>
   request.get("/api/users?" + new URLSearchParams(query).toString());
 
-export { changePassword, handleFavourite, getListUsers };
+const deteleUser = (payload: string[]) =>
+  request.post("/api/users/delete", { listIdDelete: payload });
+
+export { changePassword, handleFavourite, getListUsers, deteleUser };
