@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/src/lib/redux/userSlice";
 import { toast } from "react-toastify";
 import { clearToken } from "@/src/lib/utils/jwt";
+import { convertUrlImage } from "@/src/lib/utils/common";
 
 const InputWrap = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -97,7 +98,7 @@ const SearchHeader = () => {
               <input
                 placeholder="Tìm kiếm sản phẩm (nhập đầy đủ dấu) ..."
                 value={searchValue}
-                onChange={e => setSearchValue(e.target.value)}
+                onChange={(e) => setSearchValue(e.target.value)}
                 onKeyDown={handleSearch}
               />
               <MagnifyingGlassIcon
@@ -134,7 +135,11 @@ const SearchHeader = () => {
                 >
                   <Box
                     component={"img"}
-                    src={user?.image || "/img/jpg/default-avatar.jpg"}
+                    src={
+                      user?.image
+                        ? convertUrlImage(user?.image)
+                        : "/img/jpg/default-avatar.jpg"
+                    }
                     width={30}
                     height={30}
                     borderRadius={"50%"}

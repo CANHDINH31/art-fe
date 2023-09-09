@@ -26,6 +26,7 @@ import { signOut } from "next-auth/react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearToken } from "@/src/lib/utils/jwt";
 import { logout } from "@/src/lib/redux/userSlice";
+import { convertUrlImage } from "@/src/lib/utils/common";
 
 type Props = {
   onClose: () => void;
@@ -43,7 +44,7 @@ const DrawerHeader = ({ onClose }: Props) => {
     if (!collapseActive.includes(collapse)) {
       setCollapseActive([...collapseActive, collapse]);
     } else {
-      setCollapseActive(collapseActive.filter(item => item !== collapse));
+      setCollapseActive(collapseActive.filter((item) => item !== collapse));
     }
   };
 
@@ -84,7 +85,7 @@ const DrawerHeader = ({ onClose }: Props) => {
           size="small"
           sx={{ width: "100%" }}
           value={searchValue}
-          onChange={e => setSearchValue(e.target.value)}
+          onChange={(e) => setSearchValue(e.target.value)}
           onKeyDown={handleSearch}
         />
         <Box
@@ -108,7 +109,11 @@ const DrawerHeader = ({ onClose }: Props) => {
             <Box display={"flex"} alignItems={"center"} gap={1}>
               <Box
                 component={"img"}
-                src={user?.image || "/img/jpg/default-avatar.jpg"}
+                src={
+                  user?.image
+                    ? convertUrlImage(user?.image)
+                    : "/img/jpg/default-avatar.jpg"
+                }
                 width={30}
                 height={30}
                 borderRadius={"50%"}
@@ -203,7 +208,7 @@ const DrawerHeader = ({ onClose }: Props) => {
                   timeout="auto"
                   unmountOnExit
                 >
-                  {menu?.sub?.map(submenu => (
+                  {menu?.sub?.map((submenu) => (
                     <List component="div" disablePadding key={submenu.title}>
                       <ListItemButton
                         sx={{ paddingLeft: 8 }}
