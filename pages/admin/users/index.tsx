@@ -1,8 +1,10 @@
 import ConfirmDeleteModal from "@/src/components/common/ConfirmDeleteModal";
 import DataGridCustom from "@/src/components/common/DataGridCustom";
 import AdminLayout from "@/src/components/layout/admin";
+import AddNewUser from "@/src/components/sections/admin/users/AddNewUser";
 import { deteleUser, getListUsers } from "@/src/lib/api/user";
 import { typeUser } from "@/src/lib/types";
+import { convertUrlImage } from "@/src/lib/utils/common";
 import {
   ArrowPathIcon,
   PlusCircleIcon,
@@ -35,7 +37,11 @@ const Users = () => {
           <Box display={"flex"} gap={4} alignItems={"center"}>
             <Box
               component={"img"}
-              src={params.row.image || "/img/jpg/default-avatar.jpg"}
+              src={
+                params.row.image
+                  ? convertUrlImage(params.row.image)
+                  : "/img/jpg/default-avatar.jpg"
+              }
               sx={{
                 width: 30,
                 height: 30,
@@ -135,6 +141,7 @@ const Users = () => {
   const [listIdSelected, setListIdSelected] = useState<GridRowSelectionModel>(
     []
   );
+  const [isOpenAddModal, setIsOpenAddModal] = useState<boolean>(false);
 
   const { data, refetch } = useQuery(
     ["listUsers", currentPage, searchText, provider, role],
@@ -184,7 +191,7 @@ const Users = () => {
     <Box>
       {/* Search */}
       <Grid container>
-        <Grid xs={3}>
+        <Grid xs={3} item>
           <TextField
             variant="standard"
             placeholder="Tìm kiếm theo họ tên hoặc email"
@@ -193,8 +200,8 @@ const Users = () => {
             onChange={(e) => setSearchText(e.target.value)}
           />
         </Grid>
-        <Grid xs={0.5}></Grid>
-        <Grid xs={3}>
+        <Grid xs={0.5} item></Grid>
+        <Grid xs={3} item>
           <Select
             variant="standard"
             fullWidth
@@ -208,8 +215,8 @@ const Users = () => {
             <MenuItem value={"Web"}>Web</MenuItem>
           </Select>
         </Grid>
-        <Grid xs={0.5}></Grid>
-        <Grid xs={3}>
+        <Grid xs={0.5} item></Grid>
+        <Grid xs={3} item>
           <Select
             variant="standard"
             fullWidth
@@ -222,8 +229,8 @@ const Users = () => {
             <MenuItem value={"User"}>User</MenuItem>
           </Select>
         </Grid>
-        <Grid xs={0.5}></Grid>
-        <Grid xs={1.5}>
+        <Grid xs={0.5} item></Grid>
+        <Grid xs={1.5} item>
           <Button
             variant="outlined"
             size="small"
@@ -240,7 +247,7 @@ const Users = () => {
       </Grid>
       {/* Feature */}
       <Box display={"flex"} gap={2} justifyContent={"flex-end"} mt={4}>
-        <Button variant="outlined">
+        <Button variant="outlined" onClick={() => setIsOpenAddModal(true)}>
           <Box display={"flex"} gap={2}>
             <PlusCircleIcon width={18} />
             <span> Thêm mới</span>
@@ -250,6 +257,7 @@ const Users = () => {
           variant="outlined"
           color="error"
           onClick={() => setIsOpenDeleteUser(true)}
+          disabled={listIdSelected?.length < 1}
         >
           <Box display={"flex"} gap={2}>
             <TrashIcon width={16} />
@@ -285,6 +293,13 @@ const Users = () => {
           />
         </Box>
       )}
+
+      {/* Add New User */}
+      <AddNewUser
+        open={isOpenAddModal}
+        handleClose={() => setIsOpenAddModal(false)}
+        refetch={refetch}
+      />
       {/* Modal Confirm Delete */}
       <ConfirmDeleteModal
         handleOk={deleteUser}

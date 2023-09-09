@@ -1,13 +1,17 @@
 import { Box, CircularProgress } from "@mui/material";
 import React from "react";
 
-const Loading = () => {
+type Props = {
+  minHeight?: string;
+};
+
+const Loading = ({ minHeight }: Props) => {
   return (
     <Box
       display={"flex"}
       justifyContent={"center"}
       alignItems={"center"}
-      minHeight={"100vh"}
+      minHeight={minHeight || "100vh"}
     >
       <CircularProgress />
     </Box>

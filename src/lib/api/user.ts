@@ -21,4 +21,14 @@ const getListUsers = (query?: typeQueryUser) =>
 const deteleUser = (payload: string[]) =>
   request.post("/api/users/delete", { listIdDelete: payload });
 
-export { changePassword, handleFavourite, getListUsers, deteleUser };
+const createUser = async (payload: FormData) => {
+  return await request.post("/api/users/create-by-admin", payload);
+};
+
+export {
+  changePassword,
+  handleFavourite,
+  getListUsers,
+  deteleUser,
+  createUser,
+};
