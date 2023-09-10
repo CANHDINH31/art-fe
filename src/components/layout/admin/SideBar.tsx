@@ -4,6 +4,7 @@ import { styled } from "@mui/system";
 import { useRouter } from "next/router";
 import { listMenuSidebar } from "./data";
 import { useSelector } from "react-redux";
+import { convertUrlImage } from "@/src/lib/utils/common";
 
 const BackButton = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -63,7 +64,11 @@ const SideBar = () => {
           <Box display={"flex"} mt={8} alignItems={"center"} gap={2}>
             <Avatar
               alt="Remy Sharp"
-              src={user?.image || "/img/jpg/default-avatar.jpg"}
+              src={
+                user?.image
+                  ? convertUrlImage(user?.image)
+                  : "/img/jpg/default-avatar.jpg"
+              }
             />
             <Typography fontWeight={600}>{user?.name}</Typography>
           </Box>

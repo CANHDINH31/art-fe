@@ -2,6 +2,7 @@ import ConfirmDeleteModal from "@/src/components/common/ConfirmDeleteModal";
 import DataGridCustom from "@/src/components/common/DataGridCustom";
 import AdminLayout from "@/src/components/layout/admin";
 import AddNewUser from "@/src/components/sections/admin/users/AddNewUser";
+import DetailUser from "@/src/components/sections/admin/users/DetailUser";
 import { deteleUser, getListUsers } from "@/src/lib/api/user";
 import { typeUser } from "@/src/lib/types";
 import { convertUrlImage } from "@/src/lib/utils/common";
@@ -110,7 +111,10 @@ const Users = () => {
         return (
           <Box display={"flex"} alignItems={"center"} gap={2}>
             <Button
-              href={`/admin/libraries/paintings-management/${param.row.id}`}
+              onClick={() => {
+                setIsOpenEditModal(true);
+                setIdUserEdit(param.row._id);
+              }}
               variant="outlined"
               size="small"
             >
@@ -142,6 +146,8 @@ const Users = () => {
     []
   );
   const [isOpenAddModal, setIsOpenAddModal] = useState<boolean>(false);
+  const [isOpenEditModal, setIsOpenEditModal] = useState<boolean>(false);
+  const [idUserEdit, setIdUserEdit] = useState<string>("");
 
   const { data, refetch } = useQuery(
     ["listUsers", currentPage, searchText, provider, role],
@@ -298,6 +304,13 @@ const Users = () => {
       <AddNewUser
         open={isOpenAddModal}
         handleClose={() => setIsOpenAddModal(false)}
+        refetch={refetch}
+      />
+      {/* Detail User */}
+      <DetailUser
+        open={isOpenEditModal}
+        idEdit={idUserEdit}
+        handleClose={() => setIsOpenEditModal(false)}
         refetch={refetch}
       />
       {/* Modal Confirm Delete */}

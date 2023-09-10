@@ -70,11 +70,11 @@ const PaintingManagementDetail = () => {
 
   const { mutate } = useMutation({
     mutationFn: updatePaint,
-    onSuccess: res => {
+    onSuccess: (res) => {
       toast.success("Cập nhật thành công");
       refetch();
     },
-    onError: errors => {
+    onError: (errors) => {
       toast.error("Cập nhật thất bại");
     },
   });
@@ -85,14 +85,14 @@ const PaintingManagementDetail = () => {
     const uploadTask = uploadBytesResumable(storageRef, files[0]);
     uploadTask.on(
       "state_changed",
-      snapshot => {
+      (snapshot) => {
         setLoading(true);
       },
-      error => {
+      (error) => {
         console.log(error);
       },
       () => {
-        getDownloadURL(uploadTask.snapshot.ref).then(url => {
+        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
           setValue("url", url);
           setImage(url);
           setLoading(false);
@@ -103,20 +103,17 @@ const PaintingManagementDetail = () => {
 
   return (
     <Box>
-      <Box
-        display={"flex"}
-        alignItems={"center"}
-        gap={1}
-        sx={{ cursor: "pointer" }}
-        onClick={() => router.push("/admin/libraries/paintings-management")}
-      >
-        <ChevronLeftIcon height={18} />
-        <Typography>Quay lại quản lý tranh</Typography>
-      </Box>
+      <Button href="/admin/libraries/paintings-management">
+        <Box display={"flex"} alignItems={"center"} gap={1}>
+          <ChevronLeftIcon height={18} />
+          <Typography>Quay lại quản lý tranh</Typography>
+        </Box>
+      </Button>
+
       <Stack
         mt={8}
         component={"form"}
-        onSubmit={handleSubmit(data =>
+        onSubmit={handleSubmit((data) =>
           mutate({ ...data, _id: router.query.id as string })
         )}
       >
@@ -175,7 +172,7 @@ const PaintingManagementDetail = () => {
                       type="file"
                       hidden
                       accept="image/*"
-                      onChange={files =>
+                      onChange={(files) =>
                         handleUploadFile(Array.from(files.target.files || []))
                       }
                     />

@@ -53,11 +53,14 @@ const Comment = ({ paintId }: Props) => {
   };
 
   const handleAddEmoji = (icon: string) => {
-    setContentComment(contentComment.slice(0, selectionStart) + icon + contentComment.slice(selectionStart))
-    setSelectionStart(selectionStart + icon?.length)
+    setContentComment(
+      contentComment.slice(0, selectionStart) +
+        icon +
+        contentComment.slice(selectionStart)
+    );
+    setSelectionStart(selectionStart + icon?.length);
   };
 
-  
   return (
     <Box>
       {!user && (
@@ -110,7 +113,8 @@ const Comment = ({ paintId }: Props) => {
                 fullWidth
                 placeholder="Viết bình luận ..."
                 value={contentComment}
-                onChange={e => setContentComment(e.target.value)}
+                onChange={(e) => setContentComment(e.target.value)}
+                multiline
               />
               <Box display={"flex"} justifyContent={"space-between"}>
                 <Box sx={{ cursor: "pointer", position: "relative" }}>
@@ -122,7 +126,10 @@ const Comment = ({ paintId }: Props) => {
                     justifyContent={"center"}
                     alignItems={"center"}
                     borderRadius={"50%"}
-                    onClick={() => {setIsAddEmoji(!isAddEmoji); textFieldRef?.current?.focus()}}
+                    onClick={() => {
+                      setIsAddEmoji(!isAddEmoji);
+                      textFieldRef?.current?.focus();
+                    }}
                   >
                     <FaceSmileIcon width={28} height={28} color="#446084" />
                   </Box>

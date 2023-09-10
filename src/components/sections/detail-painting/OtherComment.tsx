@@ -50,8 +50,12 @@ const OtherComment = ({ comment, isOwner, refetch }: Props) => {
   };
 
   const handleAddEmoji = (icon: string) => {
-    setContentComment(contentComment.slice(0, selectionStart) + icon + contentComment.slice(selectionStart))
-    setSelectionStart(selectionStart + icon?.length)
+    setContentComment(
+      contentComment.slice(0, selectionStart) +
+        icon +
+        contentComment.slice(selectionStart)
+    );
+    setSelectionStart(selectionStart + icon?.length);
   };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -66,7 +70,6 @@ const OtherComment = ({ comment, isOwner, refetch }: Props) => {
     setAnchorEl(null);
     setIsEdit(true);
     setContentComment(comment?.content);
-  
   };
 
   const { mutate } = useMutation({
@@ -85,10 +88,10 @@ const OtherComment = ({ comment, isOwner, refetch }: Props) => {
       await refetch();
     },
   });
-  
-  useEffect(()=>{
-    isEdit && textFieldRef?.current?.focus()
-  },[isEdit])
+
+  useEffect(() => {
+    isEdit && textFieldRef?.current?.focus();
+  }, [isEdit]);
 
   return (
     <Box display={"flex"} gap={4} mt={8}>
@@ -126,7 +129,9 @@ const OtherComment = ({ comment, isOwner, refetch }: Props) => {
               </Typography>
             </Box>
             <Box mt={1}>
-              <Typography variant="h5">{comment?.content}</Typography>
+              <Typography variant="h5" whiteSpace={"pre-line"}>
+                {comment?.content}
+              </Typography>
             </Box>
           </Box>
           {isOwner && (
@@ -183,7 +188,8 @@ const OtherComment = ({ comment, isOwner, refetch }: Props) => {
             fullWidth
             placeholder="Viết bình luận ..."
             value={contentComment}
-            onChange={e => setContentComment(e.target.value)}
+            onChange={(e) => setContentComment(e.target.value)}
+            multiline
           />
           <Box display={"flex"} justifyContent={"space-between"}>
             <Box sx={{ cursor: "pointer", position: "relative" }}>

@@ -25,10 +25,20 @@ const createUser = async (payload: FormData) => {
   return await request.post("/api/users/create-by-admin", payload);
 };
 
+const updateUser = async (id: string, payload: FormData) => {
+  return await request.patch("/api/users/update-by-admin/" + id, payload);
+};
+
+const getDetailUser = async (id: string) => {
+  return await request.get("/api/users/" + id);
+};
+
 export {
   changePassword,
   handleFavourite,
   getListUsers,
   deteleUser,
   createUser,
+  getDetailUser,
+  updateUser,
 };

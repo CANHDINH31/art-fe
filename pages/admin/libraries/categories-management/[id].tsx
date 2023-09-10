@@ -90,11 +90,11 @@ const CategoriesManagementDetail = () => {
   const { mutate: handleUpdateCategory, isLoading: loadingUpdate } =
     useMutation({
       mutationFn: updateCategory,
-      onSuccess: res => {
+      onSuccess: (res) => {
         toast.success("Cập nhật thành công");
         queryClient.invalidateQueries({ queryKey: ["detailCategory"] });
       },
-      onError: errors => {
+      onError: (errors) => {
         toast.error("Cập nhật thất bại");
       },
     });
@@ -105,14 +105,14 @@ const CategoriesManagementDetail = () => {
     const uploadTask = uploadBytesResumable(storageRef, files[0]);
     uploadTask.on(
       "state_changed",
-      snapshot => {
+      (snapshot) => {
         setLoading(true);
       },
-      error => {
+      (error) => {
         console.log(error);
       },
       () => {
-        getDownloadURL(uploadTask.snapshot.ref).then(url => {
+        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
           setValue("url", url);
           setImage(url);
           setLoading(false);
@@ -129,16 +129,13 @@ const CategoriesManagementDetail = () => {
 
   return (
     <Box>
-      <Box
-        display={"flex"}
-        alignItems={"center"}
-        gap={1}
-        sx={{ cursor: "pointer" }}
-        onClick={() => router.push("/admin/libraries/categories-management")}
-      >
-        <ChevronLeftIcon height={18} />
-        <Typography>Quay lại quản lý danh mục</Typography>
-      </Box>
+      <Button href="/admin/libraries/categories-management">
+        <Box display={"flex"} alignItems={"center"} gap={1}>
+          <ChevronLeftIcon height={18} />
+          <Typography>Quay lại quản lý danh mục</Typography>
+        </Box>
+      </Button>
+
       <Box mt={8} display={"flex"} justifyContent={"center"} gap={4}>
         {image && !loading ? (
           <Box>
@@ -191,7 +188,7 @@ const CategoriesManagementDetail = () => {
                   type="file"
                   hidden
                   accept="image/*"
-                  onChange={files =>
+                  onChange={(files) =>
                     handleUploadFile(Array.from(files.target.files || []))
                   }
                 />
@@ -203,7 +200,7 @@ const CategoriesManagementDetail = () => {
         )}
         <Stack
           component={"form"}
-          onSubmit={handleSubmit(data =>
+          onSubmit={handleSubmit((data) =>
             handleUpdateCategory({ ...data, _id: router.query.id as string })
           )}
         >
