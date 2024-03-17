@@ -121,12 +121,12 @@ const ChangeInfo = () => {
         ) : (
           <Grid
             container
-            spacing={8}
+            spacing={{ xs: 4, md: 8 }}
             mt={4}
             component={"form"}
             onSubmit={handleSubmit((data) => handleUpdateUser(data))}
           >
-            <Grid item xs={4}>
+            <Grid item xs={12} md={4}>
               {image ? (
                 <Stack>
                   <Box
@@ -174,9 +174,9 @@ const ChangeInfo = () => {
                 </Stack>
               )}
             </Grid>
-            <Grid item xs={8}>
-              <Grid container spacing={8}>
-                <Grid item xs={6}>
+            <Grid item xs={12} md={8}>
+              <Grid container spacing={{ xs: 4, md: 8 }}>
+                <Grid item xs={12} md={6}>
                   <InputLabel sx={{ fontSize: 14 }}>Họ tên: </InputLabel>
                   <TextField
                     error={errors?.name ? true : false}
@@ -189,7 +189,7 @@ const ChangeInfo = () => {
                     size="small"
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <InputLabel sx={{ fontSize: 14 }}>Email: </InputLabel>
                   <TextField
                     error={errors?.email ? true : false}
@@ -203,7 +203,7 @@ const ChangeInfo = () => {
                     disabled
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <InputLabel sx={{ fontSize: 14 }}>Tuổi: </InputLabel>
                   <TextField
                     error={errors?.age ? true : false}
@@ -214,7 +214,7 @@ const ChangeInfo = () => {
                     size="small"
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <InputLabel sx={{ fontSize: 14 }}>Địa chỉ: </InputLabel>
                   <TextField
                     error={errors?.address ? true : false}
@@ -225,7 +225,7 @@ const ChangeInfo = () => {
                     size="small"
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <Controller
                     name="sex"
                     control={control}
@@ -248,7 +248,12 @@ const ChangeInfo = () => {
                     }}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid
+                  item
+                  xs={12}
+                  md={6}
+                  textAlign={{ xs: "center", md: "left" }}
+                >
                   <Button variant="outlined" type="submit">
                     Cập nhật thông tin
                   </Button>
