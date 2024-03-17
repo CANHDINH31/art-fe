@@ -12,6 +12,7 @@ import {
   Cog6ToothIcon,
   KeyIcon,
   MagnifyingGlassIcon,
+  InformationCircleIcon,
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
 import { HeartIcon, UserIcon } from "@heroicons/react/24/solid";
@@ -196,6 +197,19 @@ const SearchHeader = () => {
                         <Divider />
                       </>
                     )}
+
+                    <Box
+                      display={"flex"}
+                      alignItems={"center"}
+                      px={3}
+                      py={2}
+                      gap={4}
+                      onClick={() => router.push("/change-info")}
+                    >
+                      <InformationCircleIcon height={24} color="#446084" />
+                      <Typography>Cập nhật thông tin</Typography>
+                    </Box>
+                    <Divider />
 
                     <Box
                       display={"flex"}

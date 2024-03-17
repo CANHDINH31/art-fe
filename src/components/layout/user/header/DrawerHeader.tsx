@@ -17,6 +17,7 @@ import {
   KeyIcon,
   ArrowUpTrayIcon,
   HeartIcon,
+  InformationCircleIcon,
 } from "@heroicons/react/24/outline";
 import { listMenu } from "./data";
 import { useState } from "react";
@@ -252,6 +253,19 @@ const DrawerHeader = ({ onClose }: Props) => {
               >
                 <KeyIcon height={18} color="#446084" />
                 <span>Thay đổi mật khẩu</span>
+              </Box>
+            </Button>
+            <Button variant="outlined" color="primary" fullWidth>
+              <Box
+                display={"flex"}
+                alignItems={"center"}
+                gap={2}
+                onClick={() => {
+                  router.push("/change-info");
+                }}
+              >
+                <InformationCircleIcon height={18} color="#446084" />
+                <span>Cập nhật thông tin</span>
               </Box>
             </Button>
             <Button

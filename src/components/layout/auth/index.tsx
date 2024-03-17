@@ -16,7 +16,9 @@ const AuthLayout = ({ children, title, src, loading }: Props) => {
   const { user } = useSelector((state: any) => state?.user);
 
   useEffect(() => {
-    if (user && router.pathname !== "/auth/change-password") router.push("/");
+    if (user && router.pathname !== "/auth/change-password") {
+      router.push("/");
+    }
   }, [user, router]);
 
   return (
