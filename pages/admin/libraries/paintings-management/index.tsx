@@ -54,10 +54,11 @@ const PaintingsManagement = () => {
         );
       },
     },
-    { field: "title", headerName: "Tên", width: 200 },
-    { field: "views", headerName: "Số lượt xem", width: 120 },
-    { field: "total_score", headerName: "Tổng số điểm", width: 120 },
-    { field: "account_users_rate", headerName: "Số lượt đánh giá", width: 120 },
+    { field: "title", headerName: "Tên", width: 150 },
+    { field: "price", headerName: "Giá", width: 100 },
+    { field: "views", headerName: "Số lượt xem", width: 100 },
+    { field: "total_score", headerName: "Tổng điểm", width: 100 },
+    { field: "account_users_rate", headerName: "Lượt đánh giá", width: 120 },
     {
       field: "created_at",
       headerName: "Ngày tạo",
@@ -135,6 +136,8 @@ const PaintingsManagement = () => {
     { keepPreviousData: true }
   );
 
+  console.log(listPaint);
+
   const { mutate: deletePaint, isLoading: loadingDelete } = useMutation({
     mutationFn: async () => {
       try {
@@ -143,7 +146,7 @@ const PaintingsManagement = () => {
         toast.error("Xóa thất bại");
       }
     },
-    onSuccess: res => {
+    onSuccess: (res) => {
       toast.success("Xóa thành công");
       setIsOpenDeletePaint(false);
       refetch();
@@ -175,7 +178,7 @@ const PaintingsManagement = () => {
             columns={columns}
             hideFooter={true}
             rowHeight={150}
-            onRowSelectionModelChange={idSelected => {
+            onRowSelectionModelChange={(idSelected) => {
               setListIdSelected(idSelected);
             }}
             rowSelectionModel={listIdSelected}

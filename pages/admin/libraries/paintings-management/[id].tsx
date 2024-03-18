@@ -45,6 +45,7 @@ const PaintingManagementDetail = () => {
         setImage(detailPainting?.url);
         setValue("url", detailPainting?.url);
         setValue("title", detailPainting?.title);
+        setValue("price", detailPainting?.price);
         setValue("totalScore", detailPainting?.total_score);
         setValue("accountUsersRate", detailPainting?.account_users_rate);
         setValue(
@@ -114,7 +115,11 @@ const PaintingManagementDetail = () => {
         mt={8}
         component={"form"}
         onSubmit={handleSubmit((data) =>
-          mutate({ ...data, _id: router.query.id as string })
+          mutate({
+            ...data,
+            price: Number(data.price),
+            _id: router.query.id as string,
+          })
         )}
       >
         <Grid container spacing={4}>
@@ -210,6 +215,18 @@ const PaintingManagementDetail = () => {
                 />
               </Grid>
               <Grid item xs={6}>
+                <FormLabel>Giá</FormLabel>
+                <TextField
+                  fullWidth
+                  variant="standard"
+                  type="number"
+                  {...register("price", {
+                    required: "Trường này không được để trống",
+                  })}
+                  helperText={errors?.price?.message?.toString()}
+                />
+              </Grid>
+              <Grid item xs={6}>
                 <FormLabel>Tổng số điểm</FormLabel>
                 <TextField
                   fullWidth
@@ -227,17 +244,9 @@ const PaintingManagementDetail = () => {
                   {...register("accountUsersRate", { shouldUnregister: true })}
                 />
               </Grid>
+
               <Grid item xs={6}>
-                <FormLabel>Thời gian tạo</FormLabel>
-                <TextField
-                  fullWidth
-                  variant="standard"
-                  {...register("createdAt", { shouldUnregister: true })}
-                  disabled
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <FormLabel>Thời gian cập nhật</FormLabel>
+                <FormLabel>Cập nhật:</FormLabel>
                 <TextField
                   fullWidth
                   variant="standard"

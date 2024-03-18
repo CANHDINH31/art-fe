@@ -46,7 +46,7 @@ const AddNewPainting = ({ open, handleClose }: Props) => {
 
   const { mutate: handleAddPaint, isLoading } = useMutation({
     mutationFn: addNewPaint,
-    onSuccess: res => {
+    onSuccess: (res) => {
       reset();
       queryClient.invalidateQueries({ queryKey: ["listPaint"] });
       handleClose();
@@ -73,15 +73,15 @@ const AddNewPainting = ({ open, handleClose }: Props) => {
       const uploadTask = uploadBytesResumable(storageRef, file);
       uploadTask.on(
         "state_changed",
-        snapshot => {
+        (snapshot) => {
           setLoading(true);
         },
-        error => {
+        (error) => {
           console.log(error);
         },
         () => {
-          getDownloadURL(uploadTask.snapshot.ref).then(url => {
-            setImageFile(prev => [...prev, url]);
+          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            setImageFile((prev) => [...prev, url]);
             setLoading(false);
           });
         }
@@ -94,7 +94,7 @@ const AddNewPainting = ({ open, handleClose }: Props) => {
   };
 
   const handleRemoveComponent = (key: number) => {
-    const updatedComponents = arrComponent.filter(el => el !== key);
+    const updatedComponents = arrComponent.filter((el) => el !== key);
     setArrComponent(updatedComponents);
   };
 
@@ -133,6 +133,20 @@ const AddNewPainting = ({ open, handleClose }: Props) => {
             helperText={errors[`title ${index}`]?.message?.toString()}
           />
         </Box>
+        <Box width={"100%"}>
+          <TextField
+            variant="standard"
+            error={errors.title ? true : false}
+            size="small"
+            label="Giá"
+            type="number"
+            fullWidth
+            {...register("price", {
+              required: "Trường này không được để trống",
+            })}
+            helperText={errors?.price?.message?.toString()}
+          />
+        </Box>
         <Button onClick={onDelete}>
           <TrashIcon width={20} color="#d32f2f" />
         </Button>
@@ -147,13 +161,14 @@ const AddNewPainting = ({ open, handleClose }: Props) => {
       title="THÊM TRANH VÀO THƯ VIỆN"
       open={open}
       handleClose={handleClose}
-      handleOk={handleSubmit(data =>
+      handleOk={handleSubmit((data) =>
         handleAddPaint(
           convertPayload(
             data as createPaintingPayload
           ) as createPaintingConvert[]
         )
       )}
+      maxWidth={"md"}
     >
       <Box>
         <Box>
@@ -175,7 +190,7 @@ const AddNewPainting = ({ open, handleClose }: Props) => {
                   hidden
                   accept="image/*"
                   multiple
-                  onChange={files =>
+                  onChange={(files) =>
                     handleUploadFile(Array.from(files.target.files || []))
                   }
                 />
@@ -204,8 +219,8 @@ const AddNewPainting = ({ open, handleClose }: Props) => {
                       <Box
                         component={"img"}
                         src={el}
-                        width={50}
-                        height={50}
+                        width={80}
+                        height={80}
                         borderRadius={"8px"}
                       />
                       <input
@@ -224,6 +239,20 @@ const AddNewPainting = ({ open, handleClose }: Props) => {
                         })}
                         helperText={errors[
                           `title ${index}`
+                        ]?.message?.toString()}
+                      />
+                      <TextField
+                        variant="standard"
+                        error={errors[`price ${index}`] ? true : false}
+                        size="small"
+                        label="Giá"
+                        type="number"
+                        fullWidth
+                        {...register(`price ${index}`, {
+                          required: "Trường này không được để trống",
+                        })}
+                        helperText={errors[
+                          `price ${index}`
                         ]?.message?.toString()}
                       />
                     </Box>
@@ -260,9 +289,23 @@ const AddNewPainting = ({ open, handleClose }: Props) => {
                     helperText={errors?.title?.message?.toString()}
                   />
                 </Box>
+                <Box width={"100%"}>
+                  <TextField
+                    variant="standard"
+                    error={errors.title ? true : false}
+                    size="small"
+                    label="Giá"
+                    type="number"
+                    fullWidth
+                    {...register("price", {
+                      required: "Trường này không được để trống",
+                    })}
+                    helperText={errors?.price?.message?.toString()}
+                  />
+                </Box>
                 {arrComponent?.length > 0 && <Button disabled />}
               </Box>
-              {arrComponent?.map(el => (
+              {arrComponent?.map((el) => (
                 <Component
                   key={el}
                   onDelete={() => handleRemoveComponent(el)}

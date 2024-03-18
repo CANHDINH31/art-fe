@@ -5,7 +5,11 @@ export const convertPayload = (obj: createPaintingPayload) => {
     (result: createPaintingConvert[], [key, value]) => {
       if (key.startsWith("url")) {
         const index = key.replace("url", "");
-        result.push({ url: value, title: obj[`title${index}`] });
+        result.push({
+          url: value,
+          title: obj[`title${index}`],
+          price: Number(obj[`price${index}`]),
+        });
       }
       return result;
     },

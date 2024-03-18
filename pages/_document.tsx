@@ -5,6 +5,10 @@ export default function Document() {
     <Html lang="en">
       <Head>
         <meta
+          name="zalo-platform-site-verification"
+          content="QCU2E9BKEHGIsBCkqz4r5IdripZ5Ws1cDJ8r"
+        />
+        <meta
           name="description"
           content="Website chúng tôi là nơi tuyệt vời để khám phá và tạo ra những tác phẩm tranh tường độc đáo và sáng tạo. Chúng tôi tin rằng tranh tường có thể biến những không gian trở nên sống động, thú vị và tạo nên sự ấn tượng mạnh mẽ."
         />
