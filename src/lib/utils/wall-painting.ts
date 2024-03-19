@@ -36,6 +36,22 @@ export const sortWallPainting = (category: typeCategory, sort: string) => {
       }
     });
   }
+
+  if (sort == "4") {
+    category.list_paint_id.sort((a, b) => {
+      const aPrice = a.price;
+      const bPrice = b.price;
+      return Number(bPrice) - Number(aPrice);
+    });
+  }
+
+  if (sort == "5") {
+    category.list_paint_id.sort((a, b) => {
+      const aPrice = a.price;
+      const bPrice = b.price;
+      return Number(aPrice) - Number(bPrice);
+    });
+  }
   return { ...category };
 };
 

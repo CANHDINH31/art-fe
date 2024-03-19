@@ -108,6 +108,8 @@ const SettingWPC = ({ breadcrumb, value, onChange, detailCategory }: Props) => {
                 <MenuItem value={"1"}>Mới nhất</MenuItem>
                 <MenuItem value={"2"}>Theo mức độ phổ biến</MenuItem>
                 <MenuItem value={"3"}>Theo điểm đánh giá</MenuItem>
+                <MenuItem value={"4"}>Theo giá: cao đến thấp</MenuItem>
+                <MenuItem value={"5"}>Theo giá: thấp đến cao</MenuItem>
               </Select>
             </FormControl>
           </Grid>

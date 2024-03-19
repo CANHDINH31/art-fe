@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography, keyframes, styled } from "@mui/material";
+import { Box, Stack, Typography, keyframes, styled } from "@mui/material";
 import { HeartIcon } from "@heroicons/react/24/solid";
 import { useMutation } from "@tanstack/react-query";
 import { handleFavourite } from "@/src/lib/api/user";
@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { typePaint } from "@/src/lib/types";
 import { favourite } from "@/src/lib/redux/userSlice";
 import { toast } from "react-toastify";
+import { convertCurrency } from "@/src/lib/utils/wall-painting";
 
 type Props = {
   paint: typePaint;
@@ -91,7 +92,7 @@ const CardItem = ({ paint }: Props) => {
 
   const { mutate, isLoading } = useMutation({
     mutationFn: handleFavourite,
-    onSuccess: res => {
+    onSuccess: (res) => {
       const index = user?.favourite?.findIndex(
         (item: any) => item._id === paint._id
       );
@@ -107,7 +108,7 @@ const CardItem = ({ paint }: Props) => {
   return (
     <Box sx={{ cursor: "pointer" }}>
       <WrapImage>
-        <LikeButton onClick={e => handleLike(e, paint)}>
+        <LikeButton onClick={(e) => handleLike(e, paint)}>
           {user?.favourite
             ?.map((e: { _id: string }) => e._id)
             ?.includes(paint._id) ? (
@@ -123,11 +124,14 @@ const CardItem = ({ paint }: Props) => {
           </Typography>
         </WrapText>
       </WrapImage>
-      <Box display={"flex"} justifyContent={"center"} mt={2}>
+      <Stack alignItems={"center"} mt={2}>
         <Typography variant="h5" fontWeight={"bold"}>
           {paint.title}
         </Typography>
-      </Box>
+        <Typography variant="h5" fontWeight={"bold"}>
+          {convertCurrency(paint.price)}
+        </Typography>
+      </Stack>
     </Box>
   );
 };
