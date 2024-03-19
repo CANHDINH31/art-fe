@@ -1,4 +1,5 @@
 import { typePaint } from "@/src/lib/types";
+import { convertCurrency } from "@/src/lib/utils/wall-painting";
 import { Box, Link, Stack, Typography } from "@mui/material";
 import moment from "moment";
 import React from "react";
@@ -47,7 +48,9 @@ const PaintRelation = ({ listPaint }: Props) => {
                   <Typography variant="h5">
                     Số lượt xem: {paint?.views}
                   </Typography>
-                  <Typography variant="h5"></Typography>
+                  <Typography variant="h5">
+                    Giá: {convertCurrency(paint?.price as number)}
+                  </Typography>
                   <Typography variant="h5">
                     {moment(paint.createdAt).format("DD-MM-YYYY")} -{" "}
                     {moment(paint.createdAt).fromNow()}

@@ -66,11 +66,13 @@ export const infoRating = (category: typeCategory) => {
 };
 
 export const convertCurrency = (number: number) => {
-  if (number === 0) return "LIÊN HỆ";
-  return Number(number)
-    .toLocaleString("it-IT", {
-      style: "currency",
-      currency: "VND",
-    })
-    .replace("VND", "VNĐ");
+  if (number > 0)
+    return Number(number)
+      .toLocaleString("it-IT", {
+        style: "currency",
+        currency: "VND",
+      })
+      .replace("VND", "VNĐ");
+
+  return "Liên hệ";
 };
