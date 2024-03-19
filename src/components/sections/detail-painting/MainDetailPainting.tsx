@@ -21,6 +21,8 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import ContactOrder from "./ContactOrder";
 import { convertCurrency } from "@/src/lib/utils/wall-painting";
+// @ts-ignore
+import ImageZoom from "react-image-zooom";
 
 type Props = {
   detailPainting: typePaint;
@@ -29,7 +31,7 @@ type Props = {
   category: string[];
 };
 
-const ImagePainting = styled("img")(({ theme }) => ({
+const ImagePainting = styled(ImageZoom)(({ theme }) => ({
   width: "100%",
   height: "80vh",
   objectFit: "cover",
@@ -75,7 +77,7 @@ const MainDetailPainting = ({
     <Box>
       <Grid container spacing={8}>
         <Grid item xs={12} md={8}>
-          <ImagePainting src={detailPainting?.url} />
+          <ImagePainting src={detailPainting?.url} zoom="200" />
         </Grid>
         <Grid item xs={12} md={4}>
           <Box>
