@@ -48,3 +48,13 @@ export const infoRating = (category: typeCategory) => {
   });
   return { totalScore, totalUsers };
 };
+
+export const convertCurrency = (number: number) => {
+  if (number === 0) return "LIÊN HỆ";
+  return Number(number)
+    .toLocaleString("it-IT", {
+      style: "currency",
+      currency: "VND",
+    })
+    .replace("VND", "VNĐ");
+};

@@ -7,6 +7,7 @@ type typePaint = {
   updatedAt: string;
   views: string;
   total_score: number;
+  price: number;
   account_users_rate: number;
 };
 

@@ -20,6 +20,7 @@ import { favourite } from "@/src/lib/redux/userSlice";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import ContactOrder from "./ContactOrder";
+import { convertCurrency } from "@/src/lib/utils/wall-painting";
 
 type Props = {
   detailPainting: typePaint;
@@ -49,7 +50,7 @@ const MainDetailPainting = ({
 
   const { mutate } = useMutation({
     mutationFn: handleFavourite,
-    onSuccess: res => {
+    onSuccess: (res) => {
       const index = user?.favourite?.findIndex(
         (item: any) => item._id === detailPainting._id
       );
@@ -87,6 +88,9 @@ const MainDetailPainting = ({
               <Divider />
               <Typography py={2}>
                 Danh mục: {category?.join(",")?.toUpperCase()}
+              </Typography>
+              <Typography py={2}>
+                Giá: {convertCurrency(detailPainting?.price)}
               </Typography>
               <Divider />
               <Typography py={2}>
