@@ -15,6 +15,7 @@ import { createComment, getCommentByPaintId } from "@/src/lib/api";
 import { typeComment } from "@/src/lib/types";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
+import { convertUrlImage } from "@/src/lib/utils/common";
 
 type Props = {
   paintId: string;
@@ -96,7 +97,9 @@ const Comment = ({ paintId }: Props) => {
           <Box display={"flex"} gap={4} mt={4} alignItems={"flex-start"}>
             <Box
               component={"img"}
-              src={user?.image || "/img/jpg/default-avatar.jpg"}
+              src={
+                convertUrlImage(user?.image) || "/img/jpg/default-avatar.jpg"
+              }
               width={40}
               height={40}
               sx={{

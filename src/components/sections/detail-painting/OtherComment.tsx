@@ -24,6 +24,7 @@ import {
   useMutation,
 } from "@tanstack/react-query";
 import { deleteComment, updateComment } from "@/src/lib/api";
+import { convertUrlImage } from "@/src/lib/utils/common";
 
 type Props = {
   comment: typeComment;
@@ -97,7 +98,10 @@ const OtherComment = ({ comment, isOwner, refetch }: Props) => {
     <Box display={"flex"} gap={4} mt={8}>
       <Box
         component={"img"}
-        src={comment?.user_id?.image || "/img/jpg/default-avatar.jpg"}
+        src={
+          convertUrlImage(comment?.user_id?.image as string) ||
+          "/img/jpg/default-avatar.jpg"
+        }
         width={40}
         height={40}
         sx={{
