@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  ButtonGroup,
   Divider,
   Grid,
   Rating,
@@ -12,7 +13,13 @@ import SocialIcon from "../../layout/user/common/SocialIcon";
 import ModalZoomImage from "../common/ModalZoomImage";
 import moment from "moment";
 import { useState } from "react";
-import { ArrowsPointingOutIcon, HeartIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowsPointingOutIcon,
+  HeartIcon,
+  ShoppingCartIcon,
+  PlusIcon,
+  MinusIcon,
+} from "@heroicons/react/24/outline";
 import { typePaint } from "@/src/lib/types";
 import { useMutation } from "@tanstack/react-query";
 import { handleFavourite } from "@/src/lib/api/user";
@@ -45,6 +52,7 @@ const MainDetailPainting = ({
 }: Props) => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+  const [amount, setAmount] = useState<number>(1);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -176,6 +184,35 @@ const MainDetailPainting = ({
                   <ArrowsPointingOutIcon width={24} />
                   <Typography variant="h4" color="white">
                     Phóng to
+                  </Typography>
+                </Box>
+              </Button>
+            </Box>
+            <Box mt={4} display={"flex"} gap={1} alignItems={"center"}>
+              <ButtonGroup>
+                <Button
+                  onClick={() => {
+                    setAmount(Math.max(amount - 1, 1));
+                  }}
+                >
+                  <MinusIcon width={12} />
+                </Button>
+                <Button size="large">
+                  <Typography variant="h4">{amount}</Typography>
+                </Button>
+                <Button
+                  onClick={() => {
+                    setAmount(amount + 1);
+                  }}
+                >
+                  <PlusIcon width={12} />
+                </Button>
+              </ButtonGroup>
+              <Button size="large" variant="contained" fullWidth>
+                <Box display={"flex"} gap={2} alignItems={"center"}>
+                  <ShoppingCartIcon width={24} />
+                  <Typography variant="h4" color="white">
+                    Thêm vào giỏ hàng
                   </Typography>
                 </Box>
               </Button>
