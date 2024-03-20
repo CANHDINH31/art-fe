@@ -22,8 +22,8 @@ import {
 } from "@heroicons/react/24/outline";
 import { typePaint } from "@/src/lib/types";
 import { useMutation } from "@tanstack/react-query";
-import { handleFavourite } from "@/src/lib/api/user";
-import { favourite } from "@/src/lib/redux/userSlice";
+import { addToUserCart, handleFavourite } from "@/src/lib/api/user";
+import { addToCart, favourite } from "@/src/lib/redux/userSlice";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import ContactOrder from "./ContactOrder";
@@ -72,11 +72,30 @@ const MainDetailPainting = ({
     },
   });
 
+  const { mutate: mutateAddToCart } = useMutation({
+    mutationFn: addToUserCart,
+    onSuccess: (res) => {
+      const index = user?.favourite?.findIndex(
+        (item: any) => item._id === detailPainting._id
+      );
+      toast.success("Thêm vào giỏ hàng thành công");
+      // dispatch(favourite(detailPainting));
+    },
+  });
+
   const handleLike = (paint: typePaint) => {
     if (!user) {
       toast.warn("Bạn phải đăng nhập để sử dụng chức năng này");
     } else {
       mutate(paint?._id as string);
+    }
+  };
+
+  const handleAddToCart = (paint: typePaint) => {
+    if (!user) {
+      toast.warn("Bạn phải đăng nhập để sử dụng chức năng này");
+    } else {
+      mutateAddToCart({ paint: paint?._id as string, amount });
     }
   };
 
@@ -208,7 +227,12 @@ const MainDetailPainting = ({
                   <PlusIcon width={12} />
                 </Button>
               </ButtonGroup>
-              <Button size="large" variant="contained" fullWidth>
+              <Button
+                size="large"
+                variant="contained"
+                fullWidth
+                onClick={() => handleAddToCart(detailPainting)}
+              >
                 <Box display={"flex"} gap={2} alignItems={"center"}>
                   <ShoppingCartIcon width={24} />
                   <Typography variant="h4" color="white">

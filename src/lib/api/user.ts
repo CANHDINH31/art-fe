@@ -15,6 +15,9 @@ const changePassword = (payload: { password: string }) =>
 const handleFavourite = (id: string) =>
   request.get("api/users/favourite/" + id);
 
+const addToUserCart = (payload: { paint: string; amount: number }) =>
+  request.post("api/users/add-to-cart", payload);
+
 const getListUsers = (query?: typeQueryUser) =>
   request.get("/api/users?" + new URLSearchParams(query).toString());
 
@@ -41,4 +44,5 @@ export {
   createUser,
   getDetailUser,
   updateUser,
+  addToUserCart,
 };

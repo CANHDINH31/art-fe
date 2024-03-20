@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   user: null as {
     favourite: any[];
+    cart: any[];
   } | null,
 };
 
@@ -17,6 +18,7 @@ export const userSlice = createSlice({
     logout: (state) => {
       state.user = null;
     },
+
     favourite: (state, action) => {
       if (state.user) {
         const index = state.user?.favourite.findIndex(
@@ -30,9 +32,13 @@ export const userSlice = createSlice({
         }
       }
     },
+
+    addToCart: (state, action) => {
+      console.log(action.payload, "payload");
+    },
   },
 });
 
-export const { login, logout, favourite } = userSlice.actions;
+export const { login, logout, favourite, addToCart } = userSlice.actions;
 
 export default userSlice.reducer;

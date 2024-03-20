@@ -15,7 +15,11 @@ import {
   InformationCircleIcon,
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
-import { HeartIcon, UserIcon } from "@heroicons/react/24/solid";
+import {
+  HeartIcon,
+  UserIcon,
+  ShoppingCartIcon,
+} from "@heroicons/react/24/solid";
 import { useState } from "react";
 import { signOut } from "next-auth/react";
 import { useDispatch, useSelector } from "react-redux";
@@ -120,10 +124,17 @@ const SearchHeader = () => {
               <Badge badgeContent={user?.favourite?.length} color="error">
                 <HeartIcon height={30} color="#446084" />
               </Badge>
-
-              <Typography variant="h5" whiteSpace={"nowrap"} fontWeight={550}>
-                YÊU THÍCH
-              </Typography>
+            </Box>
+            <Divider orientation="vertical" flexItem />
+            <Box
+              display={"flex"}
+              alignItems={"center"}
+              gap={2}
+              onClick={handleFavourite}
+            >
+              <Badge badgeContent={user?.cart?.length} color="error">
+                <ShoppingCartIcon height={30} color="#446084" />
+              </Badge>
             </Box>
             <Divider orientation="vertical" flexItem />
             {user ? (
