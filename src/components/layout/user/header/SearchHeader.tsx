@@ -76,6 +76,14 @@ const SearchHeader = () => {
     }
   };
 
+  const handleCart = () => {
+    if (!user) {
+      toast.warn("Bạn phải đăng nhập để sử dụng chức năng này");
+    } else {
+      router.push("/me/cart");
+    }
+  };
+
   const handleLogout = () => {
     clearToken();
     signOut();
@@ -130,7 +138,7 @@ const SearchHeader = () => {
               display={"flex"}
               alignItems={"center"}
               gap={2}
-              onClick={handleFavourite}
+              onClick={handleCart}
             >
               <Badge badgeContent={user?.cart?.length} color="error">
                 <ShoppingCartIcon height={30} color="#446084" />

@@ -18,6 +18,7 @@ import {
   ArrowUpTrayIcon,
   HeartIcon,
   InformationCircleIcon,
+  ShoppingCartIcon,
 } from "@heroicons/react/24/outline";
 import { listMenu } from "./data";
 import { useState } from "react";
@@ -240,6 +241,19 @@ const DrawerHeader = ({ onClose }: Props) => {
               >
                 <HeartIcon height={18} color="#446084" />
                 <span>Yêu thích ({user?.favourite?.length})</span>
+              </Box>
+            </Button>
+            <Button variant="outlined" color="primary" fullWidth>
+              <Box
+                display={"flex"}
+                alignItems={"center"}
+                gap={2}
+                onClick={() => {
+                  router.push("/me/cart");
+                }}
+              >
+                <ShoppingCartIcon height={18} color="#446084" />
+                <span>Giỏ hàng ({user?.cart?.length})</span>
               </Box>
             </Button>
             <Button variant="outlined" color="primary" fullWidth>
