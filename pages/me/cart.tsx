@@ -24,13 +24,24 @@ import React, { ReactElement, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { PlusIcon, MinusIcon } from "@heroicons/react/24/outline";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { updateCart } from "@/src/lib/redux/userSlice";
+import { useForm } from "react-hook-form";
 
 const Cart = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state: any) => state?.user);
   const router = useRouter();
   const [data, setData] = useState<typeCart[]>([]);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    control,
+    setValue,
+    getValues,
+  } = useForm({ mode: "onSubmit" });
 
   useQuery(
     ["infoUser", user?._id],
@@ -215,7 +226,11 @@ const Cart = () => {
               </Grid>
               <Grid item xs={12} md={4}>
                 <Paper>
-                  <Box p={4}>
+                  <Box
+                    p={4}
+                    component={"form"}
+                    onSubmit={handleSubmit((data) => console.log(data))}
+                  >
                     <Typography
                       textAlign={"center"}
                       variant="h3"
@@ -226,21 +241,48 @@ const Cart = () => {
                     <Box mt={8}>
                       <Box>
                         <InputLabel sx={{ fontSize: 14 }}>
-                          Họ tên người *:
+                          Họ tên người nhận *:
                         </InputLabel>
-                        <TextField variant="standard" fullWidth size="small" />
+                        <TextField
+                          variant="standard"
+                          fullWidth
+                          size="small"
+                          error={errors?.name ? true : false}
+                          {...register("name", {
+                            required: "Trường này không được để trống",
+                          })}
+                          helperText={errors?.name?.message?.toString()}
+                        />
                       </Box>
                       <Box mt={4}>
                         <InputLabel sx={{ fontSize: 14 }}>
-                          Địa chỉ *:
+                          Địa chỉ nhận *:
                         </InputLabel>
-                        <TextField variant="standard" fullWidth size="small" />
+                        <TextField
+                          variant="standard"
+                          fullWidth
+                          size="small"
+                          error={errors?.address ? true : false}
+                          {...register("address", {
+                            required: "Trường này không được để trống",
+                          })}
+                          helperText={errors?.address?.message?.toString()}
+                        />
                       </Box>
                       <Box mt={4}>
                         <InputLabel sx={{ fontSize: 14 }}>
                           Số điện thoại *:
                         </InputLabel>
-                        <TextField variant="standard" fullWidth size="small" />
+                        <TextField
+                          variant="standard"
+                          fullWidth
+                          size="small"
+                          error={errors?.phone ? true : false}
+                          {...register("phone", {
+                            required: "Trường này không được để trống",
+                          })}
+                          helperText={errors?.phone?.message?.toString()}
+                        />
                       </Box>
                       <Box mt={4}>
                         <InputLabel sx={{ fontSize: 14 }}>Ghi chú:</InputLabel>
@@ -250,6 +292,9 @@ const Cart = () => {
                           variant="standard"
                           fullWidth
                           size="small"
+                          error={errors?.note ? true : false}
+                          {...register("note")}
+                          helperText={errors?.note?.message?.toString()}
                         />
                       </Box>
                     </Box>
@@ -266,6 +311,17 @@ const Cart = () => {
                         Lưu ý *: Sau khi đặt hàng, đội ngũ hỗ trợ sẽ xác nhận
                         lại với khách hàng trong vòng 30 phút đến 1 ngày
                       </Typography>
+                    </Box>
+                    <Box mt={4}>
+                      <Button
+                        variant="contained"
+                        fullWidth
+                        startIcon={<ShoppingCartIcon />}
+                        size="medium"
+                        type="submit"
+                      >
+                        ĐẶT HÀNG
+                      </Button>
                     </Box>
                   </Box>
                 </Paper>
