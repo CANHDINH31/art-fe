@@ -182,6 +182,13 @@ const Cart = () => {
     });
   };
 
+  const totalPrice = () => {
+    const totalPrice = data.reduce((a, b) => {
+      return a + b.paint?.price * b.amount;
+    }, 0);
+    return totalPrice;
+  };
+
   useEffect(() => {
     if (!user) router.push("/");
   }, [user]);
@@ -248,7 +255,7 @@ const Cart = () => {
                     </Box>
                     <Box mt={4}>
                       <Typography fontWeight={600}>
-                        Tổng số tiền đơn hàng: 15000000VND
+                        Tổng số tiền đơn hàng: {convertCurrency(totalPrice())}
                       </Typography>
                       <Typography
                         color={"error"}
