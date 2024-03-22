@@ -9,7 +9,11 @@ import {
 import { listSideBar } from "./data";
 import { useRouter } from "next/router";
 
-const DrawerWP = () => {
+type Props = {
+  onClose: () => void;
+};
+
+const DrawerWP = ({ onClose }: Props) => {
   const router = useRouter();
 
   return (
@@ -25,7 +29,10 @@ const DrawerWP = () => {
             {listSideBar?.map((e, index) => (
               <Box
                 key={index}
-                onClick={() => router.push(`/wall-painting/${e.id}`)}
+                onClick={() => {
+                  router.push(`/wall-painting/${e.id}`);
+                  onClose();
+                }}
               >
                 <Divider />
                 <ListItemButton>

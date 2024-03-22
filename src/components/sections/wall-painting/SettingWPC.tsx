@@ -121,7 +121,7 @@ const SettingWPC = ({ breadcrumb, value, onChange, detailCategory }: Props) => {
         open={isOpenDrawer}
         onClose={() => setIsOpenDrawer(false)}
       >
-        <DrawerWP />
+        <DrawerWP onClose={() => setIsOpenDrawer(false)} />
       </DrawerCustom>
     </Box>
   );

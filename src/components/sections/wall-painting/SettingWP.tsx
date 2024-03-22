@@ -1,18 +1,5 @@
 import React, { useState } from "react";
-import {
-  Box,
-  Drawer,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Rating,
-  Select,
-  SelectChangeEvent,
-  Stack,
-  Typography,
-  styled,
-} from "@mui/material";
+import { Box, Drawer, Typography, styled } from "@mui/material";
 import BreadcrumbsCustom from "../common/BreadcrumbsCustom";
 import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
 import DrawerWP from "./DrawerWP";
@@ -59,7 +46,7 @@ const SettingWP = ({ breadcrumb, isFilter = true }: Props) => {
             open={isOpenDrawer}
             onClose={() => setIsOpenDrawer(false)}
           >
-            <DrawerWP />
+            <DrawerWP onClose={() => setIsOpenDrawer(false)} />
           </DrawerCustom>
         </>
       )}
