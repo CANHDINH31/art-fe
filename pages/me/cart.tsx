@@ -18,7 +18,7 @@ import {
   Typography,
 } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import React, { ReactElement, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,7 +26,9 @@ import { PlusIcon, MinusIcon } from "@heroicons/react/24/outline";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { updateCart } from "@/src/lib/redux/userSlice";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import { createOrder } from "@/src/lib/api";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -38,26 +40,7 @@ const Cart = () => {
     register,
     handleSubmit,
     formState: { errors },
-    control,
-    setValue,
-    getValues,
   } = useForm({ mode: "onSubmit" });
-
-  useQuery(
-    ["infoUser", user?._id],
-    async () => {
-      const res = await getDetailUser(user._id as string);
-      const resData = res.data?.cart?.map((i: typeCart) => ({
-        id: i._id,
-        ...i,
-      }));
-      setData(resData);
-      return resData;
-    },
-    {
-      enabled: !!user?._id,
-    }
-  );
 
   const columns: GridColDef[] = [
     {
@@ -182,6 +165,22 @@ const Cart = () => {
     },
   ];
 
+  const { refetch } = useQuery(
+    ["infoUser", user?._id],
+    async () => {
+      const res = await getDetailUser(user._id as string);
+      const resData = res.data?.cart?.map((i: typeCart) => ({
+        id: i._id,
+        ...i,
+      }));
+      setData(resData);
+      return resData;
+    },
+    {
+      enabled: !!user?._id,
+    }
+  );
+
   const handleUpdateCart = async (updatedData: typeCart[]) => {
     setData(updatedData);
     dispatch(updateCart(updatedData));
@@ -189,6 +188,35 @@ const Cart = () => {
       listCart: updatedData?.map((i) => ({
         paint: i.paint._id as string,
         amount: i.amount,
+      })),
+    });
+  };
+
+  const { mutate, isLoading } = useMutation({
+    mutationFn: createOrder,
+    onSuccess: async (res) => {
+      dispatch(updateCart([]));
+      await updateUserCart({
+        listCart: [],
+      });
+      refetch();
+      toast.success("Đặt hàng thành công");
+    },
+    onError: (error) => {
+      toast.error("Đặt hàng thất bại");
+    },
+  });
+
+  const handleCreateOrder = async (fv: FieldValues) => {
+    mutate({
+      name: fv?.name,
+      phone: fv?.phone,
+      address: fv?.address,
+      note: fv?.note,
+      user: user._id,
+      cart: data?.map((e: any) => ({
+        paint: e?.paint?._id,
+        amount: e?.amount,
       })),
     });
   };
@@ -229,7 +257,7 @@ const Cart = () => {
                   <Box
                     p={4}
                     component={"form"}
-                    onSubmit={handleSubmit((data) => console.log(data))}
+                    onSubmit={handleSubmit((data) => handleCreateOrder(data))}
                   >
                     <Typography
                       textAlign={"center"}
@@ -319,6 +347,7 @@ const Cart = () => {
                         startIcon={<ShoppingCartIcon />}
                         size="medium"
                         type="submit"
+                        disabled={isLoading}
                       >
                         ĐẶT HÀNG
                       </Button>
