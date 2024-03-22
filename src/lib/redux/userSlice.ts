@@ -34,11 +34,27 @@ export const userSlice = createSlice({
     },
 
     addToCart: (state, action) => {
-      console.log(action.payload, "payload");
+      if (state.user) {
+        const index = state.user?.cart.findIndex(
+          (item: any) => item.paint._id === action.payload.paint._id
+        );
+        if (index !== -1) {
+          state.user.cart[index].amount += action.payload.amount;
+        } else {
+          state.user?.cart.push(action.payload);
+        }
+      }
+    },
+
+    updateCart: (state, action) => {
+      if (state.user) {
+        state.user.cart = action.payload;
+      }
     },
   },
 });
 
-export const { login, logout, favourite, addToCart } = userSlice.actions;
+export const { login, logout, favourite, addToCart, updateCart } =
+  userSlice.actions;
 
 export default userSlice.reducer;

@@ -18,6 +18,10 @@ const handleFavourite = (id: string) =>
 const addToUserCart = (payload: { paint: string; amount: number }) =>
   request.post("api/users/add-to-cart", payload);
 
+const updateUserCart = (payload: {
+  listCart: { paint: string; amount: number }[];
+}) => request.post("api/users/update-cart", payload);
+
 const getListUsers = (query?: typeQueryUser) =>
   request.get("/api/users?" + new URLSearchParams(query).toString());
 
@@ -45,4 +49,5 @@ export {
   getDetailUser,
   updateUser,
   addToUserCart,
+  updateUserCart,
 };

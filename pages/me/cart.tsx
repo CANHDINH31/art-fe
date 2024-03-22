@@ -1,7 +1,7 @@
 import DataGridCustom from "@/src/components/common/DataGridCustom";
 import MainLayout from "@/src/components/layout/user";
 import SettingWP from "@/src/components/sections/wall-painting/SettingWP";
-import { getDetailUser } from "@/src/lib/api/user";
+import { getDetailUser, updateUserCart } from "@/src/lib/api/user";
 import { typeCart, typePaint } from "@/src/lib/types";
 import { convertCurrency } from "@/src/lib/utils/wall-painting";
 import {
@@ -17,17 +17,19 @@ import { GridColDef } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import React, { ReactElement, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { PlusIcon, MinusIcon } from "@heroicons/react/24/outline";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { updateCart } from "@/src/lib/redux/userSlice";
 
 const Cart = () => {
+  const dispatch = useDispatch();
   const { user } = useSelector((state: any) => state?.user);
   const router = useRouter();
   const [data, setData] = useState<typeCart[]>([]);
 
   useQuery(
-    ["infoUser", user._id],
+    ["infoUser", user?._id],
     async () => {
       const res = await getDetailUser(user._id as string);
       const resData = res.data?.cart?.map((i: typeCart) => ({
@@ -38,7 +40,7 @@ const Cart = () => {
       return resData;
     },
     {
-      enabled: !!user._id,
+      enabled: !!user?._id,
     }
   );
 
@@ -174,8 +176,15 @@ const Cart = () => {
     },
   ];
 
-  const handleUpdateCart = (updatedData: typeCart[]) => {
+  const handleUpdateCart = async (updatedData: typeCart[]) => {
     setData(updatedData);
+    dispatch(updateCart(updatedData));
+    await updateUserCart({
+      listCart: updatedData?.map((i) => ({
+        paint: i.paint._id as string,
+        amount: i.amount,
+      })),
+    });
   };
 
   useEffect(() => {
@@ -187,19 +196,30 @@ const Cart = () => {
       <Container>
         <SettingWP breadcrumb={[`Giỏ hàng (${data.length})`]} />
         <Box mt={12}>
-          <Grid container spacing={2}>
-            <Grid item xs={9}>
-              {data?.length > 0 && (
-                <DataGridCustom
-                  rows={data}
-                  columns={columns}
-                  hideFooter={true}
-                  rowHeight={120}
-                />
-              )}
+          {data?.length > 0 ? (
+            <Grid container spacing={2}>
+              <Grid item xs={9}>
+                {data?.length > 0 && (
+                  <DataGridCustom
+                    rows={data}
+                    columns={columns}
+                    hideFooter={true}
+                    rowHeight={120}
+                  />
+                )}
+              </Grid>
+              <Grid item xs={3}></Grid>
             </Grid>
-            <Grid item xs={3}></Grid>
-          </Grid>
+          ) : (
+            <Box
+              height={"100%"}
+              display={"flex"}
+              justifyContent={"center"}
+              alignItems={"center"}
+            >
+              <Box component={"img"} src={"/img/png/NoData.png"} />
+            </Box>
+          )}
         </Box>
       </Container>
     </Box>

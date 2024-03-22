@@ -79,7 +79,7 @@ const MainDetailPainting = ({
         (item: any) => item._id === detailPainting._id
       );
       toast.success("Thêm vào giỏ hàng thành công");
-      // dispatch(favourite(detailPainting));
+      dispatch(addToCart({ paint: detailPainting, amount }));
     },
   });
 
