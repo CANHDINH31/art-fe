@@ -19,7 +19,10 @@ const Favourite = () => {
   return (
     <Box py={4}>
       <Container>
-        <SettingWP breadcrumb={[`Yêu thích (${user?.favourite?.length})`]} />
+        <SettingWP
+          breadcrumb={[`Yêu thích (${user?.favourite?.length})`]}
+          isFilter={false}
+        />
         <Box mt={12}>
           <Grid container spacing={12}>
             <Grid item md={3} display={{ xs: "none", md: "block" }}>

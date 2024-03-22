@@ -6,8 +6,12 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
+import { listSideBar } from "./data";
+import { useRouter } from "next/router";
 
 const DrawerWP = () => {
+  const router = useRouter();
+
   return (
     <Box width={250} px={2}>
       <Box mt={8} py={8}>
@@ -18,22 +22,17 @@ const DrawerWP = () => {
         </Box>
         <Box mt={4}>
           <List component="nav" aria-labelledby="nested-list-subheader">
-            <Divider />
-            <ListItemButton>
-              <ListItemText primary={"Tranh tường văn phòng"} />
-            </ListItemButton>
-            <Divider />
-            <ListItemButton>
-              <ListItemText primary={"Tranh tường mầm non"} />
-            </ListItemButton>
-            <Divider />
-            <ListItemButton>
-              <ListItemText primary={"Tranh tường cà phê"} />
-            </ListItemButton>
-            <Divider />
-            <ListItemButton>
-              <ListItemText primary={"Tranh tường nhà hàng"} />
-            </ListItemButton>
+            {listSideBar?.map((e, index) => (
+              <Box
+                key={index}
+                onClick={() => router.push(`/wall-painting/${e.id}`)}
+              >
+                <Divider />
+                <ListItemButton>
+                  <ListItemText primary={e.title} />
+                </ListItemButton>
+              </Box>
+            ))}
           </List>
         </Box>
       </Box>

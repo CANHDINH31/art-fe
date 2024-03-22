@@ -194,11 +194,14 @@ const Cart = () => {
   return (
     <Box py={4} minHeight={"60vh"}>
       <Container>
-        <SettingWP breadcrumb={[`Giỏ hàng (${data.length})`]} />
+        <SettingWP
+          breadcrumb={[`Giỏ hàng (${data.length})`]}
+          isFilter={false}
+        />
         <Box mt={12}>
           {data?.length > 0 ? (
             <Grid container spacing={2}>
-              <Grid item xs={9}>
+              <Grid item xs={12} md={9}>
                 {data?.length > 0 && (
                   <DataGridCustom
                     rows={data}
