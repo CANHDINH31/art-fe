@@ -8,7 +8,6 @@ import {
   styled,
 } from "@mui/material";
 import React from "react";
-import TextareaAutosize from "@mui/base/TextareaAutosize";
 
 const ContactFormWrap = styled(Box)(({ theme }) => ({
   position: "relative",
@@ -37,25 +36,6 @@ const ContactOverlay = styled(Box)(({ theme }) => ({
     width: "90%",
     padding: theme.spacing(4),
   },
-}));
-
-const WrapTextArea = styled(Box)(({ theme }) => ({
-  padding: theme.spacing(2.125, 3.5),
-  border: "1px solid rgba(0, 0, 0, 0.23)",
-  borderRadius: theme.spacing(1),
-  height: 150,
-  maxHeight: 150,
-  overflowY: "auto",
-  "&::-webkit-scrollbar": {
-    display: "none",
-  },
-}));
-
-const TextareaCustom = styled(TextareaAutosize)(({ theme }) => ({
-  width: "100%",
-  outline: "none",
-  border: "none",
-  resize: "none",
 }));
 
 const ContactForm = () => {
@@ -122,13 +102,14 @@ const ContactForm = () => {
                   variant="outlined"
                 />
               </Box>
-              <WrapTextArea mt={4}>
-                <TextareaCustom
-                  spellCheck={false}
+              <Box mt={4}>
+                <TextField
+                  multiline
                   minRows={9}
                   placeholder="Nội dung liên hệ"
+                  fullWidth
                 />
-              </WrapTextArea>
+              </Box>
               <Box mt={4}>
                 <Button variant="contained" fullWidth>
                   <Typography variant="h3" color={"white"}>

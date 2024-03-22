@@ -11,6 +11,10 @@ import {
   Container,
   Grid,
   IconButton,
+  InputLabel,
+  Paper,
+  Stack,
+  TextField,
   Typography,
 } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
@@ -77,22 +81,13 @@ const Cart = () => {
       disableColumnMenu: true,
       sortable: false,
       renderCell(params) {
-        return <span>{params.row?.paint?.title}</span>;
-      },
-    },
-    {
-      field: "price",
-      headerName: "Giá",
-      width: 150,
-      disableColumnMenu: true,
-      headerAlign: "center",
-      align: "center",
-      sortable: false,
-      renderCell(params) {
         return (
-          <Typography fontWeight={600} fontSize={14}>
-            {convertCurrency(params.row?.paint?.price)}
-          </Typography>
+          <Stack gap={1} justifyContent={"center"} alignItems={"center"}>
+            <div>{params.row?.paint?.title}</div>
+            <Typography fontWeight={600} fontSize={14}>
+              {convertCurrency(params.row?.paint?.price)}
+            </Typography>
+          </Stack>
         );
       },
     },
@@ -201,7 +196,7 @@ const Cart = () => {
         <Box mt={12}>
           {data?.length > 0 ? (
             <Grid container spacing={2}>
-              <Grid item xs={12} md={9}>
+              <Grid item xs={12} md={8}>
                 {data?.length > 0 && (
                   <DataGridCustom
                     rows={data}
@@ -211,7 +206,63 @@ const Cart = () => {
                   />
                 )}
               </Grid>
-              <Grid item xs={3}></Grid>
+              <Grid item xs={12} md={4}>
+                <Paper>
+                  <Box p={4}>
+                    <Typography
+                      textAlign={"center"}
+                      variant="h3"
+                      fontWeight={600}
+                    >
+                      Thông tin thanh toán chi tiết
+                    </Typography>
+                    <Box mt={8}>
+                      <Box>
+                        <InputLabel sx={{ fontSize: 14 }}>
+                          Họ tên người *:
+                        </InputLabel>
+                        <TextField variant="standard" fullWidth size="small" />
+                      </Box>
+                      <Box mt={4}>
+                        <InputLabel sx={{ fontSize: 14 }}>
+                          Địa chỉ *:
+                        </InputLabel>
+                        <TextField variant="standard" fullWidth size="small" />
+                      </Box>
+                      <Box mt={4}>
+                        <InputLabel sx={{ fontSize: 14 }}>
+                          Số điện thoại *:
+                        </InputLabel>
+                        <TextField variant="standard" fullWidth size="small" />
+                      </Box>
+                      <Box mt={4}>
+                        <InputLabel sx={{ fontSize: 14 }}>Ghi chú:</InputLabel>
+                        <TextField
+                          multiline
+                          minRows={4}
+                          variant="standard"
+                          fullWidth
+                          size="small"
+                        />
+                      </Box>
+                    </Box>
+                    <Box mt={4}>
+                      <Typography fontWeight={600}>
+                        Tổng số tiền đơn hàng: 15000000VND
+                      </Typography>
+                      <Typography
+                        color={"error"}
+                        variant="h6"
+                        fontWeight={600}
+                        mt={2}
+                      >
+                        Lưu ý *: Sau khi đặt hàng, đội ngũ hỗ trợ sẽ xác nhận
+                        lại với khách hàng trong vòng 30 phút đến 1 ngày
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Paper>
+              </Grid>
             </Grid>
           ) : (
             <Box
