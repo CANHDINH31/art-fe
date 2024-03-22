@@ -1,8 +1,6 @@
 import DataGridCustom from "@/src/components/common/DataGridCustom";
 import MainLayout from "@/src/components/layout/user";
-import CardItem from "@/src/components/sections/common/CardItem";
 import SettingWP from "@/src/components/sections/wall-painting/SettingWP";
-import SidebarWP from "@/src/components/sections/wall-painting/SidebarWP";
 import { getDetailUser } from "@/src/lib/api/user";
 import { typeCart, typePaint } from "@/src/lib/types";
 import { convertCurrency } from "@/src/lib/utils/wall-painting";
@@ -12,24 +10,45 @@ import {
   ButtonGroup,
   Container,
   Grid,
+  IconButton,
   Typography,
 } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import React, { ReactElement, useEffect } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { PlusIcon, MinusIcon } from "@heroicons/react/24/outline";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const Cart = () => {
   const { user } = useSelector((state: any) => state?.user);
   const router = useRouter();
+  const [data, setData] = useState<typeCart[]>([]);
+
+  useQuery(
+    ["infoUser", user._id],
+    async () => {
+      const res = await getDetailUser(user._id as string);
+      const resData = res.data?.cart?.map((i: typeCart) => ({
+        id: i._id,
+        ...i,
+      }));
+      setData(resData);
+      return resData;
+    },
+    {
+      enabled: !!user._id,
+    }
+  );
 
   const columns: GridColDef[] = [
     {
       field: "image",
       headerName: "Tranh",
       width: 150,
+      headerAlign: "center",
+      align: "center",
       disableColumnMenu: true,
       sortable: false,
       renderCell(params) {
@@ -51,6 +70,8 @@ const Cart = () => {
       field: "title",
       headerName: "Tên tác phẩm",
       width: 150,
+      headerAlign: "center",
+      align: "center",
       disableColumnMenu: true,
       sortable: false,
       renderCell(params) {
@@ -60,12 +81,14 @@ const Cart = () => {
     {
       field: "price",
       headerName: "Giá",
-      width: 100,
+      width: 150,
       disableColumnMenu: true,
+      headerAlign: "center",
+      align: "center",
       sortable: false,
       renderCell(params) {
         return (
-          <Typography color={"error"} fontWeight={600} fontSize={14}>
+          <Typography fontWeight={600} fontSize={14}>
             {convertCurrency(params.row?.paint?.price)}
           </Typography>
         );
@@ -74,73 +97,95 @@ const Cart = () => {
     {
       field: "amount",
       headerName: "Số lượng",
-      width: 200,
+      width: 150,
       disableColumnMenu: true,
       sortable: false,
+      headerAlign: "center",
       renderCell(params) {
+        const handleDecrease = () => {
+          const updatedData = data.map((row) => {
+            if (row.id === params.row.id) {
+              return { ...row, amount: Math.max(row.amount - 1, 1) };
+            }
+            return row;
+          });
+          handleUpdateCart(updatedData);
+        };
+
+        const handleIncrease = () => {
+          const updatedData = data.map((row) => {
+            if (row.id === params.row.id) {
+              return { ...row, amount: row.amount + 1 };
+            }
+            return row;
+          });
+          handleUpdateCart(updatedData);
+        };
+
         return (
           <ButtonGroup>
-            <Button
-              size="medium"
-              // onClick={() => {
-              //   setAmount(Math.max(amount - 1, 1));
-              // }}
-            >
+            <Button size="medium" onClick={handleDecrease}>
               <MinusIcon width={12} />
             </Button>
             <Button size="medium">
               <Typography variant="h6">{params.row.amount}</Typography>
             </Button>
-            <Button
-              size="medium"
-              // onClick={() => {
-              //   setAmount(amount + 1);
-              // }}
-            >
+            <Button size="medium" onClick={handleIncrease}>
               <PlusIcon width={12} />
             </Button>
           </ButtonGroup>
         );
       },
     },
-    // {
-    //   field: "action",
-    //   headerName: "Hành động",
-    //   sortable: false,
-    //   filterable: false,
-    //   width: 200,
-    //   renderCell(param) {
-    //     return (
-    //       <Button
-    //         href={`/admin/libraries/categories-management/${param.row._id}`}
-    //         variant="outlined"
-    //       >
-    //         Chi tiết
-    //       </Button>
-    //     );
-    //   },
-    // },
-  ];
-
-  const { data } = useQuery(
-    ["infoUser", user._id],
-    async () => {
-      const res = await getDetailUser(user._id as string);
-      return res.data?.cart?.map((i: typeCart) => ({ id: i._id, ...i }));
+    {
+      field: "total",
+      headerName: "Thành tiền",
+      width: 150,
+      align: "center",
+      headerAlign: "center",
+      disableColumnMenu: true,
+      sortable: false,
+      renderCell(params) {
+        return (
+          <Typography fontWeight={600} fontSize={14}>
+            {convertCurrency(params.row?.paint?.price * params.row.amount)}
+          </Typography>
+        );
+      },
     },
     {
-      enabled: !!user._id,
-    }
-  );
+      field: "action",
+      headerName: "Hành động",
+      sortable: false,
+      filterable: false,
+      width: 100,
+      align: "center",
+      renderCell(param) {
+        const handleDelete = () => {
+          const updatedData = data.filter((row) => row.id !== param.row.id);
+          handleUpdateCart(updatedData);
+        };
+        return (
+          <IconButton color="error" size="small" onClick={handleDelete}>
+            <DeleteIcon />
+          </IconButton>
+        );
+      },
+    },
+  ];
+
+  const handleUpdateCart = (updatedData: typeCart[]) => {
+    setData(updatedData);
+  };
 
   useEffect(() => {
     if (!user) router.push("/");
   }, [user]);
 
   return (
-    <Box py={4}>
+    <Box py={4} minHeight={"60vh"}>
       <Container>
-        <SettingWP breadcrumb={[`Giỏ hàng (${user?.cart?.length})`]} />
+        <SettingWP breadcrumb={[`Giỏ hàng (${data.length})`]} />
         <Box mt={12}>
           <Grid container spacing={2}>
             <Grid item xs={9}>
