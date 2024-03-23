@@ -19,6 +19,7 @@ type typeQueryOrder = {
   pageSize?: string;
   limit?: string;
   searchText?: string;
+  userId?: string;
 };
 
 const createOrder = async (payload: CreateOrderType) => {

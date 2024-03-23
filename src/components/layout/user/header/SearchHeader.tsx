@@ -13,6 +13,7 @@ import {
   KeyIcon,
   MagnifyingGlassIcon,
   InformationCircleIcon,
+  ShoppingBagIcon,
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
 import {
@@ -227,6 +228,19 @@ const SearchHeader = () => {
                     >
                       <InformationCircleIcon height={24} color="#446084" />
                       <Typography>Cập nhật thông tin</Typography>
+                    </Box>
+                    <Divider />
+
+                    <Box
+                      display={"flex"}
+                      alignItems={"center"}
+                      px={3}
+                      py={2}
+                      gap={4}
+                      onClick={() => router.push("/me/orders")}
+                    >
+                      <ShoppingBagIcon height={24} color="#446084" />
+                      <Typography>Quản lý đơn hàng</Typography>
                     </Box>
                     <Divider />
 
