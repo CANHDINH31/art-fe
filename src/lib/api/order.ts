@@ -14,8 +14,18 @@ type CartType = {
   amount: number;
 };
 
+type typeQueryOrder = {
+  page?: string;
+  pageSize?: string;
+  limit?: string;
+  searchText?: string;
+};
+
 const createOrder = async (payload: CreateOrderType) => {
   return await request.post("/api/orders", payload);
 };
 
-export { createOrder };
+const getListOrders = (query?: typeQueryOrder) =>
+  request.get("/api/orders?" + new URLSearchParams(query).toString());
+
+export { createOrder, getListOrders };

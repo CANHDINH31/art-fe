@@ -74,7 +74,7 @@ const SideBar = () => {
           </Box>
         </Box>
 
-        <Stack mt={16} gap={2}>
+        <Stack mt={8} gap={2}>
           {listMenuSidebar.map((menu, index) => (
             <Box key={index}>
               <MenuItem

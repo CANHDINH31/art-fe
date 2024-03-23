@@ -4,6 +4,7 @@ import {
   PhotoIcon,
   UsersIcon,
   WrenchIcon,
+  ShoppingCartIcon,
 } from "@heroicons/react/24/outline";
 
 export const listMenuSidebar = [
@@ -21,6 +22,11 @@ export const listMenuSidebar = [
     icon: <UsersIcon />,
     name: "Người dùng",
     path: "/admin/users",
+  },
+  {
+    icon: <ShoppingCartIcon />,
+    name: "Đơn hàng",
+    path: "/admin/orders",
   },
   {
     icon: <ChatBubbleBottomCenterIcon />,

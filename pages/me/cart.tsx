@@ -149,6 +149,8 @@ const Cart = () => {
       headerName: "Hành động",
       sortable: false,
       filterable: false,
+      disableColumnMenu: true,
+      headerAlign: "center",
       width: 100,
       align: "center",
       renderCell(param) {
