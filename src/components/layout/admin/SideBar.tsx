@@ -2,7 +2,7 @@ import { Avatar, Box, Divider, Stack, Typography } from "@mui/material";
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import { styled } from "@mui/system";
 import { useRouter } from "next/router";
-import { listMenuSidebar } from "./data";
+import { listMenuSidebar, listMenuSidebarV2 } from "./data";
 import { useSelector } from "react-redux";
 import { convertUrlImage } from "@/src/lib/utils/common";
 
@@ -53,7 +53,11 @@ const SideBar = () => {
   const { user } = useSelector((state: any) => state?.user);
 
   return (
-    <Stack height={"100%"} justifyContent={"space-between"}>
+    <Stack
+      height={"calc(100vh - 100px)"}
+      justifyContent={"space-between"}
+      sx={{ overflowY: "scroll" }}
+    >
       <Box flex={1} pt={4} px={1}>
         <Box px={4}>
           <BackButton onClick={() => push("/")}>
@@ -73,8 +77,7 @@ const SideBar = () => {
             <Typography fontWeight={600}>{user?.name}</Typography>
           </Box>
         </Box>
-
-        <Stack mt={8} gap={2}>
+        <Stack my={4} gap={2}>
           {listMenuSidebar.map((menu, index) => (
             <Box key={index}>
               <MenuItem
@@ -87,11 +90,20 @@ const SideBar = () => {
             </Box>
           ))}
         </Stack>
-      </Box>
-      <Divider />
-
-      <Box p={4}>
-        <Box component={"img"} src="/img/png/logo.png" width={200} />
+        <Divider />
+        <Stack my={4} gap={2}>
+          {listMenuSidebarV2.map((menu, index) => (
+            <Box key={index}>
+              <MenuItem
+                onClick={() => push(menu.path)}
+                className={pathname.includes(menu.path) ? "active" : ""}
+              >
+                {menu.icon}
+                <Typography>{menu.name}</Typography>
+              </MenuItem>
+            </Box>
+          ))}
+        </Stack>
       </Box>
     </Stack>
   );

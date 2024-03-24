@@ -1,9 +1,8 @@
 import {
   ChartBarIcon,
-  ChatBubbleBottomCenterIcon,
   PhotoIcon,
   UsersIcon,
-  WrenchIcon,
+  IdentificationIcon,
   ShoppingCartIcon,
 } from "@heroicons/react/24/outline";
 
@@ -28,14 +27,12 @@ export const listMenuSidebar = [
     name: "Đơn hàng",
     path: "/admin/orders",
   },
+];
+
+export const listMenuSidebarV2 = [
   {
-    icon: <ChatBubbleBottomCenterIcon />,
-    name: "Chat GPT",
-    path: "/chat-gpt",
-  },
-  {
-    icon: <WrenchIcon />,
-    name: "Tool",
-    path: "/tool",
+    icon: <IdentificationIcon />,
+    name: "Quản lý profile",
+    path: "/admin/profiles",
   },
 ];
