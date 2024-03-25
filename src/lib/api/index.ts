@@ -3,3 +3,4 @@ export * from "./paint";
 export * from "./auth";
 export * from "./comments";
 export * from "./order";
+export * from "./profile";
