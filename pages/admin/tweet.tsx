@@ -1,12 +1,21 @@
 import AdminLayout from "@/src/components/layout/admin";
-import { aiTweet } from "@/src/lib/api";
-import { Box, Button, InputLabel, Stack, TextField } from "@mui/material";
-import { useMutation } from "@tanstack/react-query";
-import React, { ReactElement } from "react";
+import { aiTweet, getListProfile } from "@/src/lib/api";
+import {
+  Box,
+  Button,
+  InputLabel,
+  MenuItem,
+  Select,
+  Stack,
+  TextField,
+} from "@mui/material";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import React, { ReactElement, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 const Tweet = () => {
+  const [profileId, setProfileId] = useState<string>("");
   const {
     register,
     handleSubmit,
@@ -36,9 +45,35 @@ const Tweet = () => {
     },
   });
 
+  const { data } = useQuery({
+    queryKey: ["profiles"],
+    queryFn: async () => {
+      const res = await getListProfile();
+      setProfileId(res?.data?.[0]?._id);
+      return res.data;
+    },
+  });
+
   return (
     <Box p={4}>
       <Stack justifyContent={"center"} alignItems={"center"} gap={4}>
+        <Stack gap={1} width={"50%"} alignItems={"flex-start"}>
+          <InputLabel sx={{ fontSize: 14, fontWeight: 600 }}>
+            Chọn tài khoản:
+          </InputLabel>
+          <Select
+            value={profileId}
+            onChange={(e) => setProfileId(e.target.value)}
+            fullWidth
+            size="small"
+          >
+            {data?.map((e: any) => (
+              <MenuItem value={e._id}>
+                {e.username} ({e.name})
+              </MenuItem>
+            ))}
+          </Select>
+        </Stack>
         <Stack
           gap={1}
           width={"50%"}
