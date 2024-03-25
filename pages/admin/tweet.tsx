@@ -1,5 +1,5 @@
 import AdminLayout from "@/src/components/layout/admin";
-import { aiTweet, getListProfile } from "@/src/lib/api";
+import { aiTweet, createTweet, getListProfile } from "@/src/lib/api";
 import {
   Box,
   Button,
@@ -27,6 +27,7 @@ const Tweet = () => {
     register: registerCreate,
     handleSubmit: handleSubmitCreate,
     setValue: setValueCreate,
+    formState: { errors: errosCreate },
   } = useForm({ mode: "onSubmit" });
 
   const { mutate, isLoading } = useMutation({
@@ -37,6 +38,17 @@ const Tweet = () => {
         res?.data?.response?.candidates?.[0]?.content?.parts?.[0]?.text
       );
     },
+    onError: (res) => {
+      toast.error("Có lỗi xảy ra");
+    },
+    onSettled: () => {
+      setValue("prompt", "");
+    },
+  });
+
+  const { mutate: mutateCreate, isLoading: isLoadingCreate } = useMutation({
+    mutationFn: createTweet,
+    onSuccess: (res) => {},
     onError: (res) => {
       toast.error("Có lỗi xảy ra");
     },
@@ -100,7 +112,15 @@ const Tweet = () => {
             Tìm kiếm
           </Button>
         </Stack>
-        <Stack gap={1} width={"50%"} alignItems={"flex-end"}>
+        <Stack
+          gap={1}
+          width={"50%"}
+          alignItems={"flex-end"}
+          component={"form"}
+          onSubmit={handleSubmitCreate((data) =>
+            mutateCreate({ content: data.content, profileId })
+          )}
+        >
           <Stack gap={1} width={"100%"}>
             <InputLabel sx={{ fontSize: 14, fontWeight: 600 }}>
               Kết quả tìm kiếm:
@@ -109,14 +129,14 @@ const Tweet = () => {
               multiline
               rows={8}
               fullWidth
-              error={errors?.content ? true : false}
+              error={errosCreate?.content ? true : false}
               {...registerCreate("content", {
                 required: "Trường này không được để trống",
               })}
-              helperText={errors?.content?.message?.toString()}
+              helperText={errosCreate?.content?.message?.toString()}
             />
           </Stack>
-          <Button variant="contained" type="submit">
+          <Button variant="contained" type="submit" disabled={isLoadingCreate}>
             Đăng bài
           </Button>
         </Stack>
