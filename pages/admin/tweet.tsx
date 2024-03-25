@@ -1,21 +1,28 @@
 import AdminLayout from "@/src/components/layout/admin";
 import { aiTweet, createTweet, getListProfile } from "@/src/lib/api";
+import { ArrowUpTrayIcon, TrashIcon } from "@heroicons/react/24/outline";
 import {
   Box,
   Button,
+  Grid,
   InputLabel,
   MenuItem,
   Select,
   Stack,
   TextField,
+  Typography,
 } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import React, { ReactElement, useState } from "react";
-import { useForm } from "react-hook-form";
+import React, { ChangeEvent, ReactElement, useRef, useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 const Tweet = () => {
   const [profileId, setProfileId] = useState<string>("");
+  const [image, setImage] = useState<string>("");
+  const [file, setFile] = useState<File | null>(null);
+
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const {
     register,
     handleSubmit,
@@ -46,17 +53,6 @@ const Tweet = () => {
     },
   });
 
-  const { mutate: mutateCreate, isLoading: isLoadingCreate } = useMutation({
-    mutationFn: createTweet,
-    onSuccess: (res) => {},
-    onError: (res) => {
-      toast.error("Có lỗi xảy ra");
-    },
-    onSettled: () => {
-      setValue("prompt", "");
-    },
-  });
-
   const { data } = useQuery({
     queryKey: ["profiles"],
     queryFn: async () => {
@@ -65,6 +61,30 @@ const Tweet = () => {
       return res.data;
     },
   });
+
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files && event.target.files[0];
+    if (file) {
+      setFile(file);
+      const reader = new FileReader();
+      reader.onload = function (readerEvent) {
+        setImage(readerEvent?.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleCreateTweet = async (data: FieldValues) => {
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(data));
+    file && formData.append("file", file);
+    try {
+      const res = await createTweet({ ...formData, profileId });
+      toast.success(res?.data?.message);
+    } catch (error) {
+      throw error;
+    }
+  };
 
   return (
     <Box p={4}>
@@ -117,26 +137,77 @@ const Tweet = () => {
           width={"50%"}
           alignItems={"flex-end"}
           component={"form"}
-          onSubmit={handleSubmitCreate((data) =>
-            mutateCreate({ content: data.content, profileId })
-          )}
+          onSubmit={handleSubmitCreate((data) => handleCreateTweet(data))}
         >
           <Stack gap={1} width={"100%"}>
             <InputLabel sx={{ fontSize: 14, fontWeight: 600 }}>
               Kết quả tìm kiếm:
             </InputLabel>
-            <TextField
-              multiline
-              rows={8}
-              fullWidth
-              error={errosCreate?.content ? true : false}
-              {...registerCreate("content", {
-                required: "Trường này không được để trống",
-              })}
-              helperText={errosCreate?.content?.message?.toString()}
-            />
+            <Grid container spacing={4}>
+              <Grid item xs={8}>
+                <TextField
+                  multiline
+                  rows={8}
+                  fullWidth
+                  error={errosCreate?.content ? true : false}
+                  {...registerCreate("content", {
+                    required: "Trường này không được để trống",
+                  })}
+                  helperText={errosCreate?.content?.message?.toString()}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                {image ? (
+                  <Stack>
+                    <Box
+                      src={image}
+                      alt="avatar"
+                      component={"img"}
+                      width={"100%"}
+                      height={"100%"}
+                      borderRadius={2}
+                      sx={{ objectFit: "cover" }}
+                    />
+                    <Box display={"flex"} justifyContent={"center"} mt={2}>
+                      <Button color="error" onClick={() => setImage("")}>
+                        <TrashIcon width={20} />
+                      </Button>
+                    </Box>
+                  </Stack>
+                ) : (
+                  <Stack
+                    border={"1px dashed #949494"}
+                    sx={{
+                      width: "100%",
+                      height: "100%",
+                      borderRadius: 2,
+                    }}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                  >
+                    <Button
+                      onClick={() =>
+                        inputRef.current && inputRef.current?.click()
+                      }
+                    >
+                      <Box display={"flex"} gap={2}>
+                        <ArrowUpTrayIcon width={18} />
+                        <span>Upload ảnh</span>
+                      </Box>
+                    </Button>
+                    <input
+                      ref={inputRef}
+                      type="file"
+                      hidden
+                      accept="image/*"
+                      onChange={handleImageChange}
+                    />
+                  </Stack>
+                )}
+              </Grid>
+            </Grid>
           </Stack>
-          <Button variant="contained" type="submit" disabled={isLoadingCreate}>
+          <Button variant="contained" type="submit">
             Đăng bài
           </Button>
         </Stack>
