@@ -8,12 +8,15 @@ import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import { Box, Button } from "@mui/material";
 import { GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 import React, { ReactElement, useState } from "react";
 import { toast } from "react-toastify";
 
 const Profiles = () => {
+  const router = useRouter();
   const columns: GridColDef[] = [
     { field: "id", headerName: "Id", width: 150 },
+    { field: "name", headerName: "Name", width: 150 },
     { field: "username", headerName: "Username", width: 150 },
     { field: "appKey", headerName: "App key", width: 200 },
     { field: "appSecret", headerName: "App secret", width: 200 },
@@ -31,10 +34,7 @@ const Profiles = () => {
         return (
           <Box display={"flex"} alignItems={"center"} gap={2}>
             <Button
-              onClick={() => {
-                setIsOpenEditModal(true);
-                setIdUserEdit(param.row._id);
-              }}
+              onClick={() => router.push(`/admin/profiles/${param.row._id}`)}
               variant="outlined"
               size="small"
             >
@@ -62,8 +62,6 @@ const Profiles = () => {
     []
   );
   const [isOpenAddModal, setIsOpenAddModal] = useState<boolean>(false);
-  const [isOpenEditModal, setIsOpenEditModal] = useState<boolean>(false);
-  const [idUserEdit, setIdUserEdit] = useState<string>("");
 
   const { data, refetch } = useQuery(
     ["listUsers"],
