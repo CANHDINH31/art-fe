@@ -15,6 +15,7 @@ import React, { ReactElement } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import AddNewTarget from "@/src/components/sections/admin/profiles/AddNewTarget";
 
 function DetailProfile() {
   const router = useRouter();
@@ -164,6 +165,8 @@ function DetailProfile() {
           </IconButton>
         </Box>
       </Box>
+      {/* Modal add target */}
+      <AddNewTarget />
     </Box>
   );
 }
