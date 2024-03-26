@@ -136,6 +136,7 @@ const ChangeInfo = () => {
                     width={"100%"}
                     height={250}
                     borderRadius={2}
+                    sx={{ objectFit: "cover" }}
                   />
                   <Box display={"flex"} justifyContent={"center"} mt={2}>
                     <Button color="error" onClick={() => setImage("")}>

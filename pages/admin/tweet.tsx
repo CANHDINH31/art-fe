@@ -10,7 +10,6 @@ import {
   Select,
   Stack,
   TextField,
-  Typography,
 } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { ChangeEvent, ReactElement, useRef, useState } from "react";
@@ -21,6 +20,7 @@ const Tweet = () => {
   const [profileId, setProfileId] = useState<string>("");
   const [image, setImage] = useState<string>("");
   const [file, setFile] = useState<File | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const {
@@ -48,9 +48,6 @@ const Tweet = () => {
     onError: (res) => {
       toast.error("Có lỗi xảy ra");
     },
-    onSettled: () => {
-      setValue("prompt", "");
-    },
   });
 
   const { data } = useQuery({
@@ -75,15 +72,21 @@ const Tweet = () => {
   };
 
   const handleCreateTweet = async (data: FieldValues) => {
+    setLoading(true);
     const formData = new FormData();
-    formData.append("data", JSON.stringify(data));
+    formData.append("data", JSON.stringify({ ...data, profileId }));
     file && formData.append("file", file);
     try {
-      const res = await createTweet({ ...formData, profileId });
+      const res = await createTweet(formData);
       toast.success(res?.data?.message);
+      setValueCreate("content", "");
+      setValue("prompt", "");
+      setImage("");
     } catch (error) {
-      throw error;
+      toast.error("Đăng bài thất bại");
+      console.log(error);
     }
+    setLoading(false);
   };
 
   return (
@@ -165,6 +168,7 @@ const Tweet = () => {
                       component={"img"}
                       width={"100%"}
                       height={"100%"}
+                      maxHeight={210}
                       borderRadius={2}
                       sx={{ objectFit: "cover" }}
                     />
@@ -207,7 +211,7 @@ const Tweet = () => {
               </Grid>
             </Grid>
           </Stack>
-          <Button variant="contained" type="submit">
+          <Button variant="contained" type="submit" disabled={loading}>
             Đăng bài
           </Button>
         </Stack>
