@@ -58,7 +58,7 @@ const SideBar = () => {
       justifyContent={"space-between"}
       sx={{ overflowY: "scroll" }}
     >
-      <Box flex={1} pt={4} px={1}>
+      <Box flex={1} pt={4} px={1} position={"relative"}>
         <Box px={4}>
           <BackButton onClick={() => push("/")}>
             <ChevronLeftIcon />
@@ -104,6 +104,12 @@ const SideBar = () => {
             </Box>
           ))}
         </Stack>
+        <Box position={"absolute"} bottom={0} left={0} right={0}>
+          <Divider />
+          <Box p={4}>
+            <Box component={"img"} src="/img/png/logo.png" width={200} />
+          </Box>
+        </Box>
       </Box>
     </Stack>
   );
