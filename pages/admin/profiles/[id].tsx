@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
@@ -19,6 +19,7 @@ import AddNewTarget from "@/src/components/sections/admin/profiles/AddNewTarget"
 
 function DetailProfile() {
   const router = useRouter();
+  const [isOpenAdd, setIsOpenAdd] = useState<boolean>(false);
 
   const { refetch } = useQuery(
     ["detailProfile", router.query.id],
@@ -160,13 +161,18 @@ function DetailProfile() {
           <Typography fontWeight={600} variant="h3">
             Quản lý target
           </Typography>
-          <IconButton onClick={() => console.log("hello")}>
+          <IconButton onClick={() => setIsOpenAdd(true)}>
             <AddCircleOutlineIcon color="primary" />
           </IconButton>
         </Box>
       </Box>
       {/* Modal add target */}
-      <AddNewTarget />
+      <AddNewTarget
+        refetch={refetch}
+        open={isOpenAdd}
+        handleClose={() => setIsOpenAdd(false)}
+        profileId={router.query.id as string}
+      />
     </Box>
   );
 }
