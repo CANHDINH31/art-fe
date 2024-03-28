@@ -57,6 +57,7 @@ const Tweet = () => {
       setProfileId(res?.data?.[0]?._id);
       return res.data;
     },
+    staleTime: Infinity,
   });
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {

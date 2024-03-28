@@ -54,60 +54,73 @@ const SideBar = () => {
 
   return (
     <Stack
-      height={"calc(100vh - 100px)"}
       justifyContent={"space-between"}
       sx={{ overflowY: "scroll" }}
+      height={"100%"}
     >
       <Box flex={1} pt={4} px={1} position={"relative"}>
-        <Box px={4}>
-          <BackButton onClick={() => push("/")}>
-            <ChevronLeftIcon />
-            <Typography>Back to Website</Typography>
-          </BackButton>
+        <Box height={"calc(100vh - 100px - 108px)"}>
+          <Box px={4}>
+            <BackButton onClick={() => push("/")}>
+              <ChevronLeftIcon />
+              <Typography>Back to Website</Typography>
+            </BackButton>
 
-          <Box display={"flex"} mt={8} alignItems={"center"} gap={2}>
-            <Avatar
-              alt="Remy Sharp"
-              src={
-                user?.image
-                  ? convertUrlImage(user?.image)
-                  : "/img/jpg/default-avatar.jpg"
-              }
-            />
-            <Typography fontWeight={600}>{user?.name}</Typography>
+            <Box display={"flex"} mt={8} alignItems={"center"} gap={2}>
+              <Avatar
+                alt="Remy Sharp"
+                src={
+                  user?.image
+                    ? convertUrlImage(user?.image)
+                    : "/img/jpg/default-avatar.jpg"
+                }
+              />
+              <Typography fontWeight={600}>{user?.name}</Typography>
+            </Box>
           </Box>
+          <Stack my={4} gap={2}>
+            {listMenuSidebar.map((menu, index) => (
+              <Box key={index}>
+                <MenuItem
+                  onClick={() => push(menu.path)}
+                  className={pathname.includes(menu.path) ? "active" : ""}
+                >
+                  {menu.icon}
+                  <Typography>{menu.name}</Typography>
+                </MenuItem>
+              </Box>
+            ))}
+          </Stack>
+          <Divider />
+          <Stack my={4} gap={2}>
+            {listMenuSidebarV2.map((menu, index) => (
+              <Box key={index}>
+                <MenuItem
+                  onClick={() => push(menu.path)}
+                  className={pathname.includes(menu.path) ? "active" : ""}
+                >
+                  {menu.icon}
+                  <Typography>{menu.name}</Typography>
+                </MenuItem>
+              </Box>
+            ))}
+          </Stack>
         </Box>
-        <Stack my={4} gap={2}>
-          {listMenuSidebar.map((menu, index) => (
-            <Box key={index}>
-              <MenuItem
-                onClick={() => push(menu.path)}
-                className={pathname.includes(menu.path) ? "active" : ""}
-              >
-                {menu.icon}
-                <Typography>{menu.name}</Typography>
-              </MenuItem>
-            </Box>
-          ))}
-        </Stack>
-        <Divider />
-        <Stack my={4} gap={2}>
-          {listMenuSidebarV2.map((menu, index) => (
-            <Box key={index}>
-              <MenuItem
-                onClick={() => push(menu.path)}
-                className={pathname.includes(menu.path) ? "active" : ""}
-              >
-                {menu.icon}
-                <Typography>{menu.name}</Typography>
-              </MenuItem>
-            </Box>
-          ))}
-        </Stack>
+
         <Box position={"absolute"} bottom={0} left={0} right={0}>
           <Divider />
-          <Box p={4}>
-            <Box component={"img"} src="/img/png/logo.png" width={200} />
+          <Box
+            p={4}
+            display={"flex"}
+            justifyContent={"center"}
+            alignItems={"center"}
+          >
+            <Box
+              component={"img"}
+              src="/img/png/logo.png"
+              height={100}
+              sx={{ objectFit: "contain" }}
+            />
           </Box>
         </Box>
       </Box>
