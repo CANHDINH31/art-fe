@@ -16,6 +16,9 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import AddNewTarget from "@/src/components/sections/admin/profiles/AddNewTarget";
+import { getListTarget } from "@/src/lib/api/target";
+import DetailTarget from "@/src/components/sections/admin/profiles/targets/DetailTarget";
+import { typeTarget } from "@/src/lib/types";
 
 function DetailProfile() {
   const router = useRouter();
@@ -45,6 +48,19 @@ function DetailProfile() {
     }
   );
 
+  const { data, refetch: refetchTarget } = useQuery({
+    queryKey: ["targets"],
+    queryFn: async () => {
+      const res = await getListTarget({
+        profileId: router.query.id as string,
+        status: "1",
+      });
+      return res.data;
+    },
+    enabled: !!router.query.id,
+    staleTime: Infinity,
+  });
+
   const { mutate, isLoading } = useMutation({
     mutationFn: createProfile,
     onSuccess: (res) => {
@@ -67,8 +83,9 @@ function DetailProfile() {
     <Box>
       <Box>
         <Typography fontWeight={600} variant="h3">
-          Thông tin cá nhân
+          Thông tin profile
         </Typography>
+        {/* Basic  Info */}
         <Box
           mt={2}
           component={"form"}
@@ -157,6 +174,7 @@ function DetailProfile() {
         </Box>
       </Box>
       <Box mt={4}>
+        {/*Target Management  */}
         <Box display={"flex"} gap={2} alignItems={"center"}>
           <Typography fontWeight={600} variant="h3">
             Quản lý target
@@ -165,10 +183,24 @@ function DetailProfile() {
             <AddCircleOutlineIcon color="primary" />
           </IconButton>
         </Box>
+
+        {/* List Target */}
+        <Grid container spacing={4} mt={2}>
+          {data?.map((item: typeTarget, index: number) => (
+            <Grid item xs={4}>
+              <DetailTarget
+                info={item}
+                index={index + 1}
+                refetch={refetchTarget}
+              />
+            </Grid>
+          ))}
+        </Grid>
       </Box>
+
       {/* Modal add target */}
       <AddNewTarget
-        refetch={refetch}
+        refetch={refetchTarget}
         open={isOpenAdd}
         handleClose={() => setIsOpenAdd(false)}
         profileId={router.query.id as string}

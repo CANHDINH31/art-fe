@@ -1,25 +1,36 @@
-import AddModal from "@/src/components/common/AddModal";
-import { createTarget } from "@/src/lib/api/target";
-import { Box, Chip, Grid, InputLabel, Stack, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  Chip,
+  Grid,
+  IconButton,
+  InputLabel,
+  Paper,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { TrashIcon } from "@heroicons/react/24/outline";
+import { typeTarget } from "@/src/lib/types";
 import {
   QueryObserverResult,
   RefetchOptions,
   RefetchQueryFilters,
 } from "@tanstack/react-query";
-import React, { useState } from "react";
-import { FieldValues, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { deleteTarget, updateTarget } from "@/src/lib/api/target";
 
 type Props = {
-  open: boolean;
-  handleClose: () => void;
+  info: typeTarget;
+  index: number;
   refetch: <TPageData>(
     options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
   ) => Promise<QueryObserverResult<any, unknown>>;
-  profileId: string;
 };
 
-function AddNewTarget({ open, handleClose, refetch, profileId }: Props) {
+const DetailTarget = ({ info, index, refetch }: Props) => {
   const [keywords, setKeywords] = useState<string[]>([]);
   const [inputKeyword, setInputKeyword] = useState<string>("");
   const [hashtags, setHashtags] = useState<string[]>([]);
@@ -29,14 +40,21 @@ function AddNewTarget({ open, handleClose, refetch, profileId }: Props) {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      views: info.views,
+      likes: info.likes,
+      comments: info.comments,
+      shares: info?.shares,
+    },
+  });
 
-  const handleCloseModal = () => {
-    handleClose();
-    reset();
-    setKeywords([]);
-    setHashtags([]);
+  const removeKeyWordElement = (t: string) => {
+    setKeywords(keywords?.filter((e) => e !== t));
+  };
+
+  const removeHashTagElement = (t: string) => {
+    setHashtags(hashtags?.filter((e) => e !== t));
   };
 
   const inputHashtagPress = (e: any) => {
@@ -55,48 +73,66 @@ function AddNewTarget({ open, handleClose, refetch, profileId }: Props) {
     }
   };
 
-  const removeKeyWordElement = (t: string) => {
-    setKeywords(keywords?.filter((e) => e !== t));
+  const handleRemoveTarget = async () => {
+    try {
+      await deleteTarget(info._id as string);
+      refetch();
+      toast.error("Xóa target thành công");
+    } catch (error) {
+      console.log(error);
+      toast.error("Xóa target thất bại");
+    }
   };
 
-  const removeHashTagElement = (t: string) => {
-    setHashtags(hashtags?.filter((e) => e !== t));
-  };
-
-  const handeCreateTarget = async (data: FieldValues) => {
+  const handleUpdateTarget = async (data: typeTarget) => {
     if (keywords?.length == 0 && hashtags?.length == 0) {
-      toast.error("Bạn chưa tạo keyword hoặc hashtag");
+      return toast.error(
+        `Bạn chưa tạo keyword hoặc hashtag ở target số ${index}`
+      );
     }
     try {
-      const res = await createTarget({
+      await updateTarget(info?._id as string, {
         keywords: keywords,
         hashtags: hashtags,
         views: Number(data?.views),
         likes: Number(data?.likes),
         shares: Number(data?.shares),
         comments: Number(data?.comments),
-        profile: profileId,
       });
-      toast.success(res?.data?.message || "Thêm mới thành công");
       refetch();
+      toast.success("Cập nhật thành công");
     } catch (error) {
+      toast.error("Cập nhật thất bại");
       console.log(error);
-      toast.error("Có lỗi xảy ra");
     }
-    handleCloseModal();
   };
 
+  useEffect(() => {
+    setKeywords(info?.keywords as string[]);
+    setHashtags(info?.hashtags as string[]);
+  }, []);
+
   return (
-    <AddModal
-      title="THÊM PROFILE"
-      open={open}
-      handleClose={handleCloseModal}
-      handleOk={handleSubmit((data) => handeCreateTarget(data))}
-      maxWidth="md"
-    >
-      <Box>
-        <Grid container spacing={6}>
-          <Grid item xs={6}>
+    <Paper>
+      <Box
+        p={4}
+        component={"form"}
+        onSubmit={handleSubmit((data) => handleUpdateTarget(data))}
+      >
+        <Box
+          display={"flex"}
+          justifyContent={"space-between"}
+          alignItems={"center"}
+        >
+          <Typography fontWeight={600} variant="h4">
+            Thông tin target số {index}
+          </Typography>
+          <IconButton onClick={handleRemoveTarget}>
+            <TrashIcon width={20} color="red" />
+          </IconButton>
+        </Box>
+        <Grid container spacing={6} mt={2}>
+          <Grid item xs={12}>
             <Stack gap={2}>
               <InputLabel sx={{ fontSize: 14 }}>Nhập keywords: </InputLabel>
               <TextField
@@ -118,7 +154,7 @@ function AddNewTarget({ open, handleClose, refetch, profileId }: Props) {
               </Box>
             </Stack>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <Stack gap={2}>
               <InputLabel sx={{ fontSize: 14 }}>Nhập hashtags: </InputLabel>
               <TextField
@@ -140,7 +176,7 @@ function AddNewTarget({ open, handleClose, refetch, profileId }: Props) {
               </Box>
             </Stack>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <Stack gap={2}>
               <InputLabel sx={{ fontSize: 14 }}>
                 Nhập số lượng views:
@@ -157,7 +193,7 @@ function AddNewTarget({ open, handleClose, refetch, profileId }: Props) {
               />
             </Stack>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <Stack gap={2}>
               <InputLabel sx={{ fontSize: 14 }}>
                 Nhập số lượng likes:
@@ -174,7 +210,7 @@ function AddNewTarget({ open, handleClose, refetch, profileId }: Props) {
               />
             </Stack>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <Stack gap={2}>
               <InputLabel sx={{ fontSize: 14 }}>
                 Nhập số lượng shares:
@@ -191,7 +227,7 @@ function AddNewTarget({ open, handleClose, refetch, profileId }: Props) {
               />
             </Stack>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <Stack gap={2}>
               <InputLabel sx={{ fontSize: 14 }}>
                 Nhập số lượng comments:
@@ -209,9 +245,14 @@ function AddNewTarget({ open, handleClose, refetch, profileId }: Props) {
             </Stack>
           </Grid>
         </Grid>
+        <Box mt={4} textAlign={"center"}>
+          <Button variant="contained" type="submit">
+            Cập nhật
+          </Button>
+        </Box>
       </Box>
-    </AddModal>
+    </Paper>
   );
-}
+};
 
-export default AddNewTarget;
+export default DetailTarget;
