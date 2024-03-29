@@ -29,7 +29,7 @@ const PostContent = () => {
             <Typography fontSize={12}>@dinhphamcanh</Typography>
           </Box>
         </Box>
-        <Box mt={4}>
+        <Box mt={8}>
           <Typography fontSize={14}>
             ⏰ The countdown begins. BTC Halving nears... Are you prepared for
             what else is coming? Mine your BTC now .Heaven's Gate On Tianmen
@@ -38,15 +38,15 @@ const PostContent = () => {
           <Typography mt={2} fontWeight={500} fontSize={14} color={"error"}>
             #Bybit #btchalving
           </Typography>
-          <Box mt={4}>
+          <Box mt={8}>
             <Box display={"flex"} justifyContent={"center"} gap={2}>
               <Box
-                width={200}
-                height={200}
+                width={150}
+                height={150}
                 sx={{
                   objectFit: "cover",
                   objectPosition: "center",
-                  borderRadius: 4,
+                  borderRadius: 2,
                 }}
                 src={
                   "https://i.etsystatic.com/38163649/r/il/cd2bac/4797621280/il_794xN.4797621280_b90x.jpg"
@@ -54,12 +54,12 @@ const PostContent = () => {
                 component={"img"}
               />
               <Box
-                width={200}
-                height={200}
+                width={150}
+                height={150}
                 sx={{
                   objectFit: "cover",
                   objectPosition: "center",
-                  borderRadius: 4,
+                  borderRadius: 2,
                 }}
                 src={
                   "https://i.etsystatic.com/38163649/r/il/cd2bac/4797621280/il_794xN.4797621280_b90x.jpg"
@@ -67,12 +67,12 @@ const PostContent = () => {
                 component={"img"}
               />
               <Box
-                width={200}
-                height={200}
+                width={150}
+                height={150}
                 sx={{
                   objectFit: "cover",
                   objectPosition: "center",
-                  borderRadius: 4,
+                  borderRadius: 2,
                 }}
                 src={
                   "https://i.etsystatic.com/38163649/r/il/cd2bac/4797621280/il_794xN.4797621280_b90x.jpg"
@@ -80,12 +80,12 @@ const PostContent = () => {
                 component={"img"}
               />
               <Box
-                width={200}
-                height={200}
+                width={150}
+                height={150}
                 sx={{
                   objectFit: "cover",
                   objectPosition: "center",
-                  borderRadius: 4,
+                  borderRadius: 2,
                 }}
                 src={
                   "https://i.etsystatic.com/38163649/r/il/cd2bac/4797621280/il_794xN.4797621280_b90x.jpg"
@@ -94,7 +94,7 @@ const PostContent = () => {
               />
             </Box>
           </Box>
-          <Box mt={4}>
+          <Box mt={8}>
             <Typography fontSize={14}>
               2:56 CH · 27 thg 3, 2024 <strong>· 9,1 Tr</strong> Lượt xem
             </Typography>
