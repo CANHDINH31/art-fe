@@ -1,4 +1,5 @@
 import AdminLayout from "@/src/components/layout/admin";
+import Comments from "@/src/components/sections/admin/comments/Comments";
 import PostContent from "@/src/components/sections/admin/comments/PostContent";
 import { Box } from "@mui/material";
 import React, { ReactElement } from "react";
@@ -9,7 +10,9 @@ const DetailComment = () => {
       <Box flex={1}>
         <PostContent />
       </Box>
-      <Box flex={1}>TEST</Box>
+      <Box flex={1}>
+        <Comments />
+      </Box>
     </Box>
   );
 };
