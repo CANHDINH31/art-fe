@@ -5,6 +5,7 @@ import {
   IdentificationIcon,
   ShoppingCartIcon,
   ChatBubbleBottomCenterIcon,
+  ArrowUpOnSquareIcon,
 } from "@heroicons/react/24/outline";
 
 export const listMenuSidebar = [
@@ -37,8 +38,13 @@ export const listMenuSidebarV2 = [
     path: "/admin/profiles",
   },
   {
-    icon: <ChatBubbleBottomCenterIcon />,
+    icon: <ArrowUpOnSquareIcon />,
     name: "Tweet AI",
     path: "/admin/tweet",
+  },
+  {
+    icon: <ChatBubbleBottomCenterIcon />,
+    name: "Quản lý comment",
+    path: "/admin/comments",
   },
 ];
