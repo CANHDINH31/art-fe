@@ -225,7 +225,7 @@ export default Tweet;
 
 Tweet.getLayout = function getLayout(page: ReactElement) {
   return (
-    <AdminLayout title="Quản trị viên" page="Tweet">
+    <AdminLayout title="Quản trị viên" page="Tweet AI">
       {page}
     </AdminLayout>
   );
