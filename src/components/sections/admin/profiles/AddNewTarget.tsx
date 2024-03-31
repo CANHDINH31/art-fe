@@ -20,6 +20,8 @@ type Props = {
 };
 
 function AddNewTarget({ open, handleClose, refetch, profileId }: Props) {
+  const [urls, setUrls] = useState<string[]>([]);
+  const [inputUrl, setInputUrl] = useState<string>("");
   const [keywords, setKeywords] = useState<string[]>([]);
   const [inputKeyword, setInputKeyword] = useState<string>("");
   const [hashtags, setHashtags] = useState<string[]>([]);
@@ -47,12 +49,24 @@ function AddNewTarget({ open, handleClose, refetch, profileId }: Props) {
     }
   };
 
+  const inputUrlPress = (e: any) => {
+    if (e.keyCode == 13) {
+      e.preventDefault();
+      setUrls([...urls, e.target.value]);
+      setInputUrl("");
+    }
+  };
+
   const inputKeywordPress = (e: any) => {
     if (e.keyCode == 13) {
       e.preventDefault();
       setKeywords([...keywords, e.target.value]);
       setInputKeyword("");
     }
+  };
+
+  const removeUrlElement = (t: string) => {
+    setUrls(urls?.filter((e) => e !== t));
   };
 
   const removeKeyWordElement = (t: string) => {
@@ -64,11 +78,12 @@ function AddNewTarget({ open, handleClose, refetch, profileId }: Props) {
   };
 
   const handeCreateTarget = async (data: FieldValues) => {
-    if (keywords?.length == 0 && hashtags?.length == 0) {
-      toast.error("Bạn chưa tạo keyword hoặc hashtag");
+    if (keywords?.length == 0 && hashtags?.length == 0 && urls?.length == 0) {
+      return toast.error("Bạn chưa tạo url, keyword hoặc hashtag");
     }
     try {
       const res = await createTarget({
+        urls: urls,
         keywords: keywords,
         hashtags: hashtags,
         views: Number(data?.views),
@@ -78,6 +93,9 @@ function AddNewTarget({ open, handleClose, refetch, profileId }: Props) {
         profile: profileId,
       });
       toast.success(res?.data?.message || "Thêm mới thành công");
+      setInputKeyword("");
+      setInputUrl("");
+      setInputHashtag("");
       refetch();
     } catch (error) {
       console.log(error);
@@ -96,6 +114,28 @@ function AddNewTarget({ open, handleClose, refetch, profileId }: Props) {
     >
       <Box>
         <Grid container spacing={6}>
+          <Grid item xs={6}>
+            <Stack gap={2}>
+              <InputLabel sx={{ fontSize: 14 }}>Nhập urls: </InputLabel>
+              <TextField
+                size="small"
+                variant="standard"
+                value={inputUrl}
+                onChange={(e) => setInputUrl(e.target.value)}
+                onKeyDown={inputUrlPress}
+                label="Nhấn enter để thêm url"
+              />
+              <Box display={"flex"} gap={2} flexWrap={"wrap"}>
+                {urls?.map((e) => (
+                  <Chip
+                    label={e}
+                    size="small"
+                    onDelete={() => removeUrlElement(e)}
+                  />
+                ))}
+              </Box>
+            </Stack>
+          </Grid>
           <Grid item xs={6}>
             <Stack gap={2}>
               <InputLabel sx={{ fontSize: 14 }}>Nhập keywords: </InputLabel>

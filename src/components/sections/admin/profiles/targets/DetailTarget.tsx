@@ -31,6 +31,8 @@ type Props = {
 };
 
 const DetailTarget = ({ info, index, refetch }: Props) => {
+  const [urls, setUrls] = useState<string[]>([]);
+  const [inputUrl, setInputUrl] = useState<string>("");
   const [keywords, setKeywords] = useState<string[]>([]);
   const [inputKeyword, setInputKeyword] = useState<string>("");
   const [hashtags, setHashtags] = useState<string[]>([]);
@@ -49,6 +51,10 @@ const DetailTarget = ({ info, index, refetch }: Props) => {
     },
   });
 
+  const removeUrlElement = (t: string) => {
+    setUrls(urls?.filter((e) => e !== t));
+  };
+
   const removeKeyWordElement = (t: string) => {
     setKeywords(keywords?.filter((e) => e !== t));
   };
@@ -65,6 +71,14 @@ const DetailTarget = ({ info, index, refetch }: Props) => {
     }
   };
 
+  const inputUrlPress = (e: any) => {
+    if (e.keyCode == 13) {
+      e.preventDefault();
+      setUrls([...urls, e.target.value]);
+      setInputUrl("");
+    }
+  };
+
   const inputKeywordPress = (e: any) => {
     if (e.keyCode == 13) {
       e.preventDefault();
@@ -77,7 +91,7 @@ const DetailTarget = ({ info, index, refetch }: Props) => {
     try {
       await deleteTarget(info._id as string);
       refetch();
-      toast.error("Xóa target thành công");
+      toast.success("Xóa target thành công");
     } catch (error) {
       console.log(error);
       toast.error("Xóa target thất bại");
@@ -85,13 +99,14 @@ const DetailTarget = ({ info, index, refetch }: Props) => {
   };
 
   const handleUpdateTarget = async (data: typeTarget) => {
-    if (keywords?.length == 0 && hashtags?.length == 0) {
+    if (keywords?.length == 0 && hashtags?.length == 0 && urls?.length == 0) {
       return toast.error(
-        `Bạn chưa tạo keyword hoặc hashtag ở target số ${index}`
+        `Bạn chưa tạo url, keyword hoặc hashtag ở target số ${index}`
       );
     }
     try {
       await updateTarget(info?._id as string, {
+        urls: urls,
         keywords: keywords,
         hashtags: hashtags,
         views: Number(data?.views),
@@ -110,6 +125,7 @@ const DetailTarget = ({ info, index, refetch }: Props) => {
   useEffect(() => {
     setKeywords(info?.keywords as string[]);
     setHashtags(info?.hashtags as string[]);
+    setUrls(info?.urls as string[]);
   }, []);
 
   return (
@@ -132,6 +148,28 @@ const DetailTarget = ({ info, index, refetch }: Props) => {
           </IconButton>
         </Box>
         <Grid container spacing={6} mt={2}>
+          <Grid item xs={12}>
+            <Stack gap={2}>
+              <InputLabel sx={{ fontSize: 14 }}>Nhập urls: </InputLabel>
+              <TextField
+                size="small"
+                variant="standard"
+                value={inputUrl}
+                onChange={(e) => setInputUrl(e.target.value)}
+                onKeyDown={inputUrlPress}
+                label="Nhấn enter để thêm url"
+              />
+              <Box display={"flex"} gap={2} flexWrap={"wrap"}>
+                {urls?.map((e) => (
+                  <Chip
+                    label={e}
+                    size="small"
+                    onDelete={() => removeUrlElement(e)}
+                  />
+                ))}
+              </Box>
+            </Stack>
+          </Grid>
           <Grid item xs={12}>
             <Stack gap={2}>
               <InputLabel sx={{ fontSize: 14 }}>Nhập keywords: </InputLabel>

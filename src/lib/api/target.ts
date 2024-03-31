@@ -2,6 +2,7 @@ import { typeTarget } from "../types";
 import { request } from "../utils/request";
 
 type createTargetPayload = {
+  urls: string[];
   keywords: string[];
   hashtags: string[];
   views: number;
