@@ -148,7 +148,7 @@ const DetailTarget = ({ info, index, refetch }: Props) => {
           </IconButton>
         </Box>
         <Grid container spacing={6} mt={2}>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Stack gap={2}>
               <InputLabel sx={{ fontSize: 14 }}>Nhập urls: </InputLabel>
               <TextField
@@ -170,7 +170,7 @@ const DetailTarget = ({ info, index, refetch }: Props) => {
               </Box>
             </Stack>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Stack gap={2}>
               <InputLabel sx={{ fontSize: 14 }}>Nhập keywords: </InputLabel>
               <TextField
@@ -192,7 +192,7 @@ const DetailTarget = ({ info, index, refetch }: Props) => {
               </Box>
             </Stack>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Stack gap={2}>
               <InputLabel sx={{ fontSize: 14 }}>Nhập hashtags: </InputLabel>
               <TextField
@@ -214,7 +214,7 @@ const DetailTarget = ({ info, index, refetch }: Props) => {
               </Box>
             </Stack>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Stack gap={2}>
               <InputLabel sx={{ fontSize: 14 }}>
                 Nhập số lượng views:
@@ -231,7 +231,7 @@ const DetailTarget = ({ info, index, refetch }: Props) => {
               />
             </Stack>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Stack gap={2}>
               <InputLabel sx={{ fontSize: 14 }}>
                 Nhập số lượng likes:
@@ -248,7 +248,7 @@ const DetailTarget = ({ info, index, refetch }: Props) => {
               />
             </Stack>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Stack gap={2}>
               <InputLabel sx={{ fontSize: 14 }}>
                 Nhập số lượng shares:
@@ -265,7 +265,7 @@ const DetailTarget = ({ info, index, refetch }: Props) => {
               />
             </Stack>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Stack gap={2}>
               <InputLabel sx={{ fontSize: 14 }}>
                 Nhập số lượng comments:
