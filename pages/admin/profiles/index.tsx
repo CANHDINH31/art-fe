@@ -38,8 +38,8 @@ const Profiles = () => {
     },
     { field: "name", headerName: "Name", width: 150 },
     { field: "username", headerName: "Username", width: 150 },
-    { field: "follower", headerName: "Follower", width: 100 },
-    { field: "following", headerName: "Following", width: 100 },
+    { field: "follower", headerName: "Follower", width: 150 },
+    { field: "following", headerName: "Following", width: 150 },
     { field: "location", headerName: "Location", width: 120 },
     { field: "joinDate", headerName: "Join date", width: 200 },
     {
