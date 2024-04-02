@@ -98,26 +98,8 @@ function DetailProfile() {
             })
           )}
         >
-          <Grid container spacing={8}>
-            <Grid item xs={4}>
-              <InputLabel sx={{ fontSize: 14 }}>Name: </InputLabel>
-              <TextField
-                variant="standard"
-                fullWidth
-                {...register("name")}
-                disabled
-              />
-            </Grid>
-            <Grid item xs={4}>
-              <InputLabel sx={{ fontSize: 14 }}>Username: </InputLabel>
-              <TextField
-                variant="standard"
-                fullWidth
-                {...register("username")}
-                disabled
-              />
-            </Grid>
-            <Grid item xs={4}>
+          <Grid container spacing={4}>
+            <Grid item xs={3}>
               <InputLabel sx={{ fontSize: 14 }}>App key: </InputLabel>
               <TextField
                 variant="standard"
@@ -129,7 +111,7 @@ function DetailProfile() {
                 helperText={errors?.appKey?.message?.toString()}
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={3}>
               <InputLabel sx={{ fontSize: 14 }}>App secret: </InputLabel>
               <TextField
                 variant="standard"
@@ -141,7 +123,7 @@ function DetailProfile() {
                 helperText={errors?.appSecret?.message?.toString()}
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={3}>
               <InputLabel sx={{ fontSize: 14 }}>Access token: </InputLabel>
               <TextField
                 variant="standard"
@@ -153,7 +135,7 @@ function DetailProfile() {
                 helperText={errors?.accessToken?.message?.toString()}
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={3}>
               <InputLabel sx={{ fontSize: 14 }}>Access secret: </InputLabel>
               <TextField
                 variant="standard"

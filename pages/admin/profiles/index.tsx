@@ -15,13 +15,33 @@ import { toast } from "react-toastify";
 const Profiles = () => {
   const router = useRouter();
   const columns: GridColDef[] = [
-    { field: "id", headerName: "Id", width: 150 },
+    {
+      field: "avatar",
+      headerName: "",
+      sortable: false,
+      filterable: false,
+      width: 60,
+      renderCell(params) {
+        return (
+          <Box
+            component={"img"}
+            src={params.row.avatar || "/img/jpg/default-avatar.jpg"}
+            sx={{
+              width: 40,
+              height: 40,
+              objectFit: "cover",
+              borderRadius: "50%",
+            }}
+          />
+        );
+      },
+    },
     { field: "name", headerName: "Name", width: 150 },
     { field: "username", headerName: "Username", width: 150 },
-    { field: "appKey", headerName: "App key", width: 200 },
-    { field: "appSecret", headerName: "App secret", width: 200 },
-    { field: "accessToken", headerName: "Access token", width: 200 },
-    { field: "accessSecret", headerName: "Access secret", width: 200 },
+    { field: "follower", headerName: "Follower", width: 100 },
+    { field: "following", headerName: "Following", width: 100 },
+    { field: "location", headerName: "Location", width: 120 },
+    { field: "joinDate", headerName: "Join date", width: 200 },
     {
       field: "action",
       headerName: "Hành động",
