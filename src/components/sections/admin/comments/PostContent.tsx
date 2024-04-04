@@ -1,4 +1,4 @@
-import { Box, Divider, Paper, Typography } from "@mui/material";
+import { Box, Divider, IconButton, Paper, Typography } from "@mui/material";
 import React from "react";
 import {
   ChatBubbleBottomCenterIcon,
@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { getDetailTweet } from "@/src/lib/api";
 import moment from "moment";
+import AttachmentIcon from "@mui/icons-material/Attachment";
 
 const PostContent = () => {
   const router = useRouter();
@@ -33,7 +34,7 @@ const PostContent = () => {
   );
 
   if (isLoading) return <></>;
-
+  console.log(data);
   return (
     <Paper elevation={2} sx={{ height: "100%" }}>
       <Box p={4}>
@@ -55,6 +56,14 @@ const PostContent = () => {
               @{data?.username || "nousername"}
             </Typography>
           </Box>
+          <IconButton
+            size="small"
+            href={data?.tweetUrl}
+            target="_blank"
+            color="primary"
+          >
+            <AttachmentIcon fontSize="small" />
+          </IconButton>
         </Box>
         <Box mt={8}>
           <Typography fontSize={14}>{data?.content}</Typography>
@@ -81,8 +90,9 @@ const PostContent = () => {
           </Box>
           <Box mt={8}>
             <Typography fontSize={14}>
-              {moment(data?.postedTime).format("YYYY-MM-DD HH:mm:ss")}{" "}
-              <strong>· 9,1 Tr</strong> Lượt xem
+              {data?.postedTime &&
+                moment(data?.postedTime).format("YYYY-MM-DD HH:mm:ss")}{" "}
+              <strong>· {data?.views}</strong> Lượt xem
             </Typography>
           </Box>
           <Box mt={8}>

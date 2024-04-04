@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Divider,
+  IconButton,
   Paper,
   TextField,
   Typography,
@@ -18,12 +19,13 @@ import { useQuery } from "@tanstack/react-query";
 import { getDetailTweet } from "@/src/lib/api";
 import { toast } from "react-toastify";
 import moment from "moment";
+import AttachmentIcon from "@mui/icons-material/Attachment";
 
 const Comments = () => {
   const router = useRouter();
 
   const { data, isLoading } = useQuery(
-    ["detailTweet", router.query.id],
+    ["topCommentTweet", router.query.id],
     async () => {
       try {
         const res = await getDetailTweet(router.query.id as string);
@@ -67,17 +69,46 @@ const Comments = () => {
                   @{data?.username || "nousername"}
                 </Typography>
                 <Typography fontSize={12}>
-                  {moment(data?.postedTime).format("YYYY-MM-DD HH:mm:ss")}
+                  {data?.postedTime &&
+                    moment(data?.postedTime).format("YYYY-MM-DD HH:mm:ss")}
                 </Typography>
               </Box>
               <Typography fontSize={14}>{data?.content}</Typography>
             </Box>
+            <IconButton
+              color="primary"
+              size="small"
+              href={data?.tweetUrl}
+              target="_blank"
+            >
+              <AttachmentIcon fontSize="small" />
+            </IconButton>
           </Box>
+          {data?.images && (
+            <Box mt={4}>
+              <Box display={"flex"} justifyContent={"center"} gap={2}>
+                {data?.images?.map((e: string, index: number) => (
+                  <Box
+                    key={index}
+                    width={150}
+                    height={150}
+                    sx={{
+                      objectFit: "cover",
+                      objectPosition: "center",
+                      borderRadius: 2,
+                    }}
+                    src={e}
+                    component={"img"}
+                  />
+                ))}
+              </Box>
+            </Box>
+          )}
           <Box
             display={"flex"}
             justifyContent={"space-around"}
             alignItems={"center"}
-            mt={4}
+            mt={8}
           >
             <Box display={"flex"} gap={1} alignItems={"center"}>
               <ChatBubbleBottomCenterIcon width={18} />
