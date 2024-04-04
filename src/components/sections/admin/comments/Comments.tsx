@@ -13,8 +13,35 @@ import {
   ArrowPathIcon,
   ChartBarIcon,
 } from "@heroicons/react/24/outline";
+import { useRouter } from "next/router";
+import { useQuery } from "@tanstack/react-query";
+import { getDetailTweet } from "@/src/lib/api";
+import { toast } from "react-toastify";
+import moment from "moment";
 
 const Comments = () => {
+  const router = useRouter();
+
+  const { data, isLoading } = useQuery(
+    ["detailTweet", router.query.id],
+    async () => {
+      try {
+        const res = await getDetailTweet(router.query.id as string);
+        return res.data?.topComment;
+      } catch (err: any) {
+        toast.error(err?.message || "Có lỗi xảy ra");
+        throw err;
+      }
+    },
+    {
+      enabled: !!router.query.id,
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  if (isLoading) return <></>;
+
   return (
     <Paper elevation={2} sx={{ height: "100%" }}>
       <Box p={4}>
@@ -25,9 +52,7 @@ const Comments = () => {
               width={40}
               height={40}
               sx={{ objectFit: "cover", borderRadius: "50%" }}
-              src={
-                "https://i.etsystatic.com/38163649/r/il/cd2bac/4797621280/il_794xN.4797621280_b90x.jpg"
-              }
+              src={data?.avatar || "/img/png/NoData.png"}
             />
             <Box
               display={"flex"}
@@ -35,11 +60,17 @@ const Comments = () => {
               justifyContent={"space-between"}
             >
               <Box display={"flex"} alignItems={"center"} gap={1}>
-                <Typography fontWeight={600}>art-painting</Typography>
-                <Typography fontSize={12}>@dinhphamcanh</Typography>
-                <Typography fontSize={12}>28/03/2024</Typography>
+                <Typography fontWeight={600}>
+                  {data?.name || "No Name"}
+                </Typography>
+                <Typography fontSize={12}>
+                  @{data?.username || "nousername"}
+                </Typography>
+                <Typography fontSize={12}>
+                  {moment(data?.postedTime).format("YYYY-MM-DD HH:mm:ss")}
+                </Typography>
               </Box>
-              <Typography fontSize={14}>Nice 🥰</Typography>
+              <Typography fontSize={14}>{data?.content}</Typography>
             </Box>
           </Box>
           <Box
@@ -50,19 +81,19 @@ const Comments = () => {
           >
             <Box display={"flex"} gap={1} alignItems={"center"}>
               <ChatBubbleBottomCenterIcon width={18} />
-              <Typography fontSize={12}>365</Typography>
+              <Typography fontSize={12}>{data?.replies}</Typography>
             </Box>
             <Box display={"flex"} gap={1} alignItems={"center"}>
               <ArrowPathIcon width={18} />
-              <Typography fontSize={12}>365</Typography>
+              <Typography fontSize={12}>{data?.retweets}</Typography>
             </Box>
             <Box display={"flex"} gap={1} alignItems={"center"}>
               <HeartIcon width={18} />
-              <Typography fontSize={12}>365</Typography>
+              <Typography fontSize={12}>{data?.likes}</Typography>
             </Box>
             <Box display={"flex"} gap={1} alignItems={"center"}>
               <ChartBarIcon width={18} />
-              <Typography fontSize={12}>365</Typography>
+              <Typography fontSize={12}>{data?.views}</Typography>
             </Box>
           </Box>
         </Box>

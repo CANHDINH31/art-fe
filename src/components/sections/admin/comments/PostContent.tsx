@@ -5,8 +5,35 @@ import {
   HeartIcon,
   ArrowPathIcon,
 } from "@heroicons/react/24/outline";
+import { useRouter } from "next/router";
+import { useQuery } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import { getDetailTweet } from "@/src/lib/api";
+import moment from "moment";
 
 const PostContent = () => {
+  const router = useRouter();
+
+  const { data, isLoading } = useQuery(
+    ["detailTweet", router.query.id],
+    async () => {
+      try {
+        const res = await getDetailTweet(router.query.id as string);
+        return res.data;
+      } catch (err: any) {
+        toast.error(err?.message || "Có lỗi xảy ra");
+        throw err;
+      }
+    },
+    {
+      enabled: !!router.query.id,
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  if (isLoading) return <></>;
+
   return (
     <Paper elevation={2} sx={{ height: "100%" }}>
       <Box p={4}>
@@ -16,87 +43,46 @@ const PostContent = () => {
             width={40}
             height={40}
             sx={{ objectFit: "cover", borderRadius: "50%" }}
-            src={
-              "https://i.etsystatic.com/38163649/r/il/cd2bac/4797621280/il_794xN.4797621280_b90x.jpg"
-            }
+            src={data?.avatar || "/img/png/NoData.png"}
           />
           <Box
             display={"flex"}
             flexDirection={"column"}
             justifyContent={"space-between"}
           >
-            <Typography fontWeight={600}>art-painting</Typography>
-            <Typography fontSize={12}>@dinhphamcanh</Typography>
+            <Typography fontWeight={600}>{data?.name || "No Name"}</Typography>
+            <Typography fontSize={12}>
+              @{data?.username || "nousername"}
+            </Typography>
           </Box>
         </Box>
         <Box mt={8}>
-          <Typography fontSize={14}>
-            ⏰ The countdown begins. BTC Halving nears... Are you prepared for
-            what else is coming? Mine your BTC now .Heaven's Gate On Tianmen
-            Mountain, Big Gate Road, China. This is Amazing.🔥
-          </Typography>
+          <Typography fontSize={14}>{data?.content}</Typography>
           <Typography mt={2} fontWeight={500} fontSize={14} color={"error"}>
-            #Bybit #btchalving
+            {data?.hashtags?.map((e: string) => `#${e}`)}
           </Typography>
           <Box mt={8}>
             <Box display={"flex"} justifyContent={"center"} gap={2}>
-              <Box
-                width={150}
-                height={150}
-                sx={{
-                  objectFit: "cover",
-                  objectPosition: "center",
-                  borderRadius: 2,
-                }}
-                src={
-                  "https://i.etsystatic.com/38163649/r/il/cd2bac/4797621280/il_794xN.4797621280_b90x.jpg"
-                }
-                component={"img"}
-              />
-              <Box
-                width={150}
-                height={150}
-                sx={{
-                  objectFit: "cover",
-                  objectPosition: "center",
-                  borderRadius: 2,
-                }}
-                src={
-                  "https://i.etsystatic.com/38163649/r/il/cd2bac/4797621280/il_794xN.4797621280_b90x.jpg"
-                }
-                component={"img"}
-              />
-              <Box
-                width={150}
-                height={150}
-                sx={{
-                  objectFit: "cover",
-                  objectPosition: "center",
-                  borderRadius: 2,
-                }}
-                src={
-                  "https://i.etsystatic.com/38163649/r/il/cd2bac/4797621280/il_794xN.4797621280_b90x.jpg"
-                }
-                component={"img"}
-              />
-              <Box
-                width={150}
-                height={150}
-                sx={{
-                  objectFit: "cover",
-                  objectPosition: "center",
-                  borderRadius: 2,
-                }}
-                src={
-                  "https://i.etsystatic.com/38163649/r/il/cd2bac/4797621280/il_794xN.4797621280_b90x.jpg"
-                }
-                component={"img"}
-              />
+              {data?.images?.map((e: string, index: number) => (
+                <Box
+                  key={index}
+                  width={150}
+                  height={150}
+                  sx={{
+                    objectFit: "cover",
+                    objectPosition: "center",
+                    borderRadius: 2,
+                  }}
+                  src={e}
+                  component={"img"}
+                />
+              ))}
             </Box>
           </Box>
           <Box mt={8}>
             <Typography fontSize={14}>
-              2:56 CH · 27 thg 3, 2024 <strong>· 9,1 Tr</strong> Lượt xem
+              {moment(data?.postedTime).format("YYYY-MM-DD HH:mm:ss")}{" "}
+              <strong>· 9,1 Tr</strong> Lượt xem
             </Typography>
           </Box>
           <Box mt={8}>
@@ -109,15 +95,15 @@ const PostContent = () => {
             >
               <Box display={"flex"} gap={1} alignItems={"center"}>
                 <ChatBubbleBottomCenterIcon width={24} />
-                <Typography fontSize={12}>365</Typography>
+                <Typography fontSize={12}>{data?.replies}</Typography>
               </Box>
               <Box display={"flex"} gap={1} alignItems={"center"}>
                 <ArrowPathIcon width={24} />
-                <Typography fontSize={12}>365</Typography>
+                <Typography fontSize={12}>{data?.retweets}</Typography>
               </Box>
               <Box display={"flex"} gap={1} alignItems={"center"}>
                 <HeartIcon width={24} />
-                <Typography fontSize={12}>365</Typography>
+                <Typography fontSize={12}>{data?.likes}</Typography>
               </Box>
             </Box>
             <Divider />
