@@ -37,6 +37,7 @@ function AddNewTarget({ open, handleClose, refetch, profileId }: Props) {
   const handleCloseModal = () => {
     handleClose();
     reset();
+    setUrls([]);
     setKeywords([]);
     setHashtags([]);
   };
@@ -169,7 +170,7 @@ function AddNewTarget({ open, handleClose, refetch, profileId }: Props) {
                 onKeyDown={inputHashtagPress}
                 label="Nhấn enter để thêm hashtag"
               />
-              <Box display={"flex"} gap={2}>
+              <Box display={"flex"} gap={2} flexWrap={"wrap"}>
                 {hashtags?.map((e) => (
                   <Chip
                     label={e}
