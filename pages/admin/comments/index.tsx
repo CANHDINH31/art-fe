@@ -1,6 +1,6 @@
 import DataGridCustom from "@/src/components/common/DataGridCustom";
 import AdminLayout from "@/src/components/layout/admin";
-import { getListOrders } from "@/src/lib/api";
+import { getListOrders, getListTweets } from "@/src/lib/api";
 import { typeCart } from "@/src/lib/types";
 import { Box, Button, Pagination, TextField } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
@@ -18,10 +18,10 @@ const Comments = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const { data } = useQuery(
-    ["listOrders", currentPage, searchText],
+    ["listTweets", currentPage, searchText],
     async () => {
       try {
-        const res = await getListOrders({
+        const res = await getListTweets({
           page: currentPage.toString(),
           searchText,
         });
@@ -48,31 +48,43 @@ const Comments = () => {
     },
     {
       field: "name",
-      headerName: "Tên người nhận",
-      width: 200,
-    },
-    {
-      field: "address",
-      headerName: "Địa chỉ người nhận",
-      width: 200,
-    },
-    {
-      field: "phone",
-      headerName: "Số điện thoại",
+      headerName: "Name",
       width: 150,
     },
-    { field: "note", headerName: "Ghi chú", width: 200 },
     {
-      field: "created_at",
-      headerName: "Thời gian đặt",
-      width: 200,
-      renderCell(param) {
-        return (
-          <span>
-            {moment(param.row.createdAt).format("DD-MM-YYYY HH:mm:ss")}
-          </span>
-        );
-      },
+      field: "username",
+      headerName: "Username",
+      width: 150,
+    },
+    {
+      field: "likes",
+      headerName: "Likes",
+      width: 100,
+    },
+    {
+      field: "views",
+      headerName: "Views",
+      width: 100,
+    },
+    {
+      field: "replies",
+      headerName: "Reply",
+      width: 100,
+    },
+    {
+      field: "retweets",
+      headerName: "Retweet",
+      width: 100,
+    },
+    {
+      field: "follower",
+      headerName: "Follower",
+      width: 180,
+    },
+    {
+      field: "following",
+      headerName: "Following",
+      width: 180,
     },
     {
       field: "action",
