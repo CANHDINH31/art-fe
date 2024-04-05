@@ -47,14 +47,19 @@ const Comments = () => {
       width: 80,
     },
     {
+      field: "username",
+      headerName: "Username",
+      width: 120,
+    },
+    {
       field: "name",
-      headerName: "Name",
+      headerName: "name",
       width: 150,
     },
     {
-      field: "username",
-      headerName: "Username",
-      width: 150,
+      field: "content",
+      headerName: "Content",
+      width: 400,
     },
     {
       field: "likes",
@@ -76,16 +81,7 @@ const Comments = () => {
       headerName: "Retweet",
       width: 100,
     },
-    {
-      field: "follower",
-      headerName: "Follower",
-      width: 180,
-    },
-    {
-      field: "following",
-      headerName: "Following",
-      width: 180,
-    },
+
     {
       field: "action",
       headerName: "Hành động",
@@ -145,7 +141,7 @@ const Comments = () => {
             rows={data}
             columns={columns}
             hideFooter={true}
-            rowHeight={60}
+            rowHeight={150}
           />
         )}
 
