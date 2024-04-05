@@ -5,6 +5,10 @@ export default function Document() {
     <Html lang="en">
       <Head>
         <meta
+          http-equiv="Content-Security-Policy"
+          content="upgrade-insecure-requests"
+        />
+        <meta
           name="zalo-platform-site-verification"
           content="QCU2E9BKEHGIsBCkqz4r5IdripZ5Ws1cDJ8r"
         />
