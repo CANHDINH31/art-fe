@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Button,
-  Divider,
-  IconButton,
-  Paper,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Divider, IconButton, Paper, Typography } from "@mui/material";
 import {
   ChatBubbleBottomCenterIcon,
   HeartIcon,
@@ -16,7 +8,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
-import { getDetailTweet } from "@/src/lib/api";
+import { getByTweet, getDetailTweet } from "@/src/lib/api";
 import { toast } from "react-toastify";
 import moment from "moment";
 import AttachmentIcon from "@mui/icons-material/Attachment";
@@ -42,7 +34,25 @@ const Comments = () => {
     }
   );
 
-  if (isLoading) return <></>;
+  const { data: reply, isLoading: isLoadingReply } = useQuery(
+    ["reply", router.query.id],
+    async () => {
+      try {
+        const res = await getByTweet(router.query.id as string);
+        return res.data;
+      } catch (err: any) {
+        toast.error(err?.message || "Có lỗi xảy ra");
+        throw err;
+      }
+    },
+    {
+      enabled: !!router.query.id,
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  if (isLoading || isLoadingReply) return <></>;
 
   return (
     <Paper elevation={2} sx={{ height: "100%" }}>
@@ -124,39 +134,75 @@ const Comments = () => {
             </Box>
             <Box display={"flex"} gap={1} alignItems={"center"}>
               <ChartBarIcon width={18} />
-              <Typography fontSize={12}>{data?.views}</Typography>
+              <Typography fontSize={12}>{data?.views || 0}</Typography>
             </Box>
           </Box>
         </Box>
         <Divider />
-        <Box py={2}>
-          <Box display={"flex"} gap={2}>
-            <Box
-              component={"img"}
-              width={40}
-              height={40}
-              sx={{ objectFit: "cover", borderRadius: "50%" }}
-              src={
-                "https://i.etsystatic.com/38163649/r/il/cd2bac/4797621280/il_794xN.4797621280_b90x.jpg"
-              }
-            />
+        {reply && (
+          <Box py={2}>
+            <Box display={"flex"} gap={2}>
+              <Box
+                component={"img"}
+                width={40}
+                height={40}
+                sx={{ objectFit: "cover", borderRadius: "50%" }}
+                src={
+                  reply?.tweet?.target?.profile?.avatar || "/img/png/NoData.png"
+                }
+              />
+              <Box
+                display={"flex"}
+                flexDirection={"column"}
+                justifyContent={"space-between"}
+              >
+                <Box display={"flex"} alignItems={"center"} gap={1}>
+                  <Typography fontWeight={600}>
+                    {reply?.tweet?.target?.profile?.name || "No Name"}
+                  </Typography>
+                  <Typography fontSize={12}>
+                    @{reply?.tweet?.target?.profile?.username || "nousername"}
+                  </Typography>
+                  <Typography fontSize={12}>
+                    {moment(data?.createdAt).format("YYYY-MM-DD HH:mm:ss")}
+                  </Typography>
+                </Box>
+                <Typography fontSize={14}>{reply?.comment}</Typography>
+              </Box>
+              <IconButton
+                color="primary"
+                size="small"
+                href={`https://twitter.com/${reply?.tweet?.target?.profile?.username}/status/${reply.tweetId}`}
+                target="_blank"
+              >
+                <AttachmentIcon fontSize="small" />
+              </IconButton>
+            </Box>
             <Box
               display={"flex"}
-              flexDirection={"column"}
-              justifyContent={"space-between"}
-              flex={1}
+              justifyContent={"space-around"}
+              alignItems={"center"}
+              mt={8}
             >
-              <Box display={"flex"} alignItems={"center"} gap={1}>
-                <Typography fontWeight={600}>art-painting</Typography>
-                <Typography fontSize={12}>@dinhphamcanh</Typography>
+              <Box display={"flex"} gap={1} alignItems={"center"}>
+                <ChatBubbleBottomCenterIcon width={18} />
+                <Typography fontSize={12}>{reply?.replies}</Typography>
               </Box>
-              <TextField variant="standard" fullWidth />
-              <Box mt={2} textAlign={"right"}>
-                <Button variant="contained">Trả lời</Button>
+              <Box display={"flex"} gap={1} alignItems={"center"}>
+                <ArrowPathIcon width={18} />
+                <Typography fontSize={12}>{reply?.retweets}</Typography>
+              </Box>
+              <Box display={"flex"} gap={1} alignItems={"center"}>
+                <HeartIcon width={18} />
+                <Typography fontSize={12}>{reply?.likes}</Typography>
+              </Box>
+              <Box display={"flex"} gap={1} alignItems={"center"}>
+                <ChartBarIcon width={18} />
+                <Typography fontSize={12}>{reply?.views}</Typography>
               </Box>
             </Box>
           </Box>
-        </Box>
+        )}
       </Box>
     </Paper>
   );

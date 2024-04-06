@@ -34,7 +34,6 @@ const PostContent = () => {
   );
 
   if (isLoading) return <></>;
-  console.log(data);
   return (
     <Paper elevation={2} sx={{ height: "100%" }}>
       <Box p={4}>
