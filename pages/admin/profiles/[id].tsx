@@ -43,8 +43,6 @@ function DetailProfile() {
     },
     {
       enabled: !!router.query.id,
-      keepPreviousData: true,
-      refetchOnWindowFocus: false,
     }
   );
 
@@ -58,7 +56,6 @@ function DetailProfile() {
       return res.data;
     },
     enabled: !!router.query.id,
-    staleTime: Infinity,
   });
 
   const { mutate, isLoading } = useMutation({
@@ -171,6 +168,7 @@ function DetailProfile() {
           {data?.map((item: typeTarget, index: number) => (
             <Grid item xs={4}>
               <DetailTarget
+                key={index + Date.now()}
                 info={item}
                 index={index + 1}
                 refetch={refetchTarget}

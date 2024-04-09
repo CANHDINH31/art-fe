@@ -28,7 +28,6 @@ function AddNewTarget({ open, handleClose, refetch, profileId }: Props) {
   const [inputHashtag, setInputHashtag] = useState<string>("");
 
   const {
-    register,
     handleSubmit,
     formState: { errors },
     reset,
@@ -87,10 +86,6 @@ function AddNewTarget({ open, handleClose, refetch, profileId }: Props) {
         urls: urls,
         keywords: keywords,
         hashtags: hashtags,
-        views: Number(data?.views),
-        likes: Number(data?.likes),
-        shares: Number(data?.shares),
-        comments: Number(data?.comments),
         profile: profileId,
       });
       toast.success(res?.data?.message || "Thêm mới thành công");
@@ -111,11 +106,10 @@ function AddNewTarget({ open, handleClose, refetch, profileId }: Props) {
       open={open}
       handleClose={handleCloseModal}
       handleOk={handleSubmit((data) => handeCreateTarget(data))}
-      maxWidth="md"
     >
       <Box>
         <Grid container spacing={6}>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <Stack gap={2}>
               <InputLabel sx={{ fontSize: 14 }}>Nhập urls: </InputLabel>
               <TextField
@@ -137,7 +131,7 @@ function AddNewTarget({ open, handleClose, refetch, profileId }: Props) {
               </Box>
             </Stack>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <Stack gap={2}>
               <InputLabel sx={{ fontSize: 14 }}>Nhập keywords: </InputLabel>
               <TextField
@@ -159,7 +153,7 @@ function AddNewTarget({ open, handleClose, refetch, profileId }: Props) {
               </Box>
             </Stack>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <Stack gap={2}>
               <InputLabel sx={{ fontSize: 14 }}>Nhập hashtags: </InputLabel>
               <TextField
@@ -179,74 +173,6 @@ function AddNewTarget({ open, handleClose, refetch, profileId }: Props) {
                   />
                 ))}
               </Box>
-            </Stack>
-          </Grid>
-          <Grid item xs={6}>
-            <Stack gap={2}>
-              <InputLabel sx={{ fontSize: 14 }}>
-                Nhập số lượng views:
-              </InputLabel>
-              <TextField
-                size="small"
-                variant="standard"
-                type="number"
-                error={errors?.views ? true : false}
-                {...register("views", {
-                  required: "Trường này không được để trống",
-                })}
-                helperText={errors?.views?.message?.toString()}
-              />
-            </Stack>
-          </Grid>
-          <Grid item xs={6}>
-            <Stack gap={2}>
-              <InputLabel sx={{ fontSize: 14 }}>
-                Nhập số lượng likes:
-              </InputLabel>
-              <TextField
-                size="small"
-                variant="standard"
-                type="number"
-                error={errors?.likes ? true : false}
-                {...register("likes", {
-                  required: "Trường này không được để trống",
-                })}
-                helperText={errors?.likes?.message?.toString()}
-              />
-            </Stack>
-          </Grid>
-          <Grid item xs={6}>
-            <Stack gap={2}>
-              <InputLabel sx={{ fontSize: 14 }}>
-                Nhập số lượng shares:
-              </InputLabel>
-              <TextField
-                size="small"
-                variant="standard"
-                type="number"
-                error={errors?.shares ? true : false}
-                {...register("shares", {
-                  required: "Trường này không được để trống",
-                })}
-                helperText={errors?.shares?.message?.toString()}
-              />
-            </Stack>
-          </Grid>
-          <Grid item xs={6}>
-            <Stack gap={2}>
-              <InputLabel sx={{ fontSize: 14 }}>
-                Nhập số lượng comments:
-              </InputLabel>
-              <TextField
-                size="small"
-                variant="standard"
-                type="number"
-                error={errors?.comments ? true : false}
-                {...register("comments", {
-                  required: "Trường này không được để trống",
-                })}
-                helperText={errors?.comments?.message?.toString()}
-              />
             </Stack>
           </Grid>
         </Grid>

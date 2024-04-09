@@ -5,10 +5,6 @@ type createTargetPayload = {
   urls: string[];
   keywords: string[];
   hashtags: string[];
-  views: number;
-  likes: number;
-  shares: number;
-  comments: number;
   profile: string;
 };
 
