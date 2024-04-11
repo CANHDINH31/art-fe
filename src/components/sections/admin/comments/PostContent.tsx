@@ -66,8 +66,14 @@ const PostContent = () => {
         </Box>
         <Box mt={8}>
           <Typography fontSize={14}>{data?.content}</Typography>
-          <Typography mt={2} fontWeight={500} fontSize={14} color={"error"}>
-            {data?.hashtags?.map((e: string) => `#${e}`)}
+          <Typography
+            mt={2}
+            fontWeight={500}
+            fontSize={14}
+            color={"error"}
+            whiteSpace={"wrap"}
+          >
+            {data?.hashtags?.map((e: string) => `${e} `)}
           </Typography>
           <Box mt={8}>
             <Box display={"flex"} justifyContent={"center"} gap={2}>
