@@ -136,8 +136,6 @@ const PaintingsManagement = () => {
     { keepPreviousData: true }
   );
 
-  console.log(listPaint);
-
   const { mutate: deletePaint, isLoading: loadingDelete } = useMutation({
     mutationFn: async () => {
       try {
