@@ -6,7 +6,7 @@ import {
   PhotoIcon,
   BookmarkSquareIcon,
   Bars3CenterLeftIcon,
-} from "@heroicons/react/24/outline";
+} from "@heroicons/react/24/solid";
 import { Box, Grid, Paper, Stack, Typography } from "@mui/material";
 
 const BasicParameter = () => {
@@ -30,7 +30,16 @@ const BasicParameter = () => {
                   </Typography>
                 </Box>
               </Stack>
-              <UserIcon width={30} />
+              <Box
+                p={2}
+                bgcolor={"#4FD1C5"}
+                borderRadius={2}
+                display={"flex"}
+                justifyContent={"center"}
+                alignItems={"center"}
+              >
+                <UserIcon width={30} color="#fff" />
+              </Box>
             </Box>
           </Box>
         </Paper>
@@ -53,7 +62,16 @@ const BasicParameter = () => {
                   </Typography>
                 </Box>
               </Stack>
-              <Bars3CenterLeftIcon width={30} />
+              <Box
+                p={2}
+                bgcolor={"#4FD1C5"}
+                borderRadius={2}
+                display={"flex"}
+                justifyContent={"center"}
+                alignItems={"center"}
+              >
+                <Bars3CenterLeftIcon width={30} color="white" />
+              </Box>
             </Box>
           </Box>
         </Paper>
@@ -76,7 +94,16 @@ const BasicParameter = () => {
                   </Typography>
                 </Box>
               </Stack>
-              <ShoppingCartIcon width={30} />
+              <Box
+                p={2}
+                bgcolor={"#4FD1C5"}
+                borderRadius={2}
+                display={"flex"}
+                justifyContent={"center"}
+                alignItems={"center"}
+              >
+                <ShoppingCartIcon width={30} color="#fff" />
+              </Box>
             </Box>
           </Box>
         </Paper>
@@ -99,7 +126,16 @@ const BasicParameter = () => {
                   </Typography>
                 </Box>
               </Stack>
-              <PhotoIcon width={30} />
+              <Box
+                p={2}
+                bgcolor={"#4FD1C5"}
+                borderRadius={2}
+                display={"flex"}
+                justifyContent={"center"}
+                alignItems={"center"}
+              >
+                <PhotoIcon width={30} color="#fff" />
+              </Box>
             </Box>
           </Box>
         </Paper>
@@ -122,7 +158,16 @@ const BasicParameter = () => {
                   </Typography>
                 </Box>
               </Stack>
-              <ChatBubbleBottomCenterIcon width={30} />
+              <Box
+                p={2}
+                bgcolor={"#4FD1C5"}
+                borderRadius={2}
+                display={"flex"}
+                justifyContent={"center"}
+                alignItems={"center"}
+              >
+                <ChatBubbleBottomCenterIcon width={30} color="#fff" />
+              </Box>
             </Box>
           </Box>
         </Paper>
@@ -145,7 +190,16 @@ const BasicParameter = () => {
                   </Typography>
                 </Box>
               </Stack>
-              <BookmarkSquareIcon width={30} />
+              <Box
+                p={2}
+                bgcolor={"#4FD1C5"}
+                borderRadius={2}
+                display={"flex"}
+                justifyContent={"center"}
+                alignItems={"center"}
+              >
+                <BookmarkSquareIcon width={30} color="#fff" />
+              </Box>
             </Box>
           </Box>
         </Paper>

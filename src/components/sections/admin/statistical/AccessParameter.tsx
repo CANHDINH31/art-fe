@@ -25,6 +25,10 @@ ChartJS.register(
 export const options = {
   responsive: true,
   plugins: {
+    title: {
+      text: "Biểu đồ đường thống kê lượt truy cập",
+      display: true,
+    },
     legend: {
       position: "top" as const,
     },
