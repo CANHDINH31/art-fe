@@ -31,7 +31,7 @@ const YourRating = ({ paintId, isAuth, refetch }: Props) => {
 
   const { mutate } = useMutation({
     mutationFn: handleRate,
-    onSuccess: res => {
+    onSuccess: (res) => {
       refetch();
       setTimeRate(moment(res?.data?.updatedAt).format("hh:mm:ss DD-MM-YYYY"));
       toast.success("Bạn đã đánh giá thành công");
@@ -42,7 +42,11 @@ const YourRating = ({ paintId, isAuth, refetch }: Props) => {
     try {
       if (isAuth) {
         setError(false);
-        mutate({ paint_id: paintId, value });
+        mutate({
+          paint_id: paintId,
+          value,
+          visit: localStorage?.getItem("visit") as string,
+        });
       } else {
         setError(true);
       }

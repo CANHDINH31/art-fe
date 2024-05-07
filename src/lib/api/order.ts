@@ -1,6 +1,7 @@
 import { request } from "../utils/request";
 
 type CreateOrderType = {
+  visit?: string;
   name: string;
   phone: string;
   address: string;

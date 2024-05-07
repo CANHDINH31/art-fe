@@ -30,8 +30,8 @@ const Statistical = () => {
                     component={"img"}
                     src={"/img/jpg/reset-password.jpg"}
                     width={"100%"}
-                    height={"auto"}
-                    sx={{ objectFit: "contain" }}
+                    height={258}
+                    sx={{ objectFit: "cover" }}
                   />
                 </Grid>
                 <Grid item xs={5}>

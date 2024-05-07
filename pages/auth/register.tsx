@@ -54,7 +54,7 @@ const Register = () => {
 
   const { mutate: registerMutate, isLoading } = useMutation({
     mutationFn: registerAccount,
-    onSuccess: res => {
+    onSuccess: (res) => {
       if (res.data.status == 400) {
         toast.warn(res.data.message);
       } else {
@@ -63,7 +63,7 @@ const Register = () => {
         router.push("/auth/login");
       }
     },
-    onError: errors => {
+    onError: (errors) => {
       toast.error("Đăng kí thất bại");
     },
   });
@@ -71,10 +71,13 @@ const Register = () => {
   return (
     <Box
       component={"form"}
-      onSubmit={handleSubmit(data =>
-        registerMutate(
-          data as { email: string; name: string; password: string }
-        )
+      onSubmit={handleSubmit((data) =>
+        registerMutate({ ...data, visit: localStorage?.getItem("visit") } as {
+          email: string;
+          name: string;
+          password: string;
+          visit?: string;
+        })
       )}
     >
       <Typography variant="h2" textAlign={"center"}>

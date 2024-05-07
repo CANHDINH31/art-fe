@@ -53,7 +53,11 @@ const ChangeInfo = () => {
     async () => {
       try {
         const res = await getDetailUser(user?._id as string);
-        setImage(convertUrlImage(res?.data?.image));
+        setImage(
+          res?.data?.image
+            ? convertUrlImage(res?.data?.image)
+            : "/img/jpg/default-avatar.jpg"
+        );
         setValue("email", res?.data?.email);
         setValue("name", res?.data?.name);
         setValue("age", res?.data?.age);

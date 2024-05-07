@@ -2,6 +2,7 @@ import { request } from "../utils/request";
 
 const registerAccount = (payload: {
   name: string;
+  visit?: string;
   email: string;
   password: string;
 }) => request.post("/api/auth/register", payload);

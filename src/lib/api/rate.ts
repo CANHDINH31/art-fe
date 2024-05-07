@@ -1,7 +1,10 @@
 import { request } from "../utils/request";
 
-const handleRate = (payload: { value: number; paint_id: string }) =>
-  request.post("/api/rate", payload);
+const handleRate = (payload: {
+  value: number;
+  paint_id: string;
+  visit?: string;
+}) => request.post("/api/rate", payload);
 
 const findOneRateById = (id: string) =>
   request.get("/api/rate/find-one-by-id/" + id);

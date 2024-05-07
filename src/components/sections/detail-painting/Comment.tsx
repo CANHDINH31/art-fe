@@ -98,7 +98,9 @@ const Comment = ({ paintId }: Props) => {
             <Box
               component={"img"}
               src={
-                convertUrlImage(user?.image) || "/img/jpg/default-avatar.jpg"
+                user?.image
+                  ? convertUrlImage(user?.image)
+                  : "/img/jpg/default-avatar.jpg"
               }
               width={40}
               height={40}
@@ -155,7 +157,11 @@ const Comment = ({ paintId }: Props) => {
                   variant="outlined"
                   disabled={Boolean(!contentComment)}
                   onClick={() => {
-                    mutate({ paint_id: paintId, content: contentComment });
+                    mutate({
+                      visit: localStorage.getItem("visit") as string,
+                      paint_id: paintId,
+                      content: contentComment,
+                    });
                     setContentComment("");
                     setIsAddEmoji(false);
                   }}
