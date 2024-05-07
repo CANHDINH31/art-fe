@@ -99,8 +99,9 @@ const OtherComment = ({ comment, isOwner, refetch }: Props) => {
       <Box
         component={"img"}
         src={
-          convertUrlImage(comment?.user_id?.image as string) ||
-          "/img/jpg/default-avatar.jpg"
+          comment?.user_id?.image
+            ? convertUrlImage(comment?.user_id?.image as string)
+            : "/img/jpg/default-avatar.jpg"
         }
         width={40}
         height={40}
