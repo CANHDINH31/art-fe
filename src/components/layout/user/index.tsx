@@ -14,7 +14,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "next-auth/react";
 import { logout } from "@/src/lib/redux/userSlice";
-import { getRefreshToken } from "@/src/lib/api";
+import { createAccess, getRefreshToken } from "@/src/lib/api";
 
 type Props = {
   children: JSX.Element;
@@ -30,6 +30,7 @@ const MainLayout = ({ children, title }: Props) => {
     signOut();
     dispatch(logout());
   };
+
   useEffect(() => {
     const checkValidToken = async () => {
       const accessToken = localStorage?.getItem("access_token");
@@ -55,6 +56,17 @@ const MainLayout = ({ children, title }: Props) => {
       }
     };
     checkValidToken();
+  }, []);
+
+  useEffect(() => {
+    const addAccess = async () => {
+      try {
+        await createAccess({ visit: localStorage.getItem("visit") as string });
+      } catch (error) {
+        throw error;
+      }
+    };
+    addAccess();
   }, []);
 
   return (

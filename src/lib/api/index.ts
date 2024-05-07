@@ -6,3 +6,4 @@ export * from "./order";
 export * from "./profile";
 export * from "./tweet";
 export * from "./reply";
+export * from "./access";
