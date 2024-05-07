@@ -25,13 +25,13 @@ const MainLayout = ({ children, title }: Props) => {
   const { user } = useSelector((state: any) => state?.user);
   const dispatch = useDispatch();
   const handleLogout = () => {
+    localStorage.removeItem("visit");
     clearToken();
     signOut();
     dispatch(logout());
   };
   useEffect(() => {
     const checkValidToken = async () => {
-
       const accessToken = localStorage?.getItem("access_token");
       const refreshToken = localStorage?.getItem("refresh_token");
 

@@ -86,6 +86,7 @@ const SearchHeader = () => {
   };
 
   const handleLogout = () => {
+    localStorage.removeItem("visit");
     clearToken();
     signOut();
     dispatch(logout());

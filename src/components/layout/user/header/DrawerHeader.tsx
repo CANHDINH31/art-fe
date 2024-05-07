@@ -75,6 +75,7 @@ const DrawerHeader = ({ onClose }: Props) => {
   };
 
   const handleLogout = () => {
+    localStorage.removeItem("visit");
     clearToken();
     signOut();
     dispatch(logout());

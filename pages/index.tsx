@@ -1,6 +1,6 @@
 import MainLayout from "@/src/components/layout/user";
 import { Box } from "@mui/material";
-import { ReactElement } from "react";
+import { ReactElement, useEffect } from "react";
 import HomeAdvise from "@/src/components/sections/home/HomeAdvise";
 import HomeSpace from "@/src/components/sections/home/HomeSpace";
 import HomeBanner from "@/src/components/sections/home/HomeBanner";
@@ -10,8 +10,18 @@ import HomeNews from "@/src/components/sections/home/HomeNews";
 import HomeProduct from "@/src/components/sections/home/HomeProduct";
 import HomeCustomer from "@/src/components/sections/home/HomeCustomer";
 import HomeContact from "@/src/components/sections/home/HomeContact";
+import { useRouter } from "next/router";
 
 export default function Home() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const { visit } = router.query;
+    if (visit) {
+      localStorage.setItem("visit", visit as string);
+    }
+  }, [router]);
+
   return (
     <Box pb={16}>
       <HomeBanner />
