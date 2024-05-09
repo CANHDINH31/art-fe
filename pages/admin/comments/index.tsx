@@ -2,13 +2,21 @@ import DataGridCustom from "@/src/components/common/DataGridCustom";
 import AdminLayout from "@/src/components/layout/admin";
 import { getListOrders, getListTweets } from "@/src/lib/api";
 import { typeCart } from "@/src/lib/types";
-import { Box, Button, Pagination, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  MenuItem,
+  Pagination,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
 import React, { ChangeEvent, ReactElement, useState } from "react";
-import moment from "moment";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 const Comments = () => {
   const router = useRouter();
@@ -16,16 +24,20 @@ const Comments = () => {
   const [searchText, setSearchText] = useState<string>("");
   const [totalPage, setTotalPage] = useState<number>();
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalItem, setTotalItem] = useState<number>(0);
+  const [status, setStatus] = useState<string>("0");
 
   const { data } = useQuery(
-    ["listTweets", currentPage, searchText],
+    ["listTweets", currentPage, searchText, status],
     async () => {
       try {
         const res = await getListTweets({
           page: currentPage.toString(),
           searchText,
+          status,
         });
 
+        setTotalItem(res?.data?.totalItems);
         setTotalPage(Math.ceil(res.data.totalItems / res.data.itemsPerPage));
 
         return res?.data?.data?.map((el: typeCart, index: number) => ({
@@ -91,13 +103,11 @@ const Comments = () => {
       disableColumnMenu: true,
       renderCell(param) {
         return (
-          <Button
-            variant="outlined"
-            size="small"
-            onClick={() => router.push(`/admin/comments/${param.row._id}`)}
-          >
-            Chi tiết
-          </Button>
+          <Link href={`/admin/comments/${param.row._id}`} target="_blank">
+            <Button variant="outlined" size="small">
+              Chi tiết
+            </Button>
+          </Link>
         );
       },
     },
@@ -109,13 +119,22 @@ const Comments = () => {
 
   return (
     <Box>
-      <Box display={"flex"} justifyContent={"flex-end"} gap={2}>
+      <Box display={"flex"} justifyContent={"flex-end"} gap={8}>
+        <Select
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+          variant="standard"
+          sx={{ width: "25%" }}
+        >
+          <MenuItem value={"0"}>Đã có bình luận</MenuItem>
+          <MenuItem value={"1"}>Chưa bình luận</MenuItem>
+        </Select>
         <TextField
           variant="standard"
           placeholder="Tìm kiếm thông tin"
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
-          sx={{ width: "30%" }}
+          sx={{ width: "25%" }}
         />
         <Button
           variant="outlined"
@@ -134,7 +153,10 @@ const Comments = () => {
         </Button>
       </Box>
 
-      <Box mt={4}>
+      <Typography mt={4} fontWeight={600}>
+        Tổng số bản ghi: {totalItem}
+      </Typography>
+      <Box mt={2}>
         {data && (
           <DataGridCustom
             disableRowSelectionOnClick

@@ -5,6 +5,7 @@ type typeTweetOrder = {
   pageSize?: string;
   limit?: string;
   searchText?: string;
+  status?: string;
 };
 
 const aiTweet = (payload: { prompt: string }) =>

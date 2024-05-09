@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 export function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
   if (pathname === "/admin")
-    return NextResponse.redirect(new URL("/admin/libraries", req.url));
+    return NextResponse.redirect(new URL("/admin/statistical", req.url));
   if (pathname === "/auth")
     return NextResponse.redirect(new URL("/auth/login", req.url));
   if (pathname === "/admin/libraries")
