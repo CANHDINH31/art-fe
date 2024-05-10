@@ -1,6 +1,6 @@
 import DataGridCustom from "@/src/components/common/DataGridCustom";
 import AdminLayout from "@/src/components/layout/admin";
-import { getListOrders, getListTweets } from "@/src/lib/api";
+import { getExportCsv, getListTweets } from "@/src/lib/api";
 import { typeCart } from "@/src/lib/types";
 import {
   Box,
@@ -10,17 +10,22 @@ import {
   Select,
   TextField,
   Typography,
+  IconButton,
 } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
 import React, { ChangeEvent, ReactElement, useState } from "react";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
-import { useRouter } from "next/router";
+import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
 import Link from "next/link";
+import { mkConfig, generateCsv, download, ConfigOptions } from "export-to-csv";
+
+const csvConfig: Required<ConfigOptions> = mkConfig({
+  useKeysAsHeaders: true,
+  filename: "dataset",
+});
 
 const Comments = () => {
-  const router = useRouter();
-
   const [searchText, setSearchText] = useState<string>("");
   const [totalPage, setTotalPage] = useState<number>();
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -117,6 +122,17 @@ const Comments = () => {
     setCurrentPage(page);
   };
 
+  const exportCsv = async () => {
+    try {
+      const res = await getExportCsv();
+      const data = res?.data?.data;
+      const csv = generateCsv(csvConfig)(data);
+      download(csvConfig)(csv);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Box>
       <Box display={"flex"} justifyContent={"flex-end"} gap={8}>
@@ -153,9 +169,13 @@ const Comments = () => {
         </Button>
       </Box>
 
-      <Typography mt={4} fontWeight={600}>
-        Tổng số bản ghi: {totalItem}
-      </Typography>
+      <Box mt={4} display="flex" gap={1} alignItems={"center"}>
+        <Typography fontWeight={600}>Tổng số bản ghi: {totalItem}</Typography>
+        <IconButton onClick={exportCsv}>
+          <AssignmentOutlinedIcon color="secondary" />
+        </IconButton>
+      </Box>
+
       <Box mt={2}>
         {data && (
           <DataGridCustom

@@ -18,8 +18,10 @@ const createTweet = async (payload: FormData) => {
 const getListTweets = (query?: typeTweetOrder) =>
   request.get("/api/tweets?" + new URLSearchParams(query).toString());
 
+const getExportCsv = () => request.get("/api/tweets/export-csv");
+
 const getDetailTweet = async (id: string) => {
   return await request.get("/api/tweets/" + id);
 };
 
-export { aiTweet, createTweet, getListTweets, getDetailTweet };
+export { aiTweet, createTweet, getListTweets, getDetailTweet, getExportCsv };
