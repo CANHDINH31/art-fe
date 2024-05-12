@@ -20,11 +20,6 @@ import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
 import Link from "next/link";
 import { mkConfig, generateCsv, download, ConfigOptions } from "export-to-csv";
 
-const csvConfig: Required<ConfigOptions> = mkConfig({
-  useKeysAsHeaders: true,
-  filename: "dataset",
-});
-
 const Comments = () => {
   const [searchText, setSearchText] = useState<string>("");
   const [totalPage, setTotalPage] = useState<number>();
@@ -122,14 +117,26 @@ const Comments = () => {
     setCurrentPage(page);
   };
 
+  const generateConfig = (fileName: string) => {
+    return mkConfig({
+      useKeysAsHeaders: true,
+      filename: fileName,
+    });
+  };
+
   const exportCsv = async () => {
-    try {
-      const res = await getExportCsv();
-      const data = res?.data?.data;
-      const csv = generateCsv(csvConfig)(data);
-      download(csvConfig)(csv);
-    } catch (error) {
-      console.log(error);
+    let i = 0;
+    while (true) {
+      i++;
+      try {
+        const res = await getExportCsv({ page: i.toString() });
+        const data = res?.data?.data;
+        if (data?.length < 1) break;
+        const csv = generateCsv(generateConfig(`dataset-${i}`))(data);
+        download(generateConfig(`dataset-${i}`))(csv);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
