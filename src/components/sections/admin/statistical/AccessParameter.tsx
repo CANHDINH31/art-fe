@@ -10,7 +10,6 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { faker } from "@faker-js/faker";
 
 ChartJS.register(
   CategoryScale,
@@ -35,19 +34,34 @@ export const options = {
   },
 };
 
-const labels = ["January", "February", "March", "April", "May", "June", "July"];
+const labels = [
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+];
 
 const data = {
   labels,
   datasets: [
     {
       label: "Lượt truy cập",
-      data: labels.map(() => faker.datatype.number({ min: 10, max: 1000 })),
+      data: [80, 82, 90, 138, 140, 150, 152, 182, 200, 210, 190, 220],
       borderColor: "rgb(53, 162, 235)",
       backgroundColor: "rgba(53, 162, 235, 0.5)",
     },
   ],
 };
+
+console.log(data);
 
 const AccessParamter = () => {
   return <Line options={options} data={data} />;
