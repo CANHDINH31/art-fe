@@ -61,8 +61,6 @@ const data = {
   ],
 };
 
-console.log(data);
-
 const AccessParamter = () => {
   return <Line options={options} data={data} />;
 };

@@ -52,6 +52,8 @@ const Comments = () => {
     }
   );
 
+  console.log(reply, "reply");
+
   if (isLoading || isLoadingReply) return <></>;
 
   return (
