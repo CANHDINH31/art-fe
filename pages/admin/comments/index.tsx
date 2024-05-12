@@ -11,6 +11,7 @@ import {
   TextField,
   Typography,
   IconButton,
+  CircularProgress,
 } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
@@ -26,6 +27,7 @@ const Comments = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalItem, setTotalItem] = useState<number>(0);
   const [status, setStatus] = useState<string>("0");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const { data } = useQuery(
     ["listTweets", currentPage, searchText, status],
@@ -125,6 +127,7 @@ const Comments = () => {
   };
 
   const exportCsv = async () => {
+    setLoading(true);
     let i = 0;
     while (true) {
       i++;
@@ -138,6 +141,7 @@ const Comments = () => {
         console.log(error);
       }
     }
+    setLoading(false);
   };
 
   return (
@@ -178,9 +182,15 @@ const Comments = () => {
 
       <Box mt={4} display="flex" gap={1} alignItems={"center"}>
         <Typography fontWeight={600}>Tổng số bản ghi: {totalItem}</Typography>
-        <IconButton onClick={exportCsv}>
-          <AssignmentOutlinedIcon color="secondary" />
-        </IconButton>
+        {loading ? (
+          <IconButton>
+            <CircularProgress size={20} />
+          </IconButton>
+        ) : (
+          <IconButton onClick={exportCsv}>
+            <AssignmentOutlinedIcon color="secondary" />
+          </IconButton>
+        )}
       </Box>
 
       <Box mt={2}>
