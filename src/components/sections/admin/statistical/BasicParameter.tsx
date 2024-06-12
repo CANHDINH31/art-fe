@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   UserIcon,
   ShoppingCartIcon,
@@ -8,8 +8,18 @@ import {
   Bars3CenterLeftIcon,
 } from "@heroicons/react/24/solid";
 import { Box, Grid, Paper, Stack, Typography } from "@mui/material";
+import { getBasicParamerter } from "@/src/lib/api/statistical";
 
 const BasicParameter = () => {
+  const [parameter, setParanmeter] = useState<any>({});
+  useEffect(() => {
+    const getData = async () => {
+      const res = await getBasicParamerter();
+      setParanmeter(res.data);
+    };
+    getData();
+  }, []);
+
   return (
     <Grid container spacing={4}>
       <Grid item xs={4}>
@@ -26,7 +36,7 @@ const BasicParameter = () => {
                 </Typography>
                 <Box>
                   <Typography variant="h4" fontWeight={500}>
-                    100
+                    {parameter?.account}
                   </Typography>
                 </Box>
               </Stack>
@@ -58,7 +68,7 @@ const BasicParameter = () => {
                 </Typography>
                 <Box>
                   <Typography variant="h4" fontWeight={500}>
-                    100
+                    {parameter?.access}
                   </Typography>
                 </Box>
               </Stack>
@@ -90,7 +100,7 @@ const BasicParameter = () => {
                 </Typography>
                 <Box>
                   <Typography variant="h4" fontWeight={500}>
-                    100
+                    {parameter?.order}
                   </Typography>
                 </Box>
               </Stack>
@@ -122,7 +132,7 @@ const BasicParameter = () => {
                 </Typography>
                 <Box>
                   <Typography variant="h4" fontWeight={500}>
-                    100
+                    {parameter?.paint}
                   </Typography>
                 </Box>
               </Stack>
@@ -154,7 +164,7 @@ const BasicParameter = () => {
                 </Typography>
                 <Box>
                   <Typography variant="h4" fontWeight={500}>
-                    100
+                    {parameter?.comment}
                   </Typography>
                 </Box>
               </Stack>
@@ -186,7 +196,7 @@ const BasicParameter = () => {
                 </Typography>
                 <Box>
                   <Typography variant="h4" fontWeight={500}>
-                    100
+                    {parameter?.rate}
                   </Typography>
                 </Box>
               </Stack>

@@ -5,6 +5,7 @@ type typeTweetOrder = {
   pageSize?: string;
   limit?: string;
   searchText?: string;
+  status?: string;
 };
 
 const aiTweet = (payload: { prompt: string }) =>
@@ -17,8 +18,13 @@ const createTweet = async (payload: FormData) => {
 const getListTweets = (query?: typeTweetOrder) =>
   request.get("/api/tweets?" + new URLSearchParams(query).toString());
 
+const getExportCsv = (query?: typeTweetOrder) =>
+  request.get(
+    "/api/tweets/export-csv?" + new URLSearchParams(query).toString()
+  );
+
 const getDetailTweet = async (id: string) => {
   return await request.get("/api/tweets/" + id);
 };
 
-export { aiTweet, createTweet, getListTweets, getDetailTweet };
+export { aiTweet, createTweet, getListTweets, getDetailTweet, getExportCsv };
