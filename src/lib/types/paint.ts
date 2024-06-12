@@ -8,6 +8,7 @@ type typePaint = {
   views: string;
   total_score: number;
   price: number;
+  stock?: number;
   account_users_rate: number;
 };
 

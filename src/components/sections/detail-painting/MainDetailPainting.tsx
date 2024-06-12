@@ -128,6 +128,10 @@ const MainDetailPainting = ({
               </Typography>
               <Divider />
               <Typography py={2}>
+                Số lượng trong kho: {detailPainting?.stock || 0}
+              </Typography>
+              <Divider />
+              <Typography py={2}>
                 Ngày đăng:{" "}
                 {moment(detailPainting?.createdAt)?.format("DD-MM-YYYY")}
               </Typography>
@@ -221,7 +225,9 @@ const MainDetailPainting = ({
                 </Button>
                 <Button
                   onClick={() => {
-                    setAmount(amount + 1);
+                    if (amount < Number(detailPainting.stock) - 1) {
+                      setAmount(amount + 1);
+                    }
                   }}
                 >
                   <PlusIcon width={12} />
