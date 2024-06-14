@@ -21,6 +21,7 @@ const updatePaint = (payload: {
   url?: string;
   title?: string;
   price?: number;
+  stock?: number;
 }) => request.patch("/api/paints", { listPaints: [payload] });
 
 const detelePaint = (payload: string[]) =>

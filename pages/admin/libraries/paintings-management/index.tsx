@@ -57,6 +57,7 @@ const PaintingsManagement = () => {
     { field: "title", headerName: "Tên", width: 150 },
     { field: "price", headerName: "Giá", width: 100 },
     { field: "views", headerName: "Số lượt xem", width: 100 },
+    { field: "stock", headerName: "Kho", width: 100 },
     { field: "total_score", headerName: "Tổng điểm", width: 100 },
     { field: "account_users_rate", headerName: "Lượt đánh giá", width: 120 },
     {
@@ -79,6 +80,7 @@ const PaintingsManagement = () => {
         return (
           <Box display={"flex"} alignItems={"center"} gap={2}>
             <Button
+              target="_blank"
               href={`/admin/libraries/paintings-management/${param.row.id}`}
               variant="outlined"
             >

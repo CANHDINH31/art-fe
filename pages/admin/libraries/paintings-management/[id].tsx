@@ -46,6 +46,7 @@ const PaintingManagementDetail = () => {
         setValue("url", detailPainting?.url);
         setValue("title", detailPainting?.title);
         setValue("price", detailPainting?.price);
+        setValue("stock", detailPainting?.stock);
         setValue("totalScore", detailPainting?.total_score);
         setValue("accountUsersRate", detailPainting?.account_users_rate);
         setValue(
@@ -118,6 +119,7 @@ const PaintingManagementDetail = () => {
           mutate({
             ...data,
             price: Number(data.price),
+            stock: Number(data.stock),
             _id: router.query.id as string,
           })
         )}
@@ -227,6 +229,18 @@ const PaintingManagementDetail = () => {
                 />
               </Grid>
               <Grid item xs={6}>
+                <FormLabel>Kho:</FormLabel>
+                <TextField
+                  fullWidth
+                  variant="standard"
+                  type="number"
+                  {...register("stock", {
+                    required: "Trường này không được để trống",
+                  })}
+                  helperText={errors?.price?.message?.toString()}
+                />
+              </Grid>
+              <Grid item xs={6}>
                 <FormLabel>Tổng số điểm</FormLabel>
                 <TextField
                   fullWidth
@@ -242,16 +256,6 @@ const PaintingManagementDetail = () => {
                   variant="standard"
                   disabled
                   {...register("accountUsersRate", { shouldUnregister: true })}
-                />
-              </Grid>
-
-              <Grid item xs={6}>
-                <FormLabel>Cập nhật:</FormLabel>
-                <TextField
-                  fullWidth
-                  variant="standard"
-                  {...register("updatedAt", { shouldUnregister: true })}
-                  disabled
                 />
               </Grid>
             </Grid>
